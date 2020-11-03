@@ -26,8 +26,8 @@ public class PolicyVerifierModel {
         return soleModel;
     }
 
-
     public void addPolicy(File jar) {
+        System.out.println("---Adding Policy");
         JarLoader<Rule> loader = new JarLoader<>();
         Set<Rule> rules = new HashSet<>();
         try {
@@ -35,6 +35,9 @@ public class PolicyVerifierModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        loadedPolicies.add(new Policy(rules));
+        System.out.println("---Got Rules");
+        Policy loadedPolicy = new Policy(rules);
+        loadedPolicies.add(loadedPolicy);
+        loadedPolicy.enable();
     }
 }

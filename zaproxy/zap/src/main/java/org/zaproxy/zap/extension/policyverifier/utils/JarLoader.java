@@ -21,12 +21,13 @@ public class JarLoader<C> {
         ClassLoader loader = getClassLoader(jar);
         try {
             for (String className : classesNames) {
-                Class<?> clazz = Class.forName("policy." + className, true, loader);
+                String classPath = "policyExample." + className;
+                Class<?> clazz = Class.forName(classPath, true, loader);
                 Class<? extends C> newClass = clazz.asSubclass(parentClass);
                 Constructor<? extends C> constructor = newClass.getConstructor();
                 instances.add(constructor.newInstance());
             }
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException | InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return instances;

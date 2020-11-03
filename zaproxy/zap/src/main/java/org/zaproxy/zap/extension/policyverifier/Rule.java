@@ -9,7 +9,7 @@ import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
 import java.util.Random;
 
 public abstract class Rule extends PluginPassiveScanner {
-
+    protected String RULE_NAME;
     protected String MESSAGE_PREFIX;
     protected int PLUGIN_ID;
 

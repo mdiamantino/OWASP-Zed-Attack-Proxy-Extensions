@@ -1,16 +1,19 @@
-package org.zaproxy.zap.extension.policyverifier;
+package org.zaproxy.zap.extension.policyverifier.policyExample;
 
 import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.Rule;
 
-import java.util.Enumeration;
 
 public class SimpleRule extends Rule {
-    private final String RULE_NAME = "SimpleRule";
+
+    public SimpleRule(){
+        RULE_NAME = "SimpleRule";
+    }
 
     @Override
     public void scanHttpRequestSend(HttpMessage msg, int id) {
-
+        // NOTHING TO DO
     }
 
     @Override
