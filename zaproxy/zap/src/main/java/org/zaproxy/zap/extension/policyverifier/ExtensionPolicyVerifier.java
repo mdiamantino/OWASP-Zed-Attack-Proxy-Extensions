@@ -10,9 +10,10 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     protected static final String PREFIX = "policyVerifier";
 
     private ZapMenuItem menuImportLoadPolicy;
-    private SimpleExampleAPI api;
 
-    private PolicyVerifierController getExtensionController() { return PolicyVerifierController.getSingleton(); }
+    private PolicyVerifierController getExtensionController() {
+        return PolicyVerifierController.getSingleton();
+    }
 
     public ExtensionPolicyVerifier() {
         super(NAME);
@@ -23,8 +24,6 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     public void hook(ExtensionHook extensionHook) {
         super.hook(extensionHook);
 
-        this.api = new SimpleExampleAPI(this);
-        extensionHook.addApiImplementor(this.api);
         if (getView() != null) {
             extensionHook.getHookMenu().addImportMenuItem(getMenuImportLoadPolicy());
         }

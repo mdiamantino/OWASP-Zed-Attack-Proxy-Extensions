@@ -22,8 +22,7 @@ public class JarLoader<C> {
         ClassLoader loader = getClassLoader(jar);
         try {
             for (String className : classesNames) {
-                String classPath = "policyExample." + className;
-                Class<?> clazz = Class.forName(classPath, true, loader);
+                Class<?> clazz = Class.forName(className, false, loader);
                 Class<? extends C> newClass = clazz.asSubclass(parentClass);
                 Constructor<? extends C> constructor = newClass.getConstructor();
                 instances.add(constructor.newInstance());
@@ -38,7 +37,7 @@ public class JarLoader<C> {
         Set<String> classNames = new HashSet<>();
         ZipInputStream zip = new ZipInputStream(new FileInputStream(file));
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-            if (!entry.isDirectory() && entry.getName().endsWith(".java")) {
+            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
                 String[] res = entry.getName().split("/", 0);
                 String fileName = res[res.length - 1];
                 classNames.add(fileName.substring(0, fileName.indexOf(".")));

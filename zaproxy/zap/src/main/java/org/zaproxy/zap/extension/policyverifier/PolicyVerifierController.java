@@ -1,7 +1,6 @@
 package org.zaproxy.zap.extension.policyverifier;
 
 import org.parosproxy.paros.Constant;
-import org.parosproxy.paros.model.Model;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.utils.FileTypeFilter;
 import org.zaproxy.zap.model.IllegalContextNameException;
@@ -44,15 +43,7 @@ public class PolicyVerifierController {
                 System.out.println("loaded");
                 // Import the context
 
-                 PolicyVerifierModel.getSingleton().addPolicy(file);
-
-                // Show the dialog
-//                View.getSingleton()
-//                        .showSessionDialog(
-//                                Model.getSingleton().getSession(),
-//                                Constant.messages.getString("context.list"),
-//                                true);
-
+                RuleEnforcingPassiveScanner.getSingleton().addPolicy(file);
             } catch (IllegalContextNameException e) {
                 String detailError;
                 if (e.getReason() == IllegalContextNameException.Reason.EMPTY_NAME) {
