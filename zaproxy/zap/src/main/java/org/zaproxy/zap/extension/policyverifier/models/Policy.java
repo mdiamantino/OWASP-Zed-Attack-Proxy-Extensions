@@ -1,5 +1,6 @@
 package org.zaproxy.zap.extension.policyverifier.models;
 
+import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpMessage;
 
 import java.util.HashSet;
@@ -28,10 +29,10 @@ public class Policy {
      * @param msg Http Message to check against the rules defining this Policy
      * @return A set the names of the violated policies
      */
-    public Set<String> getViolatedRulesNames(HttpMessage msg) {
+    public Set<String> getViolatedRulesNames(HttpMessage msg, Source src) {
         Set<String> violatedRulesNames = new HashSet<>();
         for (Rule rule : rules) {
-            if (!rule.isValid(msg)) {
+            if (!rule.isValid(msg, src)) {
                 violatedRulesNames.add(rule.getName());
             }
         }

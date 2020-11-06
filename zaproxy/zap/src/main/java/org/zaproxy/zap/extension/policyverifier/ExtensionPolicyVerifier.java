@@ -15,8 +15,7 @@ import java.util.Objects;
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     public static final String NAME = "ExtensionPolicyVerifier";
     protected static final String PREFIX = "policyVerifier";
-
-    private ZapMenuItem menuImportLoadPolicy;
+    private javax.swing.JMenu menuPolicyPlugin = null;
 
     public ExtensionPolicyVerifier() {
         super(NAME);
@@ -28,7 +27,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         super.hook(extensionHook);
 
         if (getView() != null) {
-            extensionHook.getHookMenu().addImportMenuItem(getMenuImportLoadPolicy());
+            extensionHook.getHookMenu().addNewMenu(getMenuPolicyPlugin());
         }
     }
 
@@ -40,17 +39,6 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     @Override
     public void unload() {
         super.unload();
-    }
-
-
-    private ZapMenuItem getMenuImportLoadPolicy() {
-        if (menuImportLoadPolicy == null) {
-            menuImportLoadPolicy = new ZapMenuItem(PREFIX + ".topmenu.tools.title");
-
-            menuImportLoadPolicy.addActionListener(
-                    ae -> loadJarPolicy());
-        }
-        return menuImportLoadPolicy;
     }
 
 
@@ -85,5 +73,38 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
             }
 
         }
+    }
+
+    private ZapMenuItem getMenuOptionLoadPolicy() {
+        ZapMenuItem menuLoadPolicy = new ZapMenuItem("Load New Policy");
+        menuLoadPolicy.addActionListener(
+                ae -> loadJarPolicy());
+        return menuLoadPolicy;
+    }
+
+    private ZapMenuItem getMenuOptionHelp() {
+        ZapMenuItem menuHelp = new ZapMenuItem("Help");
+        menuHelp.addActionListener(
+                e -> {
+                    DocDialog dialog = new DocDialog(View.getSingleton().getMainFrame(), true);
+                    dialog.setVisible(true);
+                });
+        return menuHelp;
+    }
+
+    private void setUpPluginMenu() {
+        if (menuPolicyPlugin != null) {
+            menuPolicyPlugin.add(getMenuOptionLoadPolicy());    // Adding loading button
+            menuPolicyPlugin.add(getMenuOptionHelp());          // Adding Help button
+        }
+    }
+
+    private javax.swing.JMenu getMenuPolicyPlugin() {
+        if (menuPolicyPlugin == null) {
+            menuPolicyPlugin = new javax.swing.JMenu();
+            menuPolicyPlugin.setText("Policy Checker");
+            setUpPluginMenu();
+        }
+        return menuPolicyPlugin;
     }
 }
