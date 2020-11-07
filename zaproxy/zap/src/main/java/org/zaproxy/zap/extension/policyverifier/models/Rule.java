@@ -15,5 +15,5 @@ public interface Rule {
      * @param msg HttpMessage to check against validity
      * @return Boolean telling if the Http message is follows this rule
      */
-    boolean isValid(HttpMessage msg, Source source);
+    boolean isValid(HttpMessage msg);
 }

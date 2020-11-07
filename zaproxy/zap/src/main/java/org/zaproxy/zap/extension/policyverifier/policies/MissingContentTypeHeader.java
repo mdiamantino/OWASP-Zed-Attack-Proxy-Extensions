@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.policyverifier.policyMark;
+package org.zaproxy.zap.extension.policyverifier.policies;
 
 import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpHeader;
@@ -29,14 +29,12 @@ public class MissingContentTypeHeader implements Rule {
     }
 
     @Override
-    public boolean isValid(HttpMessage httpMessage, Source source) {
-        boolean contentTypeMissing = true;
-        if (httpMessage.getResponseBody().length() > 0 && httpMessage.getResponseHeader().isHtml()) {
+    public boolean isValid(HttpMessage httpMessage) {
+        boolean contentTypeMissing = false;
+        if (httpMessage.getResponseBody().length() > 0) {
             List<String> contentType = httpMessage.getResponseHeader().getHeaderValues(HttpHeader.CONTENT_TYPE);
             contentTypeMissing = contentType.isEmpty() || contentType.contains("");
         }
-        return contentTypeMissing;
+        return !contentTypeMissing;
     }
-
-
 }

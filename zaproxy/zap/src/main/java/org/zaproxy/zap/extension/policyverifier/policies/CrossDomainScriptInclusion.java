@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.policyverifier.policyMark;
+package org.zaproxy.zap.extension.policyverifier.policies;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
@@ -21,8 +21,9 @@ public class CrossDomainScriptInclusion implements Rule {
     private final String NAME = "CrossDomainScriptInclusion";
 
     @Override
-    public boolean isValid(HttpMessage msg, Source source) {
-        if (msg.getResponseBody().length() > 0 && msg.getResponseHeader().isHtml() && source != null) {
+    public boolean isValid(HttpMessage msg) {
+        if (msg.getResponseBody().length() > 0 && msg.getResponseHeader().isHtml()) {
+            Source source = new Source(msg.getResponseBody().toString());
             for (Element elem : source.getAllElements(HTMLElementName.SCRIPT)) {
                 String scriptUrl = elem.getAttributeValue("src");
                 String originalHost = msg.getRequestHeader().getHostName();
