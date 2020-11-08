@@ -18,8 +18,6 @@ public class SecureCookie implements Rule {
     @Override
     public boolean isValid(HttpMessage httpMessage) {
         String cookieParams = httpMessage.getCookieParamsAsString();
-        System.out.println(cookieParams);
-        System.out.println(cookieParams.isEmpty());
         return cookieParams.isEmpty() || (cookieParams.contains("SameSite")
                 && cookieParams.contains("HttpOnly")
                 && cookieParams.contains("Secure"));
