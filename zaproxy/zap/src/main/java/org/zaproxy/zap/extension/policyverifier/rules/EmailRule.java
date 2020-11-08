@@ -20,8 +20,14 @@ public class EmailRule implements Rule {
     public boolean isValid(HttpMessage msg) {
         boolean hasEmail = false;
 
+        // Check header
+        if (!hasEmail)
+        {
+            hasEmail = VALID_EMAIL_ADDRESS_REGEX.matcher(msg.getRequestHeader().getHeadersAsString()).find();
+        }
+
         // Check body
-        if (msg.getRequestHeader().isText())
+        if (!hasEmail && msg.getRequestHeader().isText())
         {
             hasEmail = VALID_EMAIL_ADDRESS_REGEX.matcher(msg.getRequestBody().toString()).find();
         }
