@@ -39,4 +39,8 @@ public class Policy {
         return violatedRulesNames;
     }
 
+    // For test purposes
+    public Set<Rule> getRules() {
+        return rules;
+    }
 }
