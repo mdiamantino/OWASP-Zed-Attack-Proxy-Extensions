@@ -4,9 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMalformedHeaderException;
 import org.parosproxy.paros.network.HttpMessage;
-import org.parosproxy.paros.network.HttpResponseHeader;
-import org.zaproxy.zap.extension.policyverifier.policies.CrossDomainScriptInclusion;
-import org.zaproxy.zap.extension.policyverifier.policies.MissingContentTypeHeader;
 
 import static org.junit.jupiter.api.Assertions.*;
 

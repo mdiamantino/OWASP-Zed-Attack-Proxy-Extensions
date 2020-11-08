@@ -1,6 +1,5 @@
-package org.zaproxy.zap.extension.policyverifier.policies;
+package org.zaproxy.zap.extension.policyverifier.rules;
 
-import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpHeader;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;

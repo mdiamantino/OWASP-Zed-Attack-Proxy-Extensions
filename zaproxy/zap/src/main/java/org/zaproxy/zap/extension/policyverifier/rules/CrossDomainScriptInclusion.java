@@ -1,4 +1,4 @@
-package org.zaproxy.zap.extension.policyverifier.policies;
+package org.zaproxy.zap.extension.policyverifier.rules;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;

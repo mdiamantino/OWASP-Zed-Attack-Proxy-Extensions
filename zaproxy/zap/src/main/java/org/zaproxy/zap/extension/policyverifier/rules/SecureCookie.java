@@ -1,10 +1,12 @@
-package org.zaproxy.zap.extension.policyverifier.policies;
+package org.zaproxy.zap.extension.policyverifier.rules;
 
-import net.htmlparser.jericho.Source;
+import org.parosproxy.paros.network.HttpHeader;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-public class SecureCookieRule implements Rule {
+import java.util.List;
+
+public class SecureCookie implements Rule {
 
     private String name = "EnsureSecureCookie";
 
@@ -16,8 +18,10 @@ public class SecureCookieRule implements Rule {
     @Override
     public boolean isValid(HttpMessage httpMessage) {
         String cookieParams = httpMessage.getCookieParamsAsString();
-        return cookieParams.contains("SameSite")
+        System.out.println(cookieParams);
+        System.out.println(cookieParams.isEmpty());
+        return cookieParams.isEmpty() || (cookieParams.contains("SameSite")
                 && cookieParams.contains("HttpOnly")
-                && cookieParams.contains("Secure");
+                && cookieParams.contains("Secure"));
     }
 }

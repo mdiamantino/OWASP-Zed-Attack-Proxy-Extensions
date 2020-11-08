@@ -1,15 +1,11 @@
-package org.zaproxy.zap.extension.policyverifier.policies;
+package org.zaproxy.zap.extension.policyverifier.rules;
 
-import net.htmlparser.jericho.Source;
-import org.bouncycastle.util.Strings;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
-public class BannedKeywordsRule implements Rule {
+public class BannedKeywords implements Rule {
     private Set<String> BANNED_KEYS = new HashSet<>(Arrays.asList("SELECT", "DELETE"));
     private String name = "EnsureBannedKeywords";
 

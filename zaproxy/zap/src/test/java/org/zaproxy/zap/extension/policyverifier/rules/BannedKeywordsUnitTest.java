@@ -1,10 +1,10 @@
-package org.zaproxy.zap.extension.policyverifier.policies;
+package org.zaproxy.zap.extension.policyverifier.rules;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BannedKeywordsUnitTest {
 
-    BannedKeywordsRule rule;
+    BannedKeywords rule;
 
     @BeforeEach
     public void setup() {
-        rule = new BannedKeywordsRule();
+        rule = new BannedKeywords();
     }
 
     @Test
@@ -30,8 +30,7 @@ public class BannedKeywordsUnitTest {
     public void isValid_BannedUppercaseKeywordInRequestBody_NotValid() {
         HttpMessage msg = new HttpMessage();
         Set<String> bannedKeywords = rule.getBANNED_KEYS();
-        Iterator iter = bannedKeywords.iterator();
-        String bannedKeyword = (String) iter.next();
+        String bannedKeyword = new ArrayList<>(bannedKeywords).get(0);
         msg.setRequestBody(bannedKeyword.toUpperCase());
         assertFalse(rule.isValid(msg));
     }
@@ -41,8 +40,7 @@ public class BannedKeywordsUnitTest {
     public void isValid_BannedLowercaseKeywordInRequestBody_NotValid() {
         HttpMessage msg = new HttpMessage();
         Set<String> bannedKeywords = rule.getBANNED_KEYS();
-        Iterator iter = bannedKeywords.iterator();
-        String bannedKeyword = (String) iter.next();
+        String bannedKeyword =  new ArrayList<>(bannedKeywords).get(0);
         msg.setRequestBody(bannedKeyword.toLowerCase());
     }
 }

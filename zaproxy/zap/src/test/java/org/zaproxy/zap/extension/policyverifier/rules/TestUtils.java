@@ -1,7 +1,7 @@
 package org.zaproxy.zap.extension.policyverifier.rules;
 
 public class TestUtils {
-    static String buildDomainUrl(String domain) {
+    public static String buildDomainUrl(String domain) {
         return String.format("https://www.%s.com", domain);
     }
 

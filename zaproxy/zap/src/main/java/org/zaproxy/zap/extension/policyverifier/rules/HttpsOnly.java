@@ -1,10 +1,9 @@
-package org.zaproxy.zap.extension.policyverifier.policies;
+package org.zaproxy.zap.extension.policyverifier.rules;
 
-import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-public class HttpsRules implements Rule {
+public class HttpsOnly implements Rule {
     private String name = "EnsureHttps";
 
     @Override
