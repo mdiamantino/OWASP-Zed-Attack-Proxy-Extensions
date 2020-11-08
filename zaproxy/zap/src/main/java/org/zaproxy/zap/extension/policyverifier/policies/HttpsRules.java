@@ -13,7 +13,7 @@ public class HttpsRules implements Rule {
     }
 
     @Override
-    public boolean isValid(HttpMessage httpMessage, Source source) {
+    public boolean isValid(HttpMessage httpMessage) {
         return httpMessage.getRequestHeader().isSecure();
     }
 }

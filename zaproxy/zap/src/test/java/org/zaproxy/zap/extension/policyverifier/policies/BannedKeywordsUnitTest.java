@@ -1,52 +1,48 @@
 package org.zaproxy.zap.extension.policyverifier.policies;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
 
+import java.util.Iterator;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class BannedKeywordsUnitTest {
 
-    BannedKeywordsRule rule = new BannedKeywordsRule();
+    BannedKeywordsRule rule;
 
-    @Test
-    public void shouldSucceedBannedKeywords() {
-        // Given
-        HttpMessage msg = new HttpMessage();
-        msg.setRequestBody("Valid");
-
-        // When
-        boolean isValid = rule.isValid(msg, null);
-
-        // Then
-        assertThat(true, is(isValid));
+    @BeforeEach
+    public void setup() {
+        rule = new BannedKeywordsRule();
     }
 
     @Test
-    public void shouldFailBannedKeywordsUpperCase() {
-        // Given
+    public void isValid_NoBannedKeywordsInRequestBody_Valid() {
         HttpMessage msg = new HttpMessage();
-        msg.setRequestBody("SELECT");
+        msg.setRequestBody("NO BANNED KEYWORDS IN THIS TEXT");
+        assertTrue(rule.isValid(msg));
+    }
 
-        // When
-        boolean isValid = rule.isValid(msg, null);
-
-        // Then
-        assertThat(false, is(isValid));
+    @Test
+    public void isValid_BannedUppercaseKeywordInRequestBody_NotValid() {
+        HttpMessage msg = new HttpMessage();
+        Set<String> bannedKeywords = rule.getBANNED_KEYS();
+        Iterator iter = bannedKeywords.iterator();
+        String bannedKeyword = (String) iter.next();
+        msg.setRequestBody(bannedKeyword.toUpperCase());
+        assertFalse(rule.isValid(msg));
     }
 
 
     @Test
-    public void shouldFailBannedKeywordsLowerCase() {
-        // Given
+    public void isValid_BannedLowercaseKeywordInRequestBody_NotValid() {
         HttpMessage msg = new HttpMessage();
-        msg.setRequestBody("select");
-
-        // When
-        boolean isValid = rule.isValid(msg, null);
-
-        // Then
-        assertThat(false, is(isValid));
+        Set<String> bannedKeywords = rule.getBANNED_KEYS();
+        Iterator iter = bannedKeywords.iterator();
+        String bannedKeyword = (String) iter.next();
+        msg.setRequestBody(bannedKeyword.toLowerCase());
     }
 }

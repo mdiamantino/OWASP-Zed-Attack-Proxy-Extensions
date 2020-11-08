@@ -20,7 +20,7 @@ public class HttpsRuleUnitTest {
         httpMessage.getRequestHeader().setURI(new HttpsURL("https://www.google.com"));
 
         // When
-        boolean isValid = rule.isValid(httpMessage, null);
+        boolean isValid = rule.isValid(httpMessage);
 
         // Then
         assertThat(true, is(isValid));
@@ -34,7 +34,7 @@ public class HttpsRuleUnitTest {
         httpMessage.getRequestHeader().setURI(new HttpsURL("http://www.google.com"));
 
         // When
-        boolean isValid = rule.isValid(httpMessage, null);
+        boolean isValid = rule.isValid(httpMessage);
 
         // Then
         assertThat(false, is(isValid));

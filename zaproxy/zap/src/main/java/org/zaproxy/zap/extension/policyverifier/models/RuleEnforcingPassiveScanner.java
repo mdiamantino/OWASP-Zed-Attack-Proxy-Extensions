@@ -59,10 +59,10 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
      *
      * @param msg HttpMessage that is checked against policies for validity.
      */
-    private void displayViolatedPolicies(HttpMessage msg, Source source) {
+    private void displayViolatedPolicies(HttpMessage msg) {
         logger.warn("Validating HttpMessage against loaded policies.");
         for (Policy policy : policies) {
-            Set<String> violatedRulesNames = policy.getViolatedRulesNames(msg, source);
+            Set<String> violatedRulesNames = policy.getViolatedRulesNames(msg);
             generatePolicyReport(policy.getName(), violatedRulesNames);
         }
     }
@@ -87,7 +87,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
      */
     @Override
     public void scanHttpRequestSend(HttpMessage msg, int id) {
-        displayViolatedPolicies(msg, null);
+        displayViolatedPolicies(msg);
     }
 
     /**
@@ -97,7 +97,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
      */
     @Override
     public void scanHttpResponseReceive(HttpMessage msg, int id, Source source) {
-        displayViolatedPolicies(msg, source);
+        displayViolatedPolicies(msg);
     }
 
     @Override

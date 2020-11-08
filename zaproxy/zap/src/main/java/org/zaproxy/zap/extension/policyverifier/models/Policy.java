@@ -29,10 +29,10 @@ public class Policy {
      * @param msg Http Message to check against the rules defining this Policy
      * @return A set the names of the violated policies
      */
-    public Set<String> getViolatedRulesNames(HttpMessage msg, Source src) {
+    public Set<String> getViolatedRulesNames(HttpMessage msg) {
         Set<String> violatedRulesNames = new HashSet<>();
         for (Rule rule : rules) {
-            if (!rule.isValid(msg, src)) {
+            if (!rule.isValid(msg)) {
                 violatedRulesNames.add(rule.getName());
             }
         }
