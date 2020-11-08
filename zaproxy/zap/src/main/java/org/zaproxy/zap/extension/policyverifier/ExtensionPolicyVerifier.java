@@ -59,7 +59,6 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
 
         File file;
         int rc = fileChooser.showOpenDialog(Objects.requireNonNull(View.getSingleton()).getMainFrame());
-        file = fileChooser.getSelectedFile();
         if (rc == JFileChooser.APPROVE_OPTION) {
             try {
                 file = fileChooser.getSelectedFile();
