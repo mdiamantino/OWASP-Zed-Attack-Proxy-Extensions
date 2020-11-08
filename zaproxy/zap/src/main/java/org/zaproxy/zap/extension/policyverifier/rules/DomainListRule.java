@@ -13,11 +13,11 @@ public class DomainListRule implements Rule {
 
     private String[] domains;
 
-    DomainListRule(String[] domains) {
+    public DomainListRule(String[] domains) {
         this.domains = domains;
     }
 
-    DomainListRule() {
+    public DomainListRule() {
         this(DOMAINS);
     }
 
@@ -32,7 +32,8 @@ public class DomainListRule implements Rule {
         System.out.println("hostname is: " + hostname);
 
         for (String domain : domains) {
-            if (hostname.toLowerCase().contains(domain.toLowerCase())) {
+            if (hostname.equalsIgnoreCase(domain) ||
+                hostname.toLowerCase().endsWith("." + domain.toLowerCase())) {
                 return false;
             }
         }

@@ -8,7 +8,7 @@ import org.parosproxy.paros.network.HttpMessage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class EmailRuleUnitTest {
     private EmailRule rule;
@@ -18,12 +18,17 @@ public class EmailRuleUnitTest {
         rule = new EmailRule();
     }
 
+    private HttpMessage getMockMessage(String body) {
+        HttpMessage msg = mock(HttpMessage.class, RETURNS_DEEP_STUBS);
+        when(msg.getRequestHeader().isText()).thenReturn(true);
+        when(msg.getRequestBody().toString()).thenReturn(body);
+        return msg;
+    }
+
     @Test
     public void shouldNotFlagRequestWithoutEmail() throws HttpMalformedHeaderException {
         // Given
-        HttpMessage msg = mock(HttpMessage.class);
-        msg.setRequestHeader("POST https://www.example.com/test/ HTTP/1.1");
-        msg.setRequestBody("username=example");
+        HttpMessage msg = getMockMessage("username=example");
         // When
         boolean isValid = rule.isValid(msg);
         // Then
@@ -33,9 +38,7 @@ public class EmailRuleUnitTest {
     @Test
     public void shouldFlagRequestWithEmail() throws HttpMalformedHeaderException {
         // Given
-        HttpMessage msg = mock(HttpMessage.class);
-        msg.setRequestHeader("POST https://www.example.com/test/ HTTP/1.1");
-        msg.setRequestBody("email=example@example.com");
+        HttpMessage msg = getMockMessage("email=example@example.com");
         // When
         boolean isValid = rule.isValid(msg);
         // Then
