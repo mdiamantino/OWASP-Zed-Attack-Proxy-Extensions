@@ -75,7 +75,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     }
 
     private ZapMenuItem getMenuOptionLoadPolicy() {
-        ZapMenuItem menuLoadPolicy = new ZapMenuItem("Load New Policy");
+        ZapMenuItem menuLoadPolicy = new ZapMenuItem(Constant.messages.getString("policyVerifier.panel.title"));
         menuLoadPolicy.addActionListener(
                 ae -> loadJarPolicy());
         return menuLoadPolicy;
@@ -85,7 +85,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         ZapMenuItem menuHelp = new ZapMenuItem("Help");
         menuHelp.addActionListener(
                 e -> {
-                    DocDialog dialog = new DocDialog(View.getSingleton().getMainFrame(), true);
+                    DocDialog dialog = new DocDialog(Objects.requireNonNull(View.getSingleton()).getMainFrame(), true);
                     dialog.setVisible(true);
                 });
         return menuHelp;
