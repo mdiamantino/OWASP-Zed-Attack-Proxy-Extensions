@@ -49,9 +49,10 @@ public class PolicyGeneratorFromJar {
         ZipInputStream zip = new ZipInputStream(new FileInputStream(jar));
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
             if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
-                String[] res = entry.getName().split("/", 0);
-                String fileName = res[res.length - 1];
-                classNames.add(fileName.substring(0, fileName.indexOf(".")));
+                String fullClassName = entry.getName() // File path
+                        .substring(0, fileName.indexOf(".")) // Without .class
+                        .replace('/', '.'); // Replace / with .
+                classNames.add(fullClassName);
             }
         }
         return classNames;
