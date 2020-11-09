@@ -20,6 +20,11 @@ import java.util.List;
  * other than the intended content type.
  */
 public class NoMissingContentTypeHeader implements Rule {
+
+    /**
+     * Checks if the request contains a Content-Type header.
+     * @return false when a Content-Type header is not included.
+     */
     @Override
     public boolean isValid(HttpMessage httpMessage) {
         boolean contentTypeMissing = false;

@@ -19,6 +19,10 @@ import org.zaproxy.zap.extension.policyverifier.models.Rule;
  */
 public class NoCrossDomainScriptInclusion implements Rule {
 
+    /**
+     * Checks if the request contains a cross-domain script.
+     * @return false when a cross-domain script is included.
+     */
     @Override
     public boolean isValid(HttpMessage msg) {
         if (msg.getResponseBody().length() > 0 && msg.getResponseHeader().isHtml()) {

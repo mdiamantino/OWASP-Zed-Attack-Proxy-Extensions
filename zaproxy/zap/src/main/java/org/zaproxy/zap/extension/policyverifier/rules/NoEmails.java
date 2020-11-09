@@ -9,6 +9,10 @@ public class NoEmails implements Rule {
     private final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}", Pattern.CASE_INSENSITIVE);
 
+    /**
+     * Checks if the request contains a valid email address.
+     * @return false when an email address is included.
+     */
     @Override
     public boolean isValid(HttpMessage msg) {
         boolean hasEmailInHeader = VALID_EMAIL_ADDRESS_REGEX.matcher(msg.getRequestHeader().getHeadersAsString()).find();

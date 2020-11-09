@@ -79,10 +79,19 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     private void generatePolicyReport(String policyName, Set<String> violatedRulesNames) {
         for (String violatedRule : violatedRulesNames) {
             String description = String.format("Policy%s.Rule%s violated", policyName, violatedRule);
-            AlertBuilder alertBuilder = newAlert().setDescription(description);
-            calledAlerts.add(alertBuilder.build());
-            alertBuilder.raise();
+            generateViolatedRuleReport(description);
         }
+    }
+
+    /**
+     * Generates a graphical report (in the form of a ZAP alert), that a rule was violated
+     *
+     * @param description         The text to be displayed in the rule violation report
+     */
+    protected void generateViolatedRuleReport(String description) {
+        AlertBuilder alertBuilder = newAlert().setDescription(description);
+        calledAlerts.add(alertBuilder.build());
+        alertBuilder.raise();
     }
 
     /**

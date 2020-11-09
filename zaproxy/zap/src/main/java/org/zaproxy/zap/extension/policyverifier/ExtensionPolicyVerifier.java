@@ -48,12 +48,12 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     }
 
     /**
-     * View method used to retrieve the loaded file from the view through a filechooser only accepting JAR files,
-     * AND communicate to the controller of the extension by passing the policy file
+     * View method used to retrieve the loaded file from the view through a graphical file chooser.
+     * Only JAR files are accepted. When a valid file is picked, it is passed to the controller (PolicyLoaderController).
      */
     public void loadJarPolicy() {
         JFileChooser fileChooser = new JFileChooser(Constant.getContextsDir());
-        fileChooser.setAcceptAllFileFilterUsed(false);  // All types of file are not accept
+        fileChooser.setAcceptAllFileFilterUsed(false);  // Only .jar files can be picked
         FileNameExtensionFilter jarFilter = new FileNameExtensionFilter("Jar files", "jar"); // Accepting .jar only
         fileChooser.setFileFilter(jarFilter);
 

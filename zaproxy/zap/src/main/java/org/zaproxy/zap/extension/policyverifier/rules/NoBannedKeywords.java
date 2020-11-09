@@ -10,6 +10,10 @@ import java.util.Set;
 public class NoBannedKeywords implements Rule {
     private Set<String> BANNED_KEYS = new HashSet<>(Arrays.asList("SELECT", "DELETE"));
 
+    /**
+     * Checks if the request contains a keyword from a list of banned keys.
+     * @return false when banned key is included.
+     */
     @Override
     public boolean isValid(HttpMessage httpMessage) {
         if (httpMessage.getRequestBody().length() > 0) {

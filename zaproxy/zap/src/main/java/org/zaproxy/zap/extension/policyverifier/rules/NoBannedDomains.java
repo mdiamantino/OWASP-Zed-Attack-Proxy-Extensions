@@ -11,6 +11,10 @@ import java.util.List;
 public class NoBannedDomains implements Rule {
     private final List<String> BANNED_DOMAINS = new ArrayList<>(Arrays.asList("facebook.com", "twitter.com"));
 
+    /**
+     * Checks if the request is going to a domain in the list of banned domains.
+     * @return false when the request's domain is in the banned domains list.
+     */
     @Override
     public boolean isValid(HttpMessage msg) {
         String msgHostname = msg.getRequestHeader().getHostName();
