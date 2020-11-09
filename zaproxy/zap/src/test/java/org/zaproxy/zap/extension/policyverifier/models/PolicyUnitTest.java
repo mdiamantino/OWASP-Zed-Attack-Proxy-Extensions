@@ -22,54 +22,16 @@ class PolicyUnitTest {
 
     @Test
     void getViolatedRulesNames() {
-        Set<Rule> rules = instantiateRules();
+        Set<Rule> rules = TestUtils.instantiateRules();
 
         HttpMessage msg = new HttpMessage();
-        Set<String> expectedInvalidRulesNames = buildRandomBehaviourAndGetExpectedResults(rules, msg);
+        Set<String> expectedInvalidRulesNames = TestUtils.buildRandomBehaviourAndGetExpectedResults(rules, msg);
 
         policy = new Policy(rules, POLICY_NAME_FOR_TEST);
         Set<String> invalidRules = policy.getViolatedRulesNames(msg);
         assertEquals(expectedInvalidRulesNames, invalidRules);
     }
 
-    /**
-     * Instantiate a set of mock Rules
-     * @return Set of mock rules
-     */
-    private Set<Rule> instantiateRules() {
-        // Creating mock Rules
-        NoCrossDomainScriptInclusion cdsiRule = mock(NoCrossDomainScriptInclusion.class);
-        NoMissingContentTypeHeader mcthRule = mock(NoMissingContentTypeHeader.class);
-        NoBannedKeywords bkRule = mock(NoBannedKeywords.class);
-        HttpsOnly hoRule = mock(HttpsOnly.class);
-        SecureCookie scRule = mock(SecureCookie.class);
 
-        Set<Rule> rules = new HashSet<>();
-        rules.add(cdsiRule);
-        rules.add(mcthRule);
-        rules.add(bkRule);
-        rules.add(hoRule);
-        rules.add(scRule);
-        return rules;
-    }
-
-    /**
-     * Select at random the rules which will be invalid
-     * @param rules Complete set of rules
-     * @param msg Som HttpMessage
-     * @return Set of rules' names expected to have failed the validity test upon the message
-     */
-    private Set<String> buildRandomBehaviourAndGetExpectedResults(Set<Rule> rules, HttpMessage msg) {
-        Set<String> expectedInvalidRulesNames = new HashSet<>();
-        Random random = new Random();
-        for (Rule rule: rules) {
-            Boolean willHttpMessageBeValidForRule = random.nextBoolean();
-            when(rule.isValid(msg)).thenReturn(willHttpMessageBeValidForRule);
-            if (!willHttpMessageBeValidForRule) {
-                expectedInvalidRulesNames.add(rule.getName());
-            }
-        }
-        return expectedInvalidRulesNames;
-    }
 
 }

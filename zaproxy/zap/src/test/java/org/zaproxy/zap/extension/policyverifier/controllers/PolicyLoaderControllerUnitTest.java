@@ -11,9 +11,9 @@ public class PolicyLoaderControllerUnitTest {
     private String TEST_RESOURCES_PATH = System.getProperty("user.dir") + "/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/resources";
 
     @Test
-    public void PolicyLoaderController_InstantiatingTwice_ShouldTrhowBecauseIsSingleton() {
+    public void PolicyLoaderController_InstantiatingTwice_ShouldThrowBecauseIsSingleton() {
         PolicyLoaderController possiblySingletonInstance = PolicyLoaderController.getSingleton();
-        assertThrows(RuntimeException.class, () -> new PolicyLoaderController());
+        assertThrows(RuntimeException.class, PolicyLoaderController::new);
         assertEquals(PolicyLoaderController.getSingleton(), possiblySingletonInstance);
     }
 

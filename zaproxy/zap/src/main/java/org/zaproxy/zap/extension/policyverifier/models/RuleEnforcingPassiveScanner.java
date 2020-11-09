@@ -3,6 +3,7 @@ package org.zaproxy.zap.extension.policyverifier.models;
 import net.htmlparser.jericho.Source;
 import org.apache.log4j.Logger;
 import org.parosproxy.paros.control.Control;
+import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.pscan.ExtensionPassiveScan;
 import org.zaproxy.zap.extension.pscan.PassiveScanThread;
@@ -22,6 +23,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     private static final Logger logger = Logger.getLogger(RuleEnforcingPassiveScanner.class);
     private final String NAME = "JARPolicyVerifier";
     private static RuleEnforcingPassiveScanner soleModel; // Model is unique
+    private List<Alert> calledAlerts = new ArrayList<>();
 
     public static RuleEnforcingPassiveScanner getSingleton() {
         if (soleModel == null) {
@@ -77,7 +79,9 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     private void generatePolicyReport(String policyName, Set<String> violatedRulesNames) {
         for (String violatedRule : violatedRulesNames) {
             String description = String.format("Policy%s.Rule%s violated", policyName, violatedRule);
-            newAlert().setDescription(description).raise();
+            AlertBuilder alertBuilder = newAlert().setDescription(description);
+            calledAlerts.add(alertBuilder.build());
+            alertBuilder.raise();
         }
     }
 
@@ -128,5 +132,11 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
                     .getExtension(ExtensionPassiveScan.class).removePassiveScanner(this);
         }
     }
+
+    // For testing purposes only
+    public List<Alert> getCalledAlerts() {
+        return calledAlerts;
+    }
+
 
 }
