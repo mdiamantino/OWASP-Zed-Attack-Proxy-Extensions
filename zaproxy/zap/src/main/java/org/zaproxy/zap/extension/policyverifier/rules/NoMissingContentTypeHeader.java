@@ -19,14 +19,7 @@ import java.util.List;
  * the response body to be interpreted and displayed as a content type
  * other than the intended content type.
  */
-public class MissingContentTypeHeader implements Rule {
-    private final String NAME = "MissingContentTypeHeader";
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
+public class NoMissingContentTypeHeader implements Rule {
     @Override
     public boolean isValid(HttpMessage httpMessage) {
         boolean contentTypeMissing = false;

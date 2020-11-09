@@ -3,16 +3,12 @@ package org.zaproxy.zap.extension.policyverifier.rules;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-public class BannedKeywords implements Rule {
+public class NoBannedKeywords implements Rule {
     private Set<String> BANNED_KEYS = new HashSet<>(Arrays.asList("SELECT", "DELETE"));
-    private String name = "EnsureBannedKeywords";
-
-    @Override
-    public String getName() {
-        return name;
-    }
 
     @Override
     public boolean isValid(HttpMessage httpMessage) {
@@ -27,10 +23,7 @@ public class BannedKeywords implements Rule {
         return true;
     }
 
-    /**
-     * For testing purposes only
-     * @return
-     */
+    // For testing purposes only
     public Set<String> getBANNED_KEYS() {
         return BANNED_KEYS;
     }

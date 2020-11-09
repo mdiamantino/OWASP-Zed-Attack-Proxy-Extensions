@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMalformedHeaderException;
 import org.parosproxy.paros.network.HttpMessage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MissingContentTypeHeaderUnitTest {
-    MissingContentTypeHeader rule;
+    NoMissingContentTypeHeader rule;
 
     private HttpMessage generateHttpMessage() throws HttpMalformedHeaderException {
         HttpMessage message = new HttpMessage();
@@ -21,7 +22,7 @@ public class MissingContentTypeHeaderUnitTest {
 
     @BeforeEach
     public void setup() {
-        rule = new MissingContentTypeHeader();
+        rule = new NoMissingContentTypeHeader();
     }
 
     @Test

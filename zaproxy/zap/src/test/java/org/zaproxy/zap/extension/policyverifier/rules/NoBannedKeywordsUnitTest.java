@@ -10,13 +10,13 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BannedKeywordsUnitTest {
+public class NoBannedKeywordsUnitTest {
 
-    BannedKeywords rule;
+    NoBannedKeywords rule;
 
     @BeforeEach
     public void setup() {
-        rule = new BannedKeywords();
+        rule = new NoBannedKeywords();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class BannedKeywordsUnitTest {
     public void isValid_BannedLowercaseKeywordInRequestBody_NotValid() {
         HttpMessage msg = new HttpMessage();
         Set<String> bannedKeywords = rule.getBANNED_KEYS();
-        String bannedKeyword =  new ArrayList<>(bannedKeywords).get(0);
+        String bannedKeyword = new ArrayList<>(bannedKeywords).get(0);
         msg.setRequestBody(bannedKeyword.toLowerCase());
     }
 }

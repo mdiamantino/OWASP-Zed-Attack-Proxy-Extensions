@@ -1,17 +1,17 @@
 package org.zaproxy.zap.extension.policyverifier.rules;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.parosproxy.paros.network.HtmlParameter;
 import org.parosproxy.paros.network.HttpMalformedHeaderException;
 import org.parosproxy.paros.network.HttpMessage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class SecureCookieRuleUnitTest {
@@ -33,12 +33,9 @@ public class SecureCookieRuleUnitTest {
 
     @Test
     public void isValid_CookiesContainOnlySomeOfValidFlags_NotValid() throws HttpMalformedHeaderException {
-        List<String> cookieParams = new ArrayList<>();
         Random rand = new Random();
         flags.remove(rand.nextInt(flags.size()));
-        for (String flag : flags) {
-            cookieParams.add(flag);
-        }
+        List<String> cookieParams = new ArrayList<>(flags);
         HttpMessage msg = constructHttpMessage(cookieParams);
         assertFalse(rule.isValid(msg));
     }

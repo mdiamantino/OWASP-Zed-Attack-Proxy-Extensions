@@ -17,8 +17,7 @@ import org.zaproxy.zap.extension.policyverifier.models.Rule;
  * that the application's own scripts can do, such as accessing
  * application data and performing actions within the context of the current user.
  */
-public class CrossDomainScriptInclusion implements Rule {
-    private final String NAME = "CrossDomainScriptInclusion";
+public class NoCrossDomainScriptInclusion implements Rule {
 
     @Override
     public boolean isValid(HttpMessage msg) {
@@ -41,10 +40,5 @@ public class CrossDomainScriptInclusion implements Rule {
             }
         }
         return true;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }

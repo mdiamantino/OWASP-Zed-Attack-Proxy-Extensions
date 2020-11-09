@@ -1,13 +1,14 @@
 package org.zaproxy.zap.extension.policyverifier.models;
 
-import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpMessage;
 
 /**
  * A Rule is an entity which can be valid or not according to the checked HttpMessage
  */
 public interface Rule {
-    String getName();
+    default String getName() {
+        return this.getClass().getSimpleName();
+    }
 
     /**
      * The implementation of this method embeds the algorithm to check if the rule is valid or not.

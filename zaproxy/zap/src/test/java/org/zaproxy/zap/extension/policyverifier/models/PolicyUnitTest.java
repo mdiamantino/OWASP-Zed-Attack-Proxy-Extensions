@@ -38,9 +38,9 @@ class PolicyUnitTest {
      */
     private Set<Rule> instantiateRules() {
         // Creating mock Rules
-        CrossDomainScriptInclusion cdsiRule = mock(CrossDomainScriptInclusion.class);
-        MissingContentTypeHeader mcthRule = mock(MissingContentTypeHeader.class);
-        BannedKeywords bkRule = mock(BannedKeywords.class);
+        NoCrossDomainScriptInclusion cdsiRule = mock(NoCrossDomainScriptInclusion.class);
+        NoMissingContentTypeHeader mcthRule = mock(NoMissingContentTypeHeader.class);
+        NoBannedKeywords bkRule = mock(NoBannedKeywords.class);
         HttpsOnly hoRule = mock(HttpsOnly.class);
         SecureCookie scRule = mock(SecureCookie.class);
 

@@ -8,13 +8,13 @@ import org.parosproxy.paros.network.HttpMessage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CrossDomainScriptInclusionUnitTest {
-    CrossDomainScriptInclusion rule;
+public class NoCrossDomainScriptInclusionUnitTest {
+    NoCrossDomainScriptInclusion rule;
     int LENGTH_OF_RANDOM_DOMAINS = 10;
 
     @BeforeEach
     public void setup() {
-        rule = new CrossDomainScriptInclusion();
+        rule = new NoCrossDomainScriptInclusion();
     }
 
     private String getHTMLWithDomainScript(String domain) {
@@ -26,7 +26,7 @@ public class CrossDomainScriptInclusionUnitTest {
         String originalDomain = RandomStringUtils.randomAlphabetic(LENGTH_OF_RANDOM_DOMAINS);
         String url = TestUtils.buildDomainUrl(originalDomain);
         message.setRequestHeader("GET " + url + " HTTP/1.1");
-        String htmlResponseBody = "";
+        String htmlResponseBody;
         if (!isCrossDomainScript) {
             htmlResponseBody = getHTMLWithDomainScript(originalDomain);
         } else {
@@ -78,7 +78,7 @@ public class CrossDomainScriptInclusionUnitTest {
 
     @Test
     public void getName_isActualName_True() {
-        assertEquals(rule.getName(), "CrossDomainScriptInclusion");
+        assertEquals(rule.getName(), "NoCrossDomainScriptInclusion");
     }
 
 

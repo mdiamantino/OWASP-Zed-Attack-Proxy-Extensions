@@ -1,6 +1,5 @@
 package org.zaproxy.zap.extension.policyverifier.models;
 
-import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.network.HttpMessage;
 
 import java.util.HashSet;
