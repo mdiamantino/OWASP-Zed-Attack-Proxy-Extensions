@@ -20,10 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/solutions/user_story_01/Tutorial.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/DocDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/DocDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zaproxy/story1.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/zaproxy/story1.vpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signoff_cards/signoff_group_00_story_00.txt" beforeDir="false" afterPath="$PROJECT_DIR$/signoff_cards/signoff_group_19_story_01.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,15 +50,13 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -128,6 +124,14 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="104" y="62" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1604513490550" />
+    <state x="350" y="134" key="NewModule_or_Project.wizard" timestamp="1605039100483">
+      <screen x="0" y="23" width="1440" height="810" />
+    </state>
+    <state x="350" y="134" key="NewModule_or_Project.wizard/0.23.1440.810@0.23.1440.810" timestamp="1605039100483" />
+    <state x="335" y="168" key="Vcs.Push.Dialog.v2" timestamp="1605038262113">
+      <screen x="0" y="23" width="1440" height="810" />
+    </state>
+    <state x="335" y="168" key="Vcs.Push.Dialog.v2/0.23.1440.810@0.23.1440.810" timestamp="1605038262113" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
