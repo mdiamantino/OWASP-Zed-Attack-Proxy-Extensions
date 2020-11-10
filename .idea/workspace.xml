@@ -19,7 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="" />
+    <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/solutions/user_story_01/Tutorial.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/DocDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/DocDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zaproxy/story1.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/zaproxy/story1.vpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,13 +52,15 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -85,6 +92,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604507486049</updated>
       <workItem from="1605021747477" duration="39000" />
+      <workItem from="1605031947022" duration="1792000" />
     </task>
     <task id="LOCAL-00001" summary="deletion of extra rules">
       <created>1605021778447</created>
