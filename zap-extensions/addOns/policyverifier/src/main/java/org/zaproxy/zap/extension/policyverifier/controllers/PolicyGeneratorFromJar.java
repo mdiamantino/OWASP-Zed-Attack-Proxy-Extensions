@@ -30,11 +30,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
 /** The class groups all behaviours needed in order to extact a policy from a Jar File */
 public class PolicyGeneratorFromJar {
+    private static final Logger logger = Logger.getLogger(PolicyGeneratorFromJar.class);
 
     /**
      * Instantiate all Rules defined in the jar and creates a policy from them.
@@ -71,7 +73,10 @@ public class PolicyGeneratorFromJar {
                 String fullClassName =
                         filename.substring(0, filename.indexOf(".")) // Without .class
                                 .replace('/', '.'); // Replace / with .
-                classNames.add(fullClassName);
+                if (!fullClassName.equals("Rule")) {
+                    logger.info(String.format("Found in jar class name : %s", fullClassName));
+                    classNames.add(fullClassName);
+                }
             }
         }
         return classNames;

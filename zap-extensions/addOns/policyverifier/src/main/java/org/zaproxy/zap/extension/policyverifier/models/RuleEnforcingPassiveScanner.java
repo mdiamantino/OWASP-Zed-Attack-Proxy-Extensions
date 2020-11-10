@@ -62,6 +62,16 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
      * @param policy Policy to add
      */
     public void addPolicy(Policy policy) {
+        for (Policy previouslyAddedPolicy : policies) {
+            if (policy.getName().equals(previouslyAddedPolicy.getName())) {
+                policies.remove(previouslyAddedPolicy);
+                logger.warn(
+                        String.format(
+                                "A policy with the same name '%s' was added before, so it is now replaced.",
+                                policy.getName()));
+                break;
+            }
+        }
         policies.add(policy);
         logger.info(
                 String.format(
