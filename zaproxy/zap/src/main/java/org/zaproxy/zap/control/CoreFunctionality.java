@@ -25,7 +25,6 @@ import java.util.List;
 import org.parosproxy.paros.core.scanner.AbstractPlugin;
 import org.parosproxy.paros.extension.Extension;
 import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
-import org.zaproxy.zap.extension.policyverifier.ExtensionPolicyVerifier;
 
 /**
  * Class that contains/provides all built-in (core) components (i.e. extensions and active/passive
@@ -133,8 +132,6 @@ public final class CoreFunctionality {
             extensions.add(new org.zaproxy.zap.extension.uiutils.ExtensionUiUtils());
             extensions.add(new org.zaproxy.zap.extension.users.ExtensionUserManagement());
             extensions.add(new org.zaproxy.zap.extension.custompages.ExtensionCustomPages());
-
-            extensions.add(new ExtensionPolicyVerifier());
 
             extensions.trimToSize();
 
