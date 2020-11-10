@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
 
-import static org.mockito.Mockito.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.*;
+import static org.mockito.Mockito.*;
 
 public class RuleEnforcingPassiveScannerUnitTest {
     protected RuleEnforcingPassiveScanner rule;

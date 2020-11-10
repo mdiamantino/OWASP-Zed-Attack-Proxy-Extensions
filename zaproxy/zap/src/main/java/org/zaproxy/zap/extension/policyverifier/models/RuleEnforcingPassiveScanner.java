@@ -43,7 +43,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
             throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
         }
         // When the model is first created, then it is automatically enabled to receive https messages
-//        this.setEnabled(true); // Does not seem to be needed here. Breaks the unit tests
+        this.setEnabled(true);
     }
 
     /**
