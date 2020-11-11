@@ -27,29 +27,50 @@ import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
 
 public class RuleEnforcingPassiveScannerUnitTest {
-    protected RuleEnforcingPassiveScanner rule;
+    protected RuleEnforcingPassiveScanner reps;
 
     @BeforeEach
     public void setUp() throws Exception {
-        rule = spy(new RuleEnforcingPassiveScanner());
+        reps = spy(new RuleEnforcingPassiveScanner());
+        // We cannot raise real alerts, because the ZAP machinery is never setup
+        doNothing().when(reps).generateViolatedRuleReport(anyString());
+    }
+
+    private Policy createPolicyMock(String name, List<String> ruleNames) {
+        Set<String> rules = new HashSet<>(ruleNames);
+        Policy policy = mock(Policy.class);
+        when(policy.getViolatedRulesNames(isA(HttpMessage.class))).thenReturn(rules);
+        when(policy.getName()).thenReturn(name);
+        return policy;
     }
 
     @Test
     public void shouldDisplayAlertsWhenRulesAreViolated() {
         // Given
-        Set<String> rules = new HashSet<>(Arrays.asList("a", "b"));
-        Policy policy = mock(Policy.class);
-        when(policy.getViolatedRulesNames(isA(HttpMessage.class))).thenReturn(rules);
-        when(policy.getName()).thenReturn("policy");
-
-        rule.addPolicy(policy);
-        doNothing().when(rule).generateViolatedRuleReport(anyString());
+        reps.addPolicy(createPolicyMock("policy", Arrays.asList("a", "b")));
 
         // When
-        rule.scanHttpRequestSend(new HttpMessage(), 1);
+        reps.scanHttpRequestSend(new HttpMessage(), 1);
 
         // Then
-        verify(rule, times(1)).generateViolatedRuleReport(contains("Policypolicy.Rulea"));
-        verify(rule, times(1)).generateViolatedRuleReport(matches(" *Policypolicy\\.Ruleb.*"));
+        verify(reps, times(1)).generateViolatedRuleReport(contains("Policypolicy.Rulea"));
+        verify(reps, times(1)).generateViolatedRuleReport(matches(" *Policypolicy\\.Ruleb.*"));
+    }
+
+
+    @Test
+    public void shouldOnlyKeepNewerDuplicatePolicy() {
+        // Given
+        reps.addPolicy(createPolicyMock("policy", Arrays.asList("a", "b")));
+        reps.addPolicy(createPolicyMock("policy", Arrays.asList("c", "d")));
+
+        // When
+        reps.scanHttpRequestSend(new HttpMessage(), 1);
+
+        // Then
+        verify(reps, never()).generateViolatedRuleReport(contains("Policypolicy.Rulea"));
+        verify(reps, never()).generateViolatedRuleReport(matches(" *Policypolicy\\.Ruleb.*"));
+        verify(reps, times(1)).generateViolatedRuleReport(contains("Policypolicy.Rulec"));
+        verify(reps, times(1)).generateViolatedRuleReport(contains("Policypolicy.Ruled"));
     }
 }
