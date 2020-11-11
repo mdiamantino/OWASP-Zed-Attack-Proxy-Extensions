@@ -8,7 +8,7 @@ Number of unit tests:                      32
 Number of scenario tests:                  3
 Total test coverage:                       53% of lines of code
 GIT commit identifier at start of story:   103ff3b3db1f1009707e0106dc80a72a25cac6fc
-GIT commit identifier at end of story:     fa60814cd8980b2ae3c3a7dc801080a30b9eb680
+GIT commit identifier at end of story:     7444a932459b1194d3448b9592bbe6b14b515802
 Time spent on user story:                  Alaa El Hariri: 18h
                                            Evangelos Mamalakis: 18h
                                            Mark Diamantino Caribé: 32h
