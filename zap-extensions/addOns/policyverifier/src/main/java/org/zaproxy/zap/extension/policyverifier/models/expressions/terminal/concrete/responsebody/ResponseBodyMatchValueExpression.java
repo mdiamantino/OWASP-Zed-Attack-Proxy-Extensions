@@ -17,23 +17,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody;
 
 import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchValueTerminalExpression;
 
-/**
- * A Rule is an entity which can be valid or not according to the checked HttpMessage
- */
-public interface Rule {
-    default String getName() {
-        return this.getClass().getSimpleName();
+public class ResponseBodyMatchValueExpression extends AbstractMatchValueTerminalExpression {
+    public ResponseBodyMatchValueExpression(String value) {
+        super(value);
     }
 
-    /**
-     * The implementation of this method embeds the algorithm to check if the rule is valid or not.
-     *
-     * @param msg HttpMessage to check against validity
-     * @return Boolean telling if the Http message is follows this rule
-     */
-    boolean isValid(HttpMessage msg);
+    @Override
+    public String getRelevantValue(HttpMessage msg) {
+        return msg.getResponseBody().toString();
+    }
 }

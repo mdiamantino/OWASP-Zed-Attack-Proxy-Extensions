@@ -19,12 +19,16 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
-import java.io.File;
-import java.util.Objects;
+import org.apache.commons.io.FilenameUtils;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
+import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
+import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
+
+import java.io.File;
+import java.util.Objects;
 
 /**
  * This class manages manages communication between the view and the model It is a singleton,
@@ -55,12 +59,18 @@ public class PolicyLoaderController {
      * to it. This method delegates the generation of a policy and add it to the model, which is a
      * PluginPassiveScanner
      *
-     * @param jar File representing the loaded policy
+     * @param file File representing the loaded policy
      */
-    public void loadPolicy(File jar) {
-        Policy loadedPolicy;
+    public void loadPolicy(File file) {
+        Policy loadedPolicy = null;
         try {
-            loadedPolicy = PolicyGeneratorFromJar.generatePolicy(jar);
+            String extension = FilenameUtils.getExtension(file.getName());
+            if (extension.equals("jar")) {
+                loadedPolicy = PolicyGeneratorFromJar.generatePolicy(file);
+            } else if (extension.equals("txt")) {
+                PolicyGeneratorFromTxt policygeneratorfromtxt = new PolicyGeneratorFromTxt(file);
+                loadedPolicy = policygeneratorfromtxt.generatePolicy();
+            }
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
             Objects.requireNonNull(View.getSingleton())

@@ -57,7 +57,6 @@ public class RuleEnforcingPassiveScannerUnitTest {
         verify(reps, times(1)).generateViolatedRuleReport(matches(" *Policypolicy\\.Ruleb.*"));
     }
 
-
     @Test
     public void shouldOnlyKeepNewerDuplicatePolicy() {
         // Given

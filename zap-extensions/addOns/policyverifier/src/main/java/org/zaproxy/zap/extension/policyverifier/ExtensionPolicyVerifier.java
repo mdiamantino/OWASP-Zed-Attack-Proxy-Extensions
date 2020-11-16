@@ -19,16 +19,17 @@
  */
 package org.zaproxy.zap.extension.policyverifier;
 
-import java.io.File;
-import java.util.Objects;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.controllers.PolicyLoaderController;
 import org.zaproxy.zap.view.ZapMenuItem;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.util.Objects;
 
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     public static final String NAME = "ExtensionPolicyVerifier";
@@ -69,11 +70,11 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
      * Only JAR files are accepted. When a valid file is picked, it is passed to the controller
      * (PolicyLoaderController).
      */
-    public void loadJarPolicy() {
+    public void loadFile(String description, String extensions) {
         JFileChooser fileChooser = new JFileChooser(Constant.getContextsDir());
         fileChooser.setAcceptAllFileFilterUsed(false); // Only .jar files can be picked
         FileNameExtensionFilter jarFilter =
-                new FileNameExtensionFilter("Jar files", "jar"); // Accepting .jar only
+                new FileNameExtensionFilter(description, extensions); // Accepting .jar only
         fileChooser.setFileFilter(jarFilter);
 
         File file;
@@ -99,9 +100,15 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         }
     }
 
-    private ZapMenuItem getMenuOptionLoadPolicy() {
-        ZapMenuItem menuLoadPolicy = new ZapMenuItem(PREFIX + ".menu.submenu.loader");
-        menuLoadPolicy.addActionListener(ae -> loadJarPolicy());
+    private ZapMenuItem getMenuOptionLoadPolicyFromJar() {
+        ZapMenuItem menuLoadPolicy = new ZapMenuItem(PREFIX + ".menu.submenu.jarloader");
+        menuLoadPolicy.addActionListener(ae -> loadFile("Jar files", "jar"));
+        return menuLoadPolicy;
+    }
+
+    private ZapMenuItem getMenuOptionLoadPolicyFromTxt() {
+        ZapMenuItem menuLoadPolicy = new ZapMenuItem(PREFIX + ".menu.submenu.txtloader");
+        menuLoadPolicy.addActionListener(ae -> loadFile("Txt files", "txt"));
         return menuLoadPolicy;
     }
 
@@ -120,7 +127,8 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
 
     private void setUpPluginMenu() {
         if (menuPolicyPlugin != null) {
-            menuPolicyPlugin.add(getMenuOptionLoadPolicy()); // Adding loading button
+            menuPolicyPlugin.add(getMenuOptionLoadPolicyFromJar()); // Adding loading button
+            menuPolicyPlugin.add(getMenuOptionLoadPolicyFromTxt());
             menuPolicyPlugin.add(getMenuOptionHelp()); // Adding Help button
         }
     }

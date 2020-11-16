@@ -17,23 +17,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models;
+package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
 import org.parosproxy.paros.network.HttpMessage;
 
-/**
- * A Rule is an entity which can be valid or not according to the checked HttpMessage
- */
-public interface Rule {
-    default String getName() {
-        return this.getClass().getSimpleName();
-    }
-
+public interface Expression {
     /**
-     * The implementation of this method embeds the algorithm to check if the rule is valid or not.
+     * Defines how to evaluate the validity of the provided context
      *
-     * @param msg HttpMessage to check against validity
-     * @return Boolean telling if the Http message is follows this rule
+     * @param msg the HttpMessage that has been sent in a particular call
+     * @return identifies whether the provided context abides by the specified expression's
+     * conditions
      */
-    boolean isValid(HttpMessage msg);
+    boolean interpret(HttpMessage msg);
 }

@@ -17,23 +17,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal;
 
-import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 
 /**
- * A Rule is an entity which can be valid or not according to the checked HttpMessage
+ * These expressions need to evaluate multiple expressions before the final interpretation can be
+ * returned.
  */
-public interface Rule {
-    default String getName() {
-        return this.getClass().getSimpleName();
+public abstract class AbstractCompoundNonTerminalExpression implements Expression {
+    protected Expression leftExpression;
+    protected Expression rightExpression;
+
+    protected AbstractCompoundNonTerminalExpression() {
     }
 
-    /**
-     * The implementation of this method embeds the algorithm to check if the rule is valid or not.
-     *
-     * @param msg HttpMessage to check against validity
-     * @return Boolean telling if the Http message is follows this rule
-     */
-    boolean isValid(HttpMessage msg);
+    public void setLeftExpression(Expression leftExpression) {
+        this.leftExpression = leftExpression;
+    }
+
+    public void setRightExpression(Expression rightExpression) {
+        this.rightExpression = rightExpression;
+    }
 }

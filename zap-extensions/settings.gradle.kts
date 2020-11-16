@@ -6,8 +6,7 @@ include("testutils")
 
 // Keep the add-ons in alphabetic order.
 var addOns = listOf(
-        "policyverifier",
-        "policylanguage"
+        "policyverifier"
 )
 
 addOns.forEach { include("$addOnsProjectName:$it") }
