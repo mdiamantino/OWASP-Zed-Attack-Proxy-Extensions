@@ -76,6 +76,14 @@ public class Lexer {
                         symbol = OperatorEnum.MRQHL;
                     } else if (input.sval.equalsIgnoreCase("MRQHR")) {
                         symbol = OperatorEnum.MRQHR;
+                    } else if (input.sval.equalsIgnoreCase("MRSHL")) {
+                        symbol = OperatorEnum.MRSHL;
+                    } else if (input.sval.equalsIgnoreCase("MRSHR")) {
+                        symbol = OperatorEnum.MRSHR;
+                    } else if (input.sval.equalsIgnoreCase("MRQBR")) {
+                        symbol = OperatorEnum.MRQBR;
+                    } else if (input.sval.equalsIgnoreCase("MRSBR")) {
+                        symbol = OperatorEnum.MRSBR;
                     }
                     break;
                 case StreamTokenizer.TT_EOL:

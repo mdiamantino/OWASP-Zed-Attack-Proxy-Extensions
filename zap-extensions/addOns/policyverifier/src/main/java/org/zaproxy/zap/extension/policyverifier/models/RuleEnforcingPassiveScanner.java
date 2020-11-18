@@ -39,7 +39,7 @@ import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
 public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     private List<Policy> policies = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(RuleEnforcingPassiveScanner.class);
-    private final String NAME = "JARPolicyVerifier";
+    private final String NAME = "PolicyVerifier";
     private List<Alert> calledAlerts = new ArrayList<>();
     private static int PLUGIN_ID = 5019;
 

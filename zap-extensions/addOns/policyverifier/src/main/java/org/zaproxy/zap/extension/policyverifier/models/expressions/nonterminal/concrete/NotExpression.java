@@ -26,7 +26,7 @@ public class NotExpression extends AbstractCompoundNonTerminalExpression {
 
     public NotExpression() {
         super();
-        setLeftExpression(null);
+        setRightExpression(null);
     }
 
     @Override

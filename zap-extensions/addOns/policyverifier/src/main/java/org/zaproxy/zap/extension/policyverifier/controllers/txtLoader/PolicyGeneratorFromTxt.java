@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
@@ -35,6 +36,7 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpress
 public class PolicyGeneratorFromTxt {
     File file;
     Pattern rulePattern = Pattern.compile("ruleName\\s*=\\s*(\\w*)\\s*,\\s*body\\s*=\\s*(.*);");
+    private static final Logger logger = Logger.getLogger(PolicyGeneratorFromTxt.class);
 
     public PolicyGeneratorFromTxt(File file) {
         this.file = file;
@@ -46,6 +48,7 @@ public class PolicyGeneratorFromTxt {
 
     public Policy generatePolicy() throws FileNotFoundException {
         String policyName = getFileName();
+        logger.info("Got file name, gettin rules");
         Set<Rule> rules = getRules();
         return new Policy(rules, policyName);
     }
@@ -67,6 +70,8 @@ public class PolicyGeneratorFromTxt {
     }
 
     private Rule buildRule(String ruleName, String ruleExpression) {
+        logger.info(
+                String.format("Building rule with name=%s and body=%s", ruleName, ruleExpression));
         RecursiveExpressionBuilder expr = new RecursiveExpressionBuilder(ruleExpression + "\r\n");
         Expression ruleExpr = expr.build();
         return new RuleByExpression(ruleExpr, ruleName);

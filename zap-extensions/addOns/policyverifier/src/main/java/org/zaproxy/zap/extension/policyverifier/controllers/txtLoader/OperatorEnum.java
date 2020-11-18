@@ -32,6 +32,10 @@ public enum OperatorEnum {
     NOT,
     MRQHL,
     MRQHR,
+    MRSHL,
+    MRSHR,
+    MRQBR,
+    MRSBR,
     INVALID,
     EOF,
     EOL

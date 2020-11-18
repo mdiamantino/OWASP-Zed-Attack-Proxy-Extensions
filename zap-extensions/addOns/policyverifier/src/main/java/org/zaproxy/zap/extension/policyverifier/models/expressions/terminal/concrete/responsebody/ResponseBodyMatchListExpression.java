@@ -19,10 +19,9 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody;
 
+import java.util.List;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchListTerminalExpression;
-
-import java.util.List;
 
 public class ResponseBodyMatchListExpression extends AbstractMatchListTerminalExpression {
     public ResponseBodyMatchListExpression(List<String> values) {

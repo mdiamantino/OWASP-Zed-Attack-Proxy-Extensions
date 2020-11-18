@@ -27,6 +27,8 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.c
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchListExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchListExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchRegexExpression;
 
 public class RecursiveExpressionBuilder {
     // Structural components
@@ -75,12 +77,21 @@ public class RecursiveExpressionBuilder {
             root = new RequestHeaderMatchListExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRQHR) {
-            root = new RequestHeaderMatchRegexExpression("TODO");
+            List<String> l = list(); // TODO : assert has only one argument
+            root = new RequestHeaderMatchRegexExpression(l.get(0));
+            symbol = lexer.nextSymbol();
+        } else if (symbol == OperatorEnum.MRSHL) {
+            List<String> l = list(); // TODO : assert has only one argument
+            root = new ResponseHeaderMatchListExpression(l);
+            symbol = lexer.nextSymbol();
+        } else if (symbol == OperatorEnum.MRSHR) {
+            List<String> l = list(); // TODO : assert has only one argument
+            root = new ResponseHeaderMatchRegexExpression(l.get(0));
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
             factor();
-            not.setRightExpression(root);
+            not.setLeftExpression(root);
             root = not;
         } else if (symbol == OperatorEnum.LEFT) {
             expression();
@@ -91,18 +102,17 @@ public class RecursiveExpressionBuilder {
     }
 
     private List<String> list() {
-        List<String> l = new ArrayList<String>();
+        List<String> l = new ArrayList<>();
         expect(OperatorEnum.LEFT_BR);
-        symbol = lexer.nextSymbol();
         while (true) {
             expect(OperatorEnum.STRING);
             l.add(lexer.getString());
-
             symbol = lexer.nextSymbol();
             if (symbol == OperatorEnum.RIGHT_BR) break;
-            expect(OperatorEnum.COMMA);
+            else if (symbol != OperatorEnum.COMMA)
+                throw new RuntimeException("Expected" + OperatorEnum.COMMA);
         }
-        return l; // check
+        return l;
     }
 
     private void expect(OperatorEnum t) {

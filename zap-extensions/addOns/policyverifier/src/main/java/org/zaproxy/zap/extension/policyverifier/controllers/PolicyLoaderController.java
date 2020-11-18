@@ -72,6 +72,7 @@ public class PolicyLoaderController {
             }
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             Objects.requireNonNull(View.getSingleton())
                     .showWarningDialog(
                             Constant.messages.getString(PREFIX + ".loader.instantiationerror"));
