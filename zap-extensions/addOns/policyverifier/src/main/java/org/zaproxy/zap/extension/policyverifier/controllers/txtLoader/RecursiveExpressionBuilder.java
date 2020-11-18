@@ -35,7 +35,7 @@ public class RecursiveExpressionBuilder {
     private OperatorEnum symbol;
 
     // Helper
-    private Lexer lexer;
+    private final Lexer lexer;
 
     public RecursiveExpressionBuilder(String expression) {
         this.lexer = new Lexer(expression);
@@ -92,7 +92,7 @@ public class RecursiveExpressionBuilder {
     }
     
     private String[] list() {
-        List<String> l = new ArrayList<String>();
+        List<String> l = new ArrayList<>();
         expect(OperatorEnum.LEFT_BR);
         symbol = lexer.nextSymbol();
         while (true) {
