@@ -25,8 +25,10 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestbody.RequestBodyMatchRegexExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchListExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody.ResponseBodyMatchRegexExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchListExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchRegexExpression;
 
@@ -43,34 +45,34 @@ public class RecursiveExpressionBuilder {
     }
 
     public Expression build() {
-        expression();
+        parseOrExpressionAndInside();
         return root;
     }
 
-    private void expression() {
-        term();
+    private void parseOrExpressionAndInside() {
+        parseAndExpressionAndInside();
         while (symbol == OperatorEnum.OR) {
             OrExpression or = new OrExpression();
             or.setLeftExpression(root);
-            term();
+            parseAndExpressionAndInside();
             or.setRightExpression(root);
             root = or;
         }
     }
 
-    private void term() {
-        factor();
+    private void parseAndExpressionAndInside() {
+        parseTerminalExpressionOrANot();
         while (symbol == OperatorEnum.AND) {
             AndExpression and = new AndExpression();
             and.setLeftExpression(root);
-            factor();
+            parseTerminalExpressionOrANot();
             and.setRightExpression(root);
             root = and;
         }
     }
 
     // TODO ADD OTHER CLASSES
-    private void factor() {
+    private void parseTerminalExpressionOrANot() {
         symbol = lexer.nextSymbol();
         if (symbol == OperatorEnum.MRQHL) {
             List<String> l = list();
@@ -88,13 +90,21 @@ public class RecursiveExpressionBuilder {
             List<String> l = list(); // TODO : assert has only one argument
             root = new ResponseHeaderMatchRegexExpression(l.get(0));
             symbol = lexer.nextSymbol();
+        } else if (symbol == OperatorEnum.MRSBR) {
+            List<String> l = list(); // TODO : assert has only one argument
+            root = new ResponseBodyMatchRegexExpression(l.get(0));
+            symbol = lexer.nextSymbol();
+        } else if (symbol == OperatorEnum.MRQBR) {
+            List<String> l = list(); // TODO : assert has only one argument
+            root = new RequestBodyMatchRegexExpression(l.get(0));
+            symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
-            factor();
+            parseTerminalExpressionOrANot();
             not.setLeftExpression(root);
             root = not;
         } else if (symbol == OperatorEnum.LEFT) {
-            expression();
+            parseOrExpressionAndInside();
             symbol = lexer.nextSymbol();
         } else {
             throw new RuntimeException("Incorrect Expression");
