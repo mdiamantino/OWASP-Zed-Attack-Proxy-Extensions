@@ -71,7 +71,7 @@ public class RecursiveExpressionBuilder {
     private void factor() {
         symbol = lexer.nextSymbol();
         if (symbol == OperatorEnum.MRQHL) {
-            String[] l = list();
+            List<String> l = list();
             root = new RequestHeaderMatchListExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRQHR) {
@@ -90,7 +90,7 @@ public class RecursiveExpressionBuilder {
         }
     }
 
-    private String[] list() {
+    private List<String> list() {
         List<String> l = new ArrayList<String>();
         expect(OperatorEnum.LEFT_BR);
         symbol = lexer.nextSymbol();
@@ -102,7 +102,7 @@ public class RecursiveExpressionBuilder {
             if (symbol == OperatorEnum.RIGHT_BR) break;
             expect(OperatorEnum.COMMA);
         }
-        return (String[]) l.toArray(); // check
+        return l; // check
     }
 
     private void expect(OperatorEnum t) {
