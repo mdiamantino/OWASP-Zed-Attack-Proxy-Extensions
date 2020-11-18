@@ -19,6 +19,8 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
+import java.io.File;
+import java.util.Objects;
 import org.apache.commons.io.FilenameUtils;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
@@ -26,9 +28,6 @@ import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGene
 import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
-
-import java.io.File;
-import java.util.Objects;
 
 /**
  * This class manages manages communication between the view and the model It is a singleton,

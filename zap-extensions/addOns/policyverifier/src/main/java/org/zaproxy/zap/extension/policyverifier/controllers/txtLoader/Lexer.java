@@ -34,8 +34,7 @@ public class Lexer {
         input = new StreamTokenizer(reader);
     }
 
-    public String getString()
-    {
+    public String getString() {
         if (symbol != OperatorEnum.STRING) throw new RuntimeException("");
         return string;
     }
@@ -66,9 +65,18 @@ public class Lexer {
                 case ',':
                     symbol = OperatorEnum.COMMA;
                     break;
+                case '[':
+                    symbol = OperatorEnum.LEFT_BR;
+                    break;
+                case ']':
+                    symbol = OperatorEnum.RIGHT_BR;
+                    break;
                 case StreamTokenizer.TT_WORD:
-                    if (input.sval.equalsIgnoreCase("MRQHL")) symbol = OperatorEnum.MRQHL;
-                    else if (input.sval.equalsIgnoreCase("MRQHR")) symbol = OperatorEnum.MRQHR;
+                    if (input.sval.equalsIgnoreCase("MRQHL")) {
+                        symbol = OperatorEnum.MRQHL;
+                    } else if (input.sval.equalsIgnoreCase("MRQHR")) {
+                        symbol = OperatorEnum.MRQHR;
+                    }
                     break;
                 case StreamTokenizer.TT_EOL:
                     symbol = OperatorEnum.EOL;

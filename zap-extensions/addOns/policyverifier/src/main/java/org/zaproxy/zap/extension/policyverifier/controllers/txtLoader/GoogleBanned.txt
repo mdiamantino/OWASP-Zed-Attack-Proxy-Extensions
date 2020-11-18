@@ -1,1 +1,1 @@
-ruleName=NoGoogle, body=MRQHL;
+ruleName=NoGoogle, body=MRQHL['twitter.com','google.com'] & MRQHR['(.)*'];

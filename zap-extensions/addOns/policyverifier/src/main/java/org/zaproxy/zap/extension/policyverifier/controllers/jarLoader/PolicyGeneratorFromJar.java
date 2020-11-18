@@ -19,10 +19,6 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.jarLoader;
 
-import org.apache.log4j.Logger;
-import org.zaproxy.zap.extension.policyverifier.models.Policy;
-import org.zaproxy.zap.extension.policyverifier.models.Rule;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,10 +30,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.log4j.Logger;
+import org.zaproxy.zap.extension.policyverifier.models.Policy;
+import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-/**
- * The class groups all behaviours needed in order to extact a policy from a Jar File
- */
+/** The class groups all behaviours needed in order to extact a policy from a Jar File */
 public class PolicyGeneratorFromJar {
     private static final Logger logger = Logger.getLogger(PolicyGeneratorFromJar.class);
 
@@ -46,7 +43,7 @@ public class PolicyGeneratorFromJar {
      *
      * @param file Jar file
      * @return The Policy containing all rules defined in the given Jar
-     * @throws IOException              if could not read .classes in the jar file
+     * @throws IOException if could not read .classes in the jar file
      * @throws IllegalArgumentException if jar is empty
      */
     public static Policy generatePolicy(File file) throws Exception {
@@ -97,7 +94,7 @@ public class PolicyGeneratorFromJar {
         ClassLoader loader;
         loader =
                 URLClassLoader.newInstance(
-                        new URL[]{jar.toURI().toURL()},
+                        new URL[] {jar.toURI().toURL()},
                         PolicyGeneratorFromJar.class.getClassLoader());
         return loader;
     }

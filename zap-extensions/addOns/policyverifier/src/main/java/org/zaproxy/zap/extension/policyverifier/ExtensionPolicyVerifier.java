@@ -19,17 +19,16 @@
  */
 package org.zaproxy.zap.extension.policyverifier;
 
+import java.io.File;
+import java.util.Objects;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.controllers.PolicyLoaderController;
 import org.zaproxy.zap.view.ZapMenuItem;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.util.Objects;
 
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     public static final String NAME = "ExtensionPolicyVerifier";

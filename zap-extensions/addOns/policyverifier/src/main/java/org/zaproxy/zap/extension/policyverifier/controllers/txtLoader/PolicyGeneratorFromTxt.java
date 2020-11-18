@@ -19,12 +19,6 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
 
-import org.apache.commons.io.FilenameUtils;
-import org.zaproxy.zap.extension.policyverifier.models.Policy;
-import org.zaproxy.zap.extension.policyverifier.models.Rule;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpression;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
@@ -32,6 +26,11 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FilenameUtils;
+import org.zaproxy.zap.extension.policyverifier.models.Policy;
+import org.zaproxy.zap.extension.policyverifier.models.Rule;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpression;
 
 public class PolicyGeneratorFromTxt {
     File file;

@@ -19,15 +19,14 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchListExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchRegexExpression;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RecursiveExpressionBuilder {
     // Structural components
@@ -72,7 +71,7 @@ public class RecursiveExpressionBuilder {
     private void factor() {
         symbol = lexer.nextSymbol();
         if (symbol == OperatorEnum.MRQHL) {
-            String [] l = list();
+            String[] l = list();
             root = new RequestHeaderMatchListExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRQHR) {
@@ -90,20 +89,17 @@ public class RecursiveExpressionBuilder {
             throw new RuntimeException("Incorrect Expression");
         }
     }
-    
+
     private String[] list() {
         List<String> l = new ArrayList<>();
-        expect(OperatorEnum.LEFT_BR);
-        symbol = lexer.nextSymbol();
-        while (true) {
-            expect(OperatorEnum.STRING);
-            l.add(lexer.getString());
-
-            symbol = lexer.nextSymbol();
-            if (symbol == OperatorEnum.RIGHT_BR) break;
-            expect(OperatorEnum.COMMA);
+        expect(OperatorEnum.LEFT_BR); // Goes ahead and checks that the list starts with "["
+        while (symbol != OperatorEnum.RIGHT_BR && symbol != OperatorEnum.EOL) {
+            expect(OperatorEnum.STRING); // Checks that " ' " character is there
+            l.add(lexer.getString()); // Extract argument
+            symbol = lexer.nextSymbol(); // We do not care about closing " ' "
+            symbol = lexer.nextSymbol(); // Now either is a , or a ]
         }
-        return (String[]) l.toArray(); // check
+        return (String[]) l.toArray();
     }
 
     private void expect(OperatorEnum t) {

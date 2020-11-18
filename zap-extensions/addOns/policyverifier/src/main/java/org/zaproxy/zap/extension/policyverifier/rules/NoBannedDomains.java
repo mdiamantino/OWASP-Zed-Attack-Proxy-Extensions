@@ -19,12 +19,11 @@
  */
 package org.zaproxy.zap.extension.policyverifier.rules;
 
-import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.Rule;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
 public class NoBannedDomains implements Rule {
     private final List<String> BANNED_DOMAINS =
