@@ -91,15 +91,18 @@ public class RecursiveExpressionBuilder {
     }
 
     private String[] list() {
-        List<String> l = new ArrayList<>();
-        expect(OperatorEnum.LEFT_BR); // Goes ahead and checks that the list starts with "["
-        while (symbol != OperatorEnum.RIGHT_BR && symbol != OperatorEnum.EOL) {
-            expect(OperatorEnum.STRING); // Checks that " ' " character is there
-            l.add(lexer.getString()); // Extract argument
-            symbol = lexer.nextSymbol(); // We do not care about closing " ' "
-            symbol = lexer.nextSymbol(); // Now either is a , or a ]
+        List<String> l = new ArrayList<String>();
+        expect(OperatorEnum.LEFT_BR);
+        symbol = lexer.nextSymbol();
+        while (true) {
+            expect(OperatorEnum.STRING);
+            l.add(lexer.getString());
+
+            symbol = lexer.nextSymbol();
+            if (symbol == OperatorEnum.RIGHT_BR) break;
+            expect(OperatorEnum.COMMA);
         }
-        return (String[]) l.toArray();
+        return (String[]) l.toArray(); // check
     }
 
     private void expect(OperatorEnum t) {
