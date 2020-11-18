@@ -23,6 +23,10 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
 public enum OperatorEnum {
     LEFT,
     RIGHT,
+    LEFT_BR,
+    RIGHT_BR,
+    STRING,
+    COMMA,
     AND,
     OR,
     NOT,

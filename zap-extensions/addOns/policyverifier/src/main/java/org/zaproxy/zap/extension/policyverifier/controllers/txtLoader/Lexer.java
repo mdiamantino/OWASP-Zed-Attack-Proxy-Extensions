@@ -27,13 +27,21 @@ import java.io.StringReader;
 public class Lexer {
     private StreamTokenizer input;
     private OperatorEnum symbol;
+    private String string;
 
     public Lexer(String inputString) {
         Reader reader = new StringReader(inputString);
         input = new StreamTokenizer(reader);
     }
 
+    public String getString()
+    {
+        if (symbol != OperatorEnum.STRING) throw new RuntimeException("");
+        return string;
+    }
+
     public OperatorEnum nextSymbol() {
+        string = null;
         try {
             switch (input.nextToken()) {
                 case '(':
@@ -50,6 +58,13 @@ public class Lexer {
                     break;
                 case '!':
                     symbol = OperatorEnum.NOT;
+                    break;
+                case '\'':
+                    symbol = OperatorEnum.STRING;
+                    string = input.sval;
+                    break;
+                case ',':
+                    symbol = OperatorEnum.COMMA;
                     break;
                 case StreamTokenizer.TT_WORD:
                     if (input.sval.equalsIgnoreCase("MRQHL")) symbol = OperatorEnum.MRQHL;

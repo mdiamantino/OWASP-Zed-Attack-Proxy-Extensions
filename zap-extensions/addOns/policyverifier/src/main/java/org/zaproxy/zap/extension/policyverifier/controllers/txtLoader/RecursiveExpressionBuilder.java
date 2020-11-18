@@ -26,6 +26,9 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.c
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchListExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchRegexExpression;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecursiveExpressionBuilder {
     // Structural components
     private Expression root;
@@ -69,9 +72,8 @@ public class RecursiveExpressionBuilder {
     private void factor() {
         symbol = lexer.nextSymbol();
         if (symbol == OperatorEnum.MRQHL) {
-            root =
-                    new RequestHeaderMatchListExpression(
-                            new String[]{"google.com"}); // TODO ADD PARSING ARGUMENTS
+            String [] l = list();
+            root = new RequestHeaderMatchListExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRQHR) {
             root = new RequestHeaderMatchRegexExpression("TODO");
@@ -86,6 +88,28 @@ public class RecursiveExpressionBuilder {
             symbol = lexer.nextSymbol();
         } else {
             throw new RuntimeException("Incorrect Expression");
+        }
+    }
+    
+    private String[] list() {
+        List<String> l = new ArrayList<String>();
+        expect(OperatorEnum.LEFT_BR);
+        symbol = lexer.nextSymbol();
+        while (true) {
+            expect(OperatorEnum.STRING);
+            l.add(lexer.getString());
+
+            symbol = lexer.nextSymbol();
+            if (symbol == OperatorEnum.RIGHT_BR) break;
+            expect(OperatorEnum.COMMA);
+        }
+        return (String[]) l.toArray(); // check
+    }
+
+    private void expect(OperatorEnum t) {
+        symbol = lexer.nextSymbol();
+        if (symbol != t) {
+            throw new RuntimeException("Expected" + t);
         }
     }
 }
