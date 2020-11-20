@@ -21,11 +21,8 @@ package org.zaproxy.zap.extension.policyverifier.controllers;
 
 import java.io.File;
 import java.util.Objects;
-import org.apache.commons.io.FilenameUtils;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
-import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
-import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
 
@@ -37,6 +34,7 @@ public class PolicyLoaderController {
     private static PolicyLoaderController soleController;
     private RuleEnforcingPassiveScanner reps;
     private String PREFIX = "policyverifier";
+    private PolicyGeneratorDispatcher generatorDispatcher;
 
     public PolicyLoaderController() {
         if (soleController != null) {
@@ -44,6 +42,7 @@ public class PolicyLoaderController {
                     "Use getInstance() method to get the single instance of this class.");
         }
         reps = RuleEnforcingPassiveScanner.getSingleton();
+        generatorDispatcher = new PolicyGeneratorDispatcher();
     }
 
     public static PolicyLoaderController getSingleton() {
@@ -62,19 +61,9 @@ public class PolicyLoaderController {
      * @param file File representing the loaded policy
      */
     public void loadPolicy(File file) {
-        Policy loadedPolicy = null;
+        Policy loadedPolicy;
         try {
-            String extension = FilenameUtils.getExtension(file.getName());
-            AbstractPolicyGenerator generator = null;
-            if (extension.equals("jar")) {
-                generator = new PolicyGeneratorFromJar();
-            } else if (extension.equals("txt")) {
-                generator = new PolicyGeneratorFromTxt();
-            }
-            assert generator != null;
-            generator.setFile(file);
-            loadedPolicy = generator.generatePolicy();
-
+            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
             // Adding to model
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
