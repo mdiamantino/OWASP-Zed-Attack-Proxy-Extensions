@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
+package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
 import java.util.ArrayList;
 import java.util.List;

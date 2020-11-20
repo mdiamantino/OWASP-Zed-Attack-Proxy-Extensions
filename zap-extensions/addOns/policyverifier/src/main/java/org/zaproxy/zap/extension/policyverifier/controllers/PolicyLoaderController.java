@@ -50,6 +50,7 @@ public class PolicyLoaderController {
         if (soleController == null) {
             soleController = new PolicyLoaderController();
         }
+
         return soleController;
     }
 
@@ -64,12 +65,17 @@ public class PolicyLoaderController {
         Policy loadedPolicy = null;
         try {
             String extension = FilenameUtils.getExtension(file.getName());
+            AbstractPolicyGenerator generator = null;
             if (extension.equals("jar")) {
-                loadedPolicy = PolicyGeneratorFromJar.generatePolicy(file);
+                generator = new PolicyGeneratorFromJar();
             } else if (extension.equals("txt")) {
-                PolicyGeneratorFromTxt policygeneratorfromtxt = new PolicyGeneratorFromTxt(file);
-                loadedPolicy = policygeneratorfromtxt.generatePolicy();
+                generator = new PolicyGeneratorFromTxt();
             }
+            assert generator != null;
+            generator.setFile(file);
+            loadedPolicy = generator.generatePolicy();
+
+            // Adding to model
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
             System.out.println(e.getMessage());

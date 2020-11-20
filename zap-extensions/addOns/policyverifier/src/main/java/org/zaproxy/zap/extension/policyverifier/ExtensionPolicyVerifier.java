@@ -23,14 +23,18 @@ import java.io.File;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.log4j.Logger;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.controllers.PolicyLoaderController;
+import org.zaproxy.zap.extension.policyverifier.views.DocDialog;
+import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 import org.zaproxy.zap.view.ZapMenuItem;
 
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
+    private static final Logger logger = Logger.getLogger(ExtensionPolicyVerifier.class);
     public static final String NAME = "ExtensionPolicyVerifier";
     protected static final String PREFIX = "policyverifier";
     private javax.swing.JMenu menuPolicyPlugin = null;
@@ -46,6 +50,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
 
         if (getView() != null) {
             extensionHook.getHookMenu().addNewMenu(getMenuPolicyPlugin());
+            extensionHook.getHookView().addStatusPanel(PolicyVerifierPanel.getSingleton());
         }
     }
 
