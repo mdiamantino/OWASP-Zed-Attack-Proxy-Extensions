@@ -80,7 +80,7 @@ public class RecursiveExpressionBuilder {
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRQHR) {
             List<String> l = list(); // TODO : assert has only one argument
-            root = new RequestHeaderMatchRegexExpression(l.get(0));
+            root = new RequestHeaderMatchRegexExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRSHL) {
             List<String> l = list(); // TODO : assert has only one argument
@@ -88,15 +88,15 @@ public class RecursiveExpressionBuilder {
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRSHR) {
             List<String> l = list(); // TODO : assert has only one argument
-            root = new ResponseHeaderMatchRegexExpression(l.get(0));
+            root = new ResponseHeaderMatchRegexExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRSBR) {
             List<String> l = list(); // TODO : assert has only one argument
-            root = new ResponseBodyMatchRegexExpression(l.get(0));
+            root = new ResponseBodyMatchRegexExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.MRQBR) {
             List<String> l = list(); // TODO : assert has only one argument
-            root = new RequestBodyMatchRegexExpression(l.get(0));
+            root = new RequestBodyMatchRegexExpression(l);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();

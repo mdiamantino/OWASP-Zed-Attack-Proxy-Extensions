@@ -24,17 +24,17 @@ import org.parosproxy.paros.network.HttpMessage;
 
 public abstract class AbstractMatchListTerminalExpression extends AbstractTerminalExpression {
 
-    private List<String> values;
-
     public AbstractMatchListTerminalExpression(List<String> values) {
-        super();
-        this.values = values;
+        super(values);
     }
 
     @Override
     public boolean interpret(HttpMessage msg) {
-        for (String value : values) {
-            if (!getRelevantValue(msg).contains(value)) return false;
+        List<String> values = getValues();
+        String relevantValue = getRelevantValue(msg);
+        for (int i = 1; i < values.size(); i++) {
+            if (relevantValue.isEmpty()) return true;
+            if (!relevantValue.contains(values.get(i))) return false;
         }
         return true;
     }

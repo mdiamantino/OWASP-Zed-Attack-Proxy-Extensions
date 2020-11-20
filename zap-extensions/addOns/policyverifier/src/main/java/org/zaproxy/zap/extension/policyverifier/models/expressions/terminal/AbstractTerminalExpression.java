@@ -19,6 +19,7 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
+import java.util.List;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 
@@ -26,6 +27,18 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
  * Defines an Expression that is immediately evaluated without needing to go into other expressions
  */
 public abstract class AbstractTerminalExpression implements Expression {
+
+    private List<String> values;
+
+    public AbstractTerminalExpression(List<String> values) {
+        super();
+        this.values = values;
+    }
+
+    protected List<String> getValues() {
+        return this.values;
+    }
+
     /**
      * Specifies which part of the context needs to be interpreted
      *

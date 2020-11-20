@@ -20,16 +20,21 @@
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader;
 
 import java.util.List;
+import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchListTerminalExpression;
 
 public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminalExpression {
     public ResponseHeaderMatchListExpression(List<String> values) {
         super(values);
+        if (values.size() < 2)
+            throw new IncompleteArgumentException(
+                    "Not enough arguments were provided to match against the header. (Min 2 arguments)");
     }
 
     @Override
     public String getRelevantValue(HttpMessage msg) {
-        return msg.getResponseHeader().getHeadersAsString();
+        String headerName = getValues().get(0);
+        return msg.getRequestHeader().getHeader(headerName);
     }
 }
