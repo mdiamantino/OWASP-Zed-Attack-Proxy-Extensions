@@ -19,10 +19,9 @@
  */
 package org.zaproxy.zap.extension.policyverifier.views;
 
-import org.parosproxy.paros.extension.AbstractDialog;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import org.parosproxy.paros.extension.AbstractDialog;
 
 public class DocDialog extends AbstractDialog {
     private static final long serialVersionUID = 1L;

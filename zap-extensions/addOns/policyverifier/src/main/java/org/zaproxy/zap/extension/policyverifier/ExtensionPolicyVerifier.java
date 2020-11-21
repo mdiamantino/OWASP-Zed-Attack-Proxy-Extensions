@@ -19,6 +19,10 @@
  */
 package org.zaproxy.zap.extension.policyverifier;
 
+import java.io.File;
+import java.util.Objects;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.log4j.Logger;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
@@ -28,11 +32,6 @@ import org.zaproxy.zap.extension.policyverifier.controllers.PolicyLoaderControll
 import org.zaproxy.zap.extension.policyverifier.views.DocDialog;
 import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 import org.zaproxy.zap.view.ZapMenuItem;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.util.Objects;
 
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     private static final Logger logger = Logger.getLogger(ExtensionPolicyVerifier.class);
