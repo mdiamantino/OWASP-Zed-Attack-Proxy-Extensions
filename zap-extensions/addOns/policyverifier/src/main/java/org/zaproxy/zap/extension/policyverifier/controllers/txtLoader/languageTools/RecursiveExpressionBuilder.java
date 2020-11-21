@@ -93,31 +93,6 @@ public class RecursiveExpressionBuilder {
         }
     }
 
-//    private boolean extractOperationFromSymbol() {
-//        boolean isSymbolAssociatedWithTerminalExpression = true;
-//        List<String> l = list();
-//        if (symbol == OperatorEnum.MRQHL) {
-//            root = new RequestHeaderMatchListExpression(l);
-//        } else if (symbol == OperatorEnum.MRQHR) {
-//            assert l.size() == 1;
-//            root = new RequestHeaderMatchRegexExpression(l.get(0));
-//        } else if (symbol == OperatorEnum.MRSHL) {
-//            root = new ResponseHeaderMatchListExpression(l);
-//        } else if (symbol == OperatorEnum.MRSHR) {
-//            assert l.size() == 1;
-//            root = new ResponseHeaderMatchRegexExpression(l.get(0));
-//        } else if (symbol == OperatorEnum.MRSBR) {
-//            assert l.size() == 1;
-//            root = new ResponseBodyMatchRegexExpression(l.get(0));
-//        } else if (symbol == OperatorEnum.MRQBR) {
-//            assert l.size() == 1;
-//            root = new RequestBodyMatchRegexExpression(l.get(0));
-//        } else {
-//            isSymbolAssociatedWithTerminalExpression = false;
-//        }
-//        return isSymbolAssociatedWithTerminalExpression;
-//    }
-
     private List<String> list() {
         List<String> l = new ArrayList<>();
         expect(OperatorEnum.LEFT_BR);
