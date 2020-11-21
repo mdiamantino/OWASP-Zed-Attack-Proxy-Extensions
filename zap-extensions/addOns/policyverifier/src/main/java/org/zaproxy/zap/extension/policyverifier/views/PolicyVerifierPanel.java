@@ -97,20 +97,58 @@ public class PolicyVerifierPanel extends AbstractPanel {
     }
 
     private StringBuilder getStringBuilderForPolicies(List<Policy> policies) {
+    private StringBuilder getStringBuilderForPolicies(List<Policy> policies) { // todo redesign
         StringBuilder sb = new StringBuilder();
-        sb.append("<html><body style='overflow:auto;'><table>");
+        sb.append("<html>");
+        sb.append("<header>" + STYLES + "</header>");
+        sb.append("<body><table>");
+
+        // Table header
+        sb.append("<thead><tr><th>Name</th> <th>Times violated</th></tr></thead>");
+
+        // Insert policies
         for (Policy policy : policies) {
             sb.append(
                     String.format(
-                            "<tr><td><b> Policy Name </b></td><td> %s </td><td><table>",
-                            policy.getName()));
-            sb.append("<tr><td><b> Rule Name </b></td></tr>");
+                            "<tr class=\"policy\"> <th>Policy: %s</th> <th>%d</th></tr>",
+                            policy.getName(), 0));
+
+            // Insert rules
+            sb.append("<tbody>");
             for (Rule rule : policy.getRules()) {
-                sb.append(String.format("<tr><td> %s </td></tr>", rule.getName()));
+                sb.append(String.format("<tr><td> %s </td><td> %d </td></tr>", rule.getName(), 0));
             }
-            sb.append("</table></td></tr></table>");
+            sb.append("</tbody>");
         }
+
         sb.append("</table></body></html>");
         return sb;
     }
+
+    private static String STYLES =
+            "<style>\n"
+                    + "body {\n"
+                    + "  font-family:sans-serif; \n"
+                    + "  overflow:auto; \n"
+                    + "}\n"
+                    + "table {\n"
+                    + "  text-align:left;\n"
+                    + "  border-collapse:collapse;\n"
+                    + "  width:80%;\n"
+                    + "}\n"
+                    + "td, th {\n"
+                    + "  text-align:left;\n"
+                    + "  border:1px solid grey;\n"
+                    + "  padding:5px;\n"
+                    + "}\n"
+                    + "tr.policy th {\n"
+                    + "  background:#B9D9E3\n"
+                    + "}\n"
+                    + "thead th {\n"
+                    + "  font-weight:normal;\n"
+                    + "}\n"
+                    + "tbody td {\n"
+                    + "  padding-left:16px;\n"
+                    + "}\n"
+                    + "</style>\n";
 }
