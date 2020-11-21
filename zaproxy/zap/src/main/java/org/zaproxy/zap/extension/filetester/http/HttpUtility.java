@@ -17,12 +17,12 @@ public class HttpUtility {
     private static final String twoHyphens = "--";
     private static String requestURL;
 
-    public static Map<String, String > getRequest(String URL) throws IOException {
+    public static JSONObject getRequest(String URL) throws IOException {
         requestURL = URL;
-        Map<String , String> response = null;
+        JSONObject response = null;
         try {
             constructGetRequest();
-            response = readMultipleLinesRespone();
+            response = readMultipleLinesResponse();
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -39,7 +39,7 @@ public class HttpUtility {
         httpConn.setDoOutput(false); // false indicates this is a GET request
     }
 
-    private static Map<String , String > readMultipleLinesRespone() throws IOException {
+    private static JSONObject readMultipleLinesResponse() throws IOException {
         String response = "";
 
         // checks server's status code first
@@ -109,17 +109,17 @@ public class HttpUtility {
         }
     }
 
-    public static Map<?, ?> postRequest(String URL, Map<String, String> params, Map<String, File> fileParams)
+    public static JSONObject postRequest(String URL, Map<String, String> params, Map<String, File> fileParams)
             throws IOException {
         requestURL = URL;
-        Map<?, ?> response = null;
+        JSONObject response = null;
         try {
             constructPostRequest(params, fileParams);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
-            response = readMultipleLinesRespone();
+            response = readMultipleLinesResponse();
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {

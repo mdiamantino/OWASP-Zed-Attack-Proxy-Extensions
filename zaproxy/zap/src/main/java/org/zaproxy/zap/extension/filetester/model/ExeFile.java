@@ -1,5 +1,6 @@
 package org.zaproxy.zap.extension.filetester.model;
 
+import net.sf.json.JSONObject;
 import org.zaproxy.zap.extension.filetester.http.HttpUtility;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class ExeFile extends DownloadedFile {
     @Override
     public boolean isValid() throws IOException {
 //        this.getTestResults().
-        Map<?, ?> postRequest = HttpUtility.postRequest(POST_URL, params, fileParams);
+        JSONObject postRequest = HttpUtility.postRequest(POST_URL, params, fileParams);
         scanId = (String) postRequest.get("scan_id");
         return true;
     }
@@ -37,16 +38,15 @@ public class ExeFile extends DownloadedFile {
     @Override
     public List<FileTestResult> getTestResults() {
         if (!virusScanCompleted) {
-            Map<String, String> results = null;
             try {
-                results = getScanResults();
-                int responseCode = Integer.valueOf(results.get("response_code"));
+                JSONObject results = getScanResults();
+                int responseCode = (int) results.get("response_code");
                 if (responseCode == 1) {
                     FileTestResult virusDetection = new FileTestResult("Virus Detection");
-                    String scanResultMessage = results.get("verbose_msg");
-                    int positives = Integer.valueOf(results.get("positives"));
+                    String scanResultMessage = (String) results.get("verbose_msg");
+                    int positives = (int) results.get("positives");
                     if (positives > 0) {
-                        int total = Integer.valueOf(results.get("total"));
+                        int total = (int) results.get("total");
                         virusDetection.setResult(true);
                         virusDetection.setRemarks(String.format("%s: %d out of %d scans flagged the file as a virus.", scanResultMessage, positives,total));
                     } else {
@@ -64,9 +64,9 @@ public class ExeFile extends DownloadedFile {
         return this.getTestResults();
     }
 
-    private Map<String, String> getScanResults() throws IOException {
+    private JSONObject getScanResults() throws IOException {
         String getUrl = String.format(GET_URL, API_KEY, scanId);
-        Map<String, String> getRequest = HttpUtility.getRequest(getUrl);
+        JSONObject getRequest = HttpUtility.getRequest(getUrl);
         return getRequest;
     }
 }
