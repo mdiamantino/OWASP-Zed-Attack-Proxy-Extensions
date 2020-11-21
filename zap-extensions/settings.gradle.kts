@@ -6,8 +6,7 @@ include("testutils")
 
 // Keep the add-ons in alphabetic order.
 var addOns = listOf(
-        "policyverifier",
-        "filetester"
+        "policyverifier"
 )
 
 addOns.forEach { include("$addOnsProjectName:$it") }
@@ -26,4 +25,3 @@ fun setUpProject(parentDir: File, project: ProjectDescriptor) {
     }
     project.children.forEach { project -> setUpProject(project.parent!!.projectDir, project) }
 }
-include("filetester")
