@@ -12,24 +12,29 @@ import java.util.List;
 
 public class ExpressionFactory {
 
+    private static int HEADER_MIN_ARG_LENGTH = 2;
+    private static int BODY_MIN_ARG_LENGTH = 1;
+
     static public Expression extractOperationFromSymbol(OperatorEnum symbol, List<String> l) throws IllegalArgumentException {
         Expression root;
         if (symbol == OperatorEnum.MRQHL) {
+            assert l.size() >= HEADER_MIN_ARG_LENGTH;
             root = new RequestHeaderMatchListExpression(l);
         } else if (symbol == OperatorEnum.MRQHR) {
-            assert l.size() == 1;
-            root = new RequestHeaderMatchRegexExpression(l.get(0));
+            assert l.size() == HEADER_MIN_ARG_LENGTH;
+            root = new RequestHeaderMatchRegexExpression(l);
         } else if (symbol == OperatorEnum.MRSHL) {
+            assert l.size() >= HEADER_MIN_ARG_LENGTH;
             root = new ResponseHeaderMatchListExpression(l);
         } else if (symbol == OperatorEnum.MRSHR) {
-            assert l.size() == 1;
-            root = new ResponseHeaderMatchRegexExpression(l.get(0));
+            assert l.size() == HEADER_MIN_ARG_LENGTH;
+            root = new ResponseHeaderMatchRegexExpression(l);
         } else if (symbol == OperatorEnum.MRSBR) {
-            assert l.size() == 1;
-            root = new ResponseBodyMatchRegexExpression(l.get(0));
+            assert l.size() == BODY_MIN_ARG_LENGTH;
+            root = new ResponseBodyMatchRegexExpression(l);
         } else if (symbol == OperatorEnum.MRQBR) {
-            assert l.size() == 1;
-            root = new RequestBodyMatchRegexExpression(l.get(0));
+            assert l.size() == BODY_MIN_ARG_LENGTH;
+            root = new RequestBodyMatchRegexExpression(l);
         } else {
             throw new IllegalArgumentException();
         }
