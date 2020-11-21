@@ -19,10 +19,11 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
+import org.parosproxy.paros.network.HttpMessage;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.parosproxy.paros.network.HttpMessage;
 
 public abstract class AbstractMatchRegexTerminalExpression extends AbstractTerminalExpression {
 

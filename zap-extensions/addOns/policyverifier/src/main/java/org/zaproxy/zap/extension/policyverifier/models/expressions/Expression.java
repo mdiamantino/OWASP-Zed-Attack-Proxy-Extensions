@@ -27,7 +27,7 @@ public interface Expression {
      *
      * @param msg the HttpMessage that has been sent in a particular call
      * @return identifies whether the provided context abides by the specified expression's
-     *     conditions
+     * conditions
      */
     boolean interpret(HttpMessage msg);
 }

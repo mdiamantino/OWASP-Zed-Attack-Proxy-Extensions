@@ -17,11 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier;
+package org.zaproxy.zap.extension.policyverifier.views;
 
-import java.awt.*;
-import javax.swing.*;
 import org.parosproxy.paros.extension.AbstractDialog;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class DocDialog extends AbstractDialog {
     private static final long serialVersionUID = 1L;
