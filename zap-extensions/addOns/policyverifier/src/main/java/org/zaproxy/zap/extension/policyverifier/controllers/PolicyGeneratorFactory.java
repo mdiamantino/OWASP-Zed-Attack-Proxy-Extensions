@@ -19,11 +19,12 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
-import java.io.File;
 import org.apache.commons.io.FilenameUtils;
 import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
 import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
+
+import java.io.File;
 
 public class PolicyGeneratorFactory {
     File file;
