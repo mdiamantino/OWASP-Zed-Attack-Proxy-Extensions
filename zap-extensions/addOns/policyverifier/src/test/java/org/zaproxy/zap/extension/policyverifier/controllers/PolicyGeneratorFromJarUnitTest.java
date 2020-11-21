@@ -26,15 +26,22 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
 public class PolicyGeneratorFromJarUnitTest {
+    private PolicyGeneratorFromJar policyGeneratorFromJar;
     private String TEST_RESOURCES_PATH =
             System.getProperty("user.dir")
                     + "/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/resources";
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        policyGeneratorFromJar = new PolicyGeneratorFromJar();
+    }
 
     /**
      * Testing a standard case in which the jar contains two classes representing rules
@@ -49,7 +56,8 @@ public class PolicyGeneratorFromJarUnitTest {
                         Arrays.asList("MissingContentTypeHeader", "CrossDomainScriptInclusion"));
         Policy policy = null;
         try {
-            policy = PolicyGeneratorFromJar.generatePolicy(jarForTest);
+            policyGeneratorFromJar.setFile(jarForTest);
+            policy = policyGeneratorFromJar.generatePolicy();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,8 +77,8 @@ public class PolicyGeneratorFromJarUnitTest {
     @Test
     public void generatePolicy_emptyFile_shouldThrowIllegalArgEx() throws IOException {
         File temp = File.createTempFile("testfile", ".jar");
-        assertThrows(
-                IllegalArgumentException.class, () -> PolicyGeneratorFromJar.generatePolicy(temp));
+        policyGeneratorFromJar.setFile(temp);
+        assertThrows(IllegalArgumentException.class, () -> policyGeneratorFromJar.generatePolicy());
         temp.deleteOnExit();
     }
 
@@ -78,25 +86,23 @@ public class PolicyGeneratorFromJarUnitTest {
     @Test
     public void generatePolicy_nonRuleClassInJar_shouldThrowClassCastException() {
         File jarForTest = new File(TEST_RESOURCES_PATH + "/NonRuleClass.jar");
-        assertThrows(
-                ClassCastException.class, () -> PolicyGeneratorFromJar.generatePolicy(jarForTest));
+        policyGeneratorFromJar.setFile(jarForTest);
+        assertThrows(ClassCastException.class, () -> policyGeneratorFromJar.generatePolicy());
     }
 
     /** Testing the case in which the jar contains only Java files which have not been compiled */
     @Test
     public void generatePolicy_OnlyJavaFilesInJar_shouldThrowIllegalArgException() {
         File jarForTest = new File(TEST_RESOURCES_PATH + "/PolicyWithJavaFilesOnly.jar");
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> PolicyGeneratorFromJar.generatePolicy(jarForTest));
+        policyGeneratorFromJar.setFile(jarForTest);
+        assertThrows(IllegalArgumentException.class, () -> policyGeneratorFromJar.generatePolicy());
     }
 
     /** Testing the case in which the jar contains a rule that cannot be instanciated */
     @Test
     public void generatePolicy_UninstanciableRuleInJar_shouldThrowIllegalArgException() {
         File jarForTest = new File(TEST_RESOURCES_PATH + "/PolicyWithJavaFilesOnly.jar");
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> PolicyGeneratorFromJar.generatePolicy(jarForTest));
+        policyGeneratorFromJar.setFile(jarForTest);
+        assertThrows(IllegalArgumentException.class, () -> policyGeneratorFromJar.generatePolicy());
     }
 }

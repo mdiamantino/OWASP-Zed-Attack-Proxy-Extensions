@@ -19,11 +19,8 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
-import org.apache.commons.io.FilenameUtils;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
-import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
-import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
 
@@ -38,6 +35,7 @@ public class PolicyLoaderController {
     private static PolicyLoaderController soleController;
     private RuleEnforcingPassiveScanner reps;
     private String PREFIX = "policyverifier";
+    private PolicyGeneratorFactory generatorDispatcher;
 
     public PolicyLoaderController() {
         if (soleController != null) {
@@ -45,12 +43,14 @@ public class PolicyLoaderController {
                     "Use getInstance() method to get the single instance of this class.");
         }
         reps = RuleEnforcingPassiveScanner.getSingleton();
+        generatorDispatcher = new PolicyGeneratorFactory();
     }
 
     public static PolicyLoaderController getSingleton() {
         if (soleController == null) {
             soleController = new PolicyLoaderController();
         }
+
         return soleController;
     }
 
@@ -62,17 +62,15 @@ public class PolicyLoaderController {
      * @param file File representing the loaded policy
      */
     public void loadPolicy(File file) {
-        Policy loadedPolicy = null;
+        Policy loadedPolicy;
         try {
-            String extension = FilenameUtils.getExtension(file.getName());
-            if (extension.equals("jar")) {
-                loadedPolicy = PolicyGeneratorFromJar.generatePolicy(file);
-            } else if (extension.equals("txt")) {
-                PolicyGeneratorFromTxt policygeneratorfromtxt = new PolicyGeneratorFromTxt(file);
-                loadedPolicy = policygeneratorfromtxt.generatePolicy();
-            }
+            //            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
+            // Adding to model
+            generatorDispatcher.setFile(file);
+            loadedPolicy = generatorDispatcher.generatePolicy();
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             Objects.requireNonNull(View.getSingleton())
                     .showWarningDialog(
                             Constant.messages.getString(PREFIX + ".loader.instantiationerror"));

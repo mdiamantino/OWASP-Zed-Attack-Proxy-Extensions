@@ -17,18 +17,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader;
+package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchValueTerminalExpression;
-
-public class ResponseHeaderMatchValueExpression extends AbstractMatchValueTerminalExpression {
-    public ResponseHeaderMatchValueExpression(String value) {
-        super(value);
-    }
-
-    @Override
-    public String getRelevantValue(HttpMessage msg) {
-        return msg.getResponseHeader().getHeadersAsString();
-    }
+// TODO ADD OTHER OPERATORS
+public enum OperatorEnum {
+    LEFT,
+    RIGHT,
+    LEFT_BR,
+    RIGHT_BR,
+    STRING,
+    COMMA,
+    AND,
+    OR,
+    NOT,
+    MRQHL,
+    MRQHR,
+    MRSHL,
+    MRSHR,
+    MRQBR,
+    MRSBR,
+    INVALID,
+    EOF,
+    EOL
 }

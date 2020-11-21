@@ -22,8 +22,10 @@ package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.con
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchListTerminalExpression;
 
+import java.util.List;
+
 public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminalExpression {
-    public ResponseHeaderMatchListExpression(String[] values) {
+    public ResponseHeaderMatchListExpression(List<String> values) {
         super(values);
     }
 

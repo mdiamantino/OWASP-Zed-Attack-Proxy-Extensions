@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.parosproxy.paros.control.Control;
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 import org.zaproxy.zap.extension.pscan.ExtensionPassiveScan;
 import org.zaproxy.zap.extension.pscan.PassiveScanThread;
 import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
@@ -40,7 +41,7 @@ import java.util.Set;
 public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     private List<Policy> policies = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(RuleEnforcingPassiveScanner.class);
-    private final String NAME = "JARPolicyVerifier";
+    private final String NAME = "PolicyVerifier";
     private List<Alert> calledAlerts = new ArrayList<>();
     private static int PLUGIN_ID = 5019;
 
@@ -78,6 +79,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
                 String.format(
                         "Policy %s added. Size of policy list=%d",
                         policy.getName(), policies.size()));
+        PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
     }
 
     /**

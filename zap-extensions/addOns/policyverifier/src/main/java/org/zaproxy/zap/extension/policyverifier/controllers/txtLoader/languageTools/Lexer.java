@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
+package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -34,8 +34,7 @@ public class Lexer {
         input = new StreamTokenizer(reader);
     }
 
-    public String getString()
-    {
+    public String getString() {
         if (symbol != OperatorEnum.STRING) throw new RuntimeException("");
         return string;
     }
@@ -66,9 +65,26 @@ public class Lexer {
                 case ',':
                     symbol = OperatorEnum.COMMA;
                     break;
+                case '[':
+                    symbol = OperatorEnum.LEFT_BR;
+                    break;
+                case ']':
+                    symbol = OperatorEnum.RIGHT_BR;
+                    break;
                 case StreamTokenizer.TT_WORD:
-                    if (input.sval.equalsIgnoreCase("MRQHL")) symbol = OperatorEnum.MRQHL;
-                    else if (input.sval.equalsIgnoreCase("MRQHR")) symbol = OperatorEnum.MRQHR;
+                    if (input.sval.equalsIgnoreCase("MRQHL")) {
+                        symbol = OperatorEnum.MRQHL;
+                    } else if (input.sval.equalsIgnoreCase("MRQHR")) {
+                        symbol = OperatorEnum.MRQHR;
+                    } else if (input.sval.equalsIgnoreCase("MRSHL")) {
+                        symbol = OperatorEnum.MRSHL;
+                    } else if (input.sval.equalsIgnoreCase("MRSHR")) {
+                        symbol = OperatorEnum.MRSHR;
+                    } else if (input.sval.equalsIgnoreCase("MRQBR")) {
+                        symbol = OperatorEnum.MRQBR;
+                    } else if (input.sval.equalsIgnoreCase("MRSBR")) {
+                        symbol = OperatorEnum.MRSBR;
+                    }
                     break;
                 case StreamTokenizer.TT_EOL:
                     symbol = OperatorEnum.EOL;

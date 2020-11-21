@@ -17,18 +17,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestbody;
 
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchValueTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
 
-public class RequestHeaderMatchValueExpression extends AbstractMatchValueTerminalExpression {
-    public RequestHeaderMatchValueExpression(String value) {
-        super(value);
+public class RequestBodyMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
+    public RequestBodyMatchRegexExpression(String pattern) {
+        super(pattern);
     }
 
     @Override
     public String getRelevantValue(HttpMessage msg) {
-        return msg.getRequestHeader().getHeadersAsString();
+        return msg.getRequestBody().toString();
     }
 }

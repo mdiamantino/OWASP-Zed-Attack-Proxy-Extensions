@@ -21,11 +21,13 @@ package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
 import org.parosproxy.paros.network.HttpMessage;
 
+import java.util.List;
+
 public abstract class AbstractMatchListTerminalExpression extends AbstractTerminalExpression {
 
-    private String[] values;
+    private List<String> values;
 
-    public AbstractMatchListTerminalExpression(String[] values) {
+    public AbstractMatchListTerminalExpression(List<String> values) {
         super();
         this.values = values;
     }

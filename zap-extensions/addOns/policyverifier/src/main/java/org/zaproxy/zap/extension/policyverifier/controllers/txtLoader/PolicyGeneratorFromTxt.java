@@ -19,41 +19,35 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGeneratorFactory;
+import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools.RecursiveExpressionBuilder;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpression;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PolicyGeneratorFromTxt {
-    File file;
+public class PolicyGeneratorFromTxt extends PolicyGeneratorFactory {
     Pattern rulePattern = Pattern.compile("ruleName\\s*=\\s*(\\w*)\\s*,\\s*body\\s*=\\s*(.*);");
+    private static final Logger logger = Logger.getLogger(PolicyGeneratorFromTxt.class);
 
-    public PolicyGeneratorFromTxt(File file) {
-        this.file = file;
-    }
-
-    public String getFileName() {
-        return FilenameUtils.removeExtension(file.getName());
-    }
-
-    public Policy generatePolicy() throws FileNotFoundException {
+    @Override
+    public Policy generatePolicy() throws Exception {
         String policyName = getFileName();
+        logger.info("Got file name, gettin rules");
         Set<Rule> rules = getRules();
         return new Policy(rules, policyName);
     }
 
-    public Set<Rule> getRules() throws FileNotFoundException {
+    protected Set<Rule> getRules() throws Exception {
         Set<Rule> rules = new HashSet<>();
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(getFile());
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             Matcher m = rulePattern.matcher(line);
@@ -68,6 +62,8 @@ public class PolicyGeneratorFromTxt {
     }
 
     private Rule buildRule(String ruleName, String ruleExpression) {
+        logger.info(
+                String.format("Building rule with name=%s and body=%s", ruleName, ruleExpression));
         RecursiveExpressionBuilder expr = new RecursiveExpressionBuilder(ruleExpression + "\r\n");
         Expression ruleExpr = expr.build();
         return new RuleByExpression(ruleExpr, ruleName);

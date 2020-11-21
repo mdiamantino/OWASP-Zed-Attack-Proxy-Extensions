@@ -17,14 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
+package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchRegexExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,75 +33,72 @@ public class RecursiveExpressionBuilder {
     private OperatorEnum symbol;
 
     // Helper
-    private Lexer lexer;
+    private final Lexer lexer;
 
     public RecursiveExpressionBuilder(String expression) {
         this.lexer = new Lexer(expression);
     }
 
     public Expression build() {
-        expression();
+        parseOrExpressionAndInside();
         return root;
     }
 
-    private void expression() {
-        term();
+    private void parseOrExpressionAndInside() {
+        parseAndExpressionAndInside();
         while (symbol == OperatorEnum.OR) {
             OrExpression or = new OrExpression();
             or.setLeftExpression(root);
-            term();
+            parseAndExpressionAndInside();
             or.setRightExpression(root);
             root = or;
         }
     }
 
-    private void term() {
-        factor();
+    private void parseAndExpressionAndInside() {
+        parseTerminalExpressionOrANot();
         while (symbol == OperatorEnum.AND) {
             AndExpression and = new AndExpression();
             and.setLeftExpression(root);
-            factor();
+            parseTerminalExpressionOrANot();
             and.setRightExpression(root);
             root = and;
         }
     }
 
-    // TODO ADD OTHER CLASSES
-    private void factor() {
+    private void parseTerminalExpressionOrANot() {
         symbol = lexer.nextSymbol();
-        if (symbol == OperatorEnum.MRQHL) {
-            String [] l = list();
-            root = new RequestHeaderMatchListExpression(l);
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.MRQHR) {
-            root = new RequestHeaderMatchRegexExpression("TODO");
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.NOT) {
-            NotExpression not = new NotExpression();
-            factor();
-            not.setRightExpression(root);
-            root = not;
-        } else if (symbol == OperatorEnum.LEFT) {
-            expression();
-            symbol = lexer.nextSymbol();
-        } else {
-            throw new RuntimeException("Incorrect Expression");
+        try {
+            List<String> l = list();
+            root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+            lexer.nextSymbol();
+        } catch (IllegalArgumentException e) {
+            if (symbol == OperatorEnum.NOT) {
+                NotExpression not = new NotExpression();
+                parseTerminalExpressionOrANot();
+                not.setLeftExpression(root);
+                root = not;
+            } else if (symbol == OperatorEnum.LEFT) {
+                parseOrExpressionAndInside();
+                symbol = lexer.nextSymbol();
+            } else {
+                throw new RuntimeException("Incorrect Expression");
+            }
         }
     }
-    
-    private String[] list() {
-        List<String> l = new ArrayList<String>();
+
+    private List<String> list() {
+        List<String> l = new ArrayList<>();
         expect(OperatorEnum.LEFT_BR);
-        symbol = lexer.nextSymbol();
         while (true) {
             expect(OperatorEnum.STRING);
             l.add(lexer.getString());
-
             symbol = lexer.nextSymbol();
             if (symbol == OperatorEnum.RIGHT_BR) break;
-            expect(OperatorEnum.COMMA);
+            else if (symbol != OperatorEnum.COMMA)
+                throw new RuntimeException("Expected" + OperatorEnum.COMMA);
         }
-        return (String[]) l.toArray(); // check
+        return l;
     }
 
     private void expect(OperatorEnum t) {
