@@ -85,6 +85,15 @@ public class PolicyVerifierPanel extends AbstractPanel {
     public void updateAndDisplayLoadedPolicies(List<Policy> policies) {
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
+        StringBuilder sb = getStringBuilderForPolicies(policies);
+        // Obtain (and set) a font with the size defined in the options
+        pane.setFont(FontUtils.getFont("Dialog", Font.PLAIN));
+        pane.setContentType("text/html");
+        pane.setText(sb.toString());
+        jScrollPane.setViewportView(pane);
+    }
+
+    private StringBuilder getStringBuilderForPolicies(List<Policy> policies) {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><body style='overflow:auto;'><table>");
         for (Policy policy : policies) {
@@ -99,10 +108,6 @@ public class PolicyVerifierPanel extends AbstractPanel {
             sb.append("</table></td></tr></table>");
         }
         sb.append("</table></body></html>");
-        // Obtain (and set) a font with the size defined in the options
-        pane.setFont(FontUtils.getFont("Dialog", Font.PLAIN));
-        pane.setContentType("text/html");
-        pane.setText(sb.toString());
-        jScrollPane.setViewportView(pane);
+        return sb;
     }
 }

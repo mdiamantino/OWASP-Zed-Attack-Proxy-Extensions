@@ -34,7 +34,7 @@ public class PolicyLoaderController {
     private static PolicyLoaderController soleController;
     private RuleEnforcingPassiveScanner reps;
     private String PREFIX = "policyverifier";
-    private PolicyGeneratorDispatcher generatorDispatcher;
+    private PolicyGeneratorFactory generatorDispatcher;
 
     public PolicyLoaderController() {
         if (soleController != null) {
@@ -42,7 +42,7 @@ public class PolicyLoaderController {
                     "Use getInstance() method to get the single instance of this class.");
         }
         reps = RuleEnforcingPassiveScanner.getSingleton();
-        generatorDispatcher = new PolicyGeneratorDispatcher();
+        generatorDispatcher = new PolicyGeneratorFactory();
     }
 
     public static PolicyLoaderController getSingleton() {
@@ -63,8 +63,10 @@ public class PolicyLoaderController {
     public void loadPolicy(File file) {
         Policy loadedPolicy;
         try {
-            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
+            //            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
             // Adding to model
+            generatorDispatcher.setFile(file);
+            loadedPolicy = generatorDispatcher.generatePolicy();
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
             System.out.println(e.getMessage());

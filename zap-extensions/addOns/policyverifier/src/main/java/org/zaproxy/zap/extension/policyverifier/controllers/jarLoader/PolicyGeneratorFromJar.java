@@ -31,12 +31,12 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.log4j.Logger;
-import org.zaproxy.zap.extension.policyverifier.controllers.AbstractPolicyGenerator;
+import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGeneratorFactory;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
 /** The class groups all behaviours needed in order to extract a policy from a Jar File */
-public class PolicyGeneratorFromJar extends AbstractPolicyGenerator {
+public class PolicyGeneratorFromJar extends PolicyGeneratorFactory {
     private static final Logger logger = Logger.getLogger(PolicyGeneratorFromJar.class);
 
     public PolicyGeneratorFromJar() {}
@@ -70,7 +70,6 @@ public class PolicyGeneratorFromJar extends AbstractPolicyGenerator {
      * @return Set of instantiated rules given the Jar they have been compiled into
      * @throws Exception if could not load or instantiate the classes properly
      */
-    @Override
     protected Set<Rule> getRules() throws Exception {
         logger.warn("In GetRules() ");
         Set<Rule> instances = new HashSet<>();

@@ -19,8 +19,6 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
@@ -31,6 +29,9 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.conc
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody.ResponseBodyMatchRegexExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchListExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchRegexExpression;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecursiveExpressionBuilder {
     // Structural components
@@ -71,45 +72,51 @@ public class RecursiveExpressionBuilder {
         }
     }
 
-    // TODO ADD OTHER CLASSES
     private void parseTerminalExpressionOrANot() {
         symbol = lexer.nextSymbol();
-        if (symbol == OperatorEnum.MRQHL) {
+        try {
             List<String> l = list();
-            root = new RequestHeaderMatchListExpression(l);
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.MRQHR) {
-            List<String> l = list(); // TODO : assert has only one argument
-            root = new RequestHeaderMatchRegexExpression(l.get(0));
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.MRSHL) {
-            List<String> l = list(); // TODO : assert has only one argument
-            root = new ResponseHeaderMatchListExpression(l);
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.MRSHR) {
-            List<String> l = list(); // TODO : assert has only one argument
-            root = new ResponseHeaderMatchRegexExpression(l.get(0));
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.MRSBR) {
-            List<String> l = list(); // TODO : assert has only one argument
-            root = new ResponseBodyMatchRegexExpression(l.get(0));
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.MRQBR) {
-            List<String> l = list(); // TODO : assert has only one argument
-            root = new RequestBodyMatchRegexExpression(l.get(0));
-            symbol = lexer.nextSymbol();
-        } else if (symbol == OperatorEnum.NOT) {
-            NotExpression not = new NotExpression();
-            parseTerminalExpressionOrANot();
-            not.setLeftExpression(root);
-            root = not;
-        } else if (symbol == OperatorEnum.LEFT) {
-            parseOrExpressionAndInside();
-            symbol = lexer.nextSymbol();
-        } else {
-            throw new RuntimeException("Incorrect Expression");
+            root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+            lexer.nextSymbol();
+        } catch (IllegalArgumentException e) {
+            if (symbol == OperatorEnum.NOT) {
+                NotExpression not = new NotExpression();
+                parseTerminalExpressionOrANot();
+                not.setLeftExpression(root);
+                root = not;
+            } else if (symbol == OperatorEnum.LEFT) {
+                parseOrExpressionAndInside();
+                symbol = lexer.nextSymbol();
+            } else {
+                throw new RuntimeException("Incorrect Expression");
+            }
         }
     }
+
+//    private boolean extractOperationFromSymbol() {
+//        boolean isSymbolAssociatedWithTerminalExpression = true;
+//        List<String> l = list();
+//        if (symbol == OperatorEnum.MRQHL) {
+//            root = new RequestHeaderMatchListExpression(l);
+//        } else if (symbol == OperatorEnum.MRQHR) {
+//            assert l.size() == 1;
+//            root = new RequestHeaderMatchRegexExpression(l.get(0));
+//        } else if (symbol == OperatorEnum.MRSHL) {
+//            root = new ResponseHeaderMatchListExpression(l);
+//        } else if (symbol == OperatorEnum.MRSHR) {
+//            assert l.size() == 1;
+//            root = new ResponseHeaderMatchRegexExpression(l.get(0));
+//        } else if (symbol == OperatorEnum.MRSBR) {
+//            assert l.size() == 1;
+//            root = new ResponseBodyMatchRegexExpression(l.get(0));
+//        } else if (symbol == OperatorEnum.MRQBR) {
+//            assert l.size() == 1;
+//            root = new RequestBodyMatchRegexExpression(l.get(0));
+//        } else {
+//            isSymbolAssociatedWithTerminalExpression = false;
+//        }
+//        return isSymbolAssociatedWithTerminalExpression;
+//    }
 
     private List<String> list() {
         List<String> l = new ArrayList<>();

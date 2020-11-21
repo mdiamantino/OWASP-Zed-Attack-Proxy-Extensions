@@ -25,14 +25,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
-import org.zaproxy.zap.extension.policyverifier.controllers.AbstractPolicyGenerator;
+import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGeneratorFactory;
 import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools.RecursiveExpressionBuilder;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpression;
 
-public class PolicyGeneratorFromTxt extends AbstractPolicyGenerator {
+public class PolicyGeneratorFromTxt extends PolicyGeneratorFactory {
     Pattern rulePattern = Pattern.compile("ruleName\\s*=\\s*(\\w*)\\s*,\\s*body\\s*=\\s*(.*);");
     private static final Logger logger = Logger.getLogger(PolicyGeneratorFromTxt.class);
 
@@ -44,7 +44,6 @@ public class PolicyGeneratorFromTxt extends AbstractPolicyGenerator {
         return new Policy(rules, policyName);
     }
 
-    @Override
     protected Set<Rule> getRules() throws Exception {
         Set<Rule> rules = new HashSet<>();
         Scanner scanner = new Scanner(getFile());
