@@ -19,10 +19,11 @@
  */
 package org.zaproxy.zap.extension.policyverifier.rules;
 
-import java.util.List;
 import org.parosproxy.paros.network.HttpHeader;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
+
+import java.util.List;
 
 /**
  * Definition of Missing Content-Type Header Source:
