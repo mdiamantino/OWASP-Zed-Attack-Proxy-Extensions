@@ -90,11 +90,18 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
                 String.format(
                         "Validating HttpMessage against loaded policies : policySize %d",
                         policies.size()));
+        StringBuilder strBuilder = new StringBuilder();
+
         for (Policy policy : policies) {
             logger.info(String.format("inside loop, current policy: %s", policy.getName()));
             Set<String> violatedRulesNames = policy.getViolatedRulesNames(msg);
-            generatePolicyReport(policy.getName(), violatedRulesNames);
+            String violatedRuleReport = generatePolicyReport(policy.getName(), violatedRulesNames);
+            strBuilder.append(String.format("%s", violatedRuleReport));
         }
+
+        String policiesDescription = strBuilder.toString();
+        logger.info(String.format("violated policies: %s", policiesDescription));
+        if (!policiesDescription.isEmpty()) generateViolatedRuleReport(policiesDescription);
     }
 
     /**
@@ -104,12 +111,13 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
      * @param policyName Name of the violated Policy
      * @param violatedRulesNames Set of the violated Policy Rules
      */
-    private void generatePolicyReport(String policyName, Set<String> violatedRulesNames) {
+    private String generatePolicyReport(String policyName, Set<String> violatedRulesNames) {
+        StringBuilder strBuilder = new StringBuilder();
         for (String violatedRule : violatedRulesNames) {
-            String description =
-                    String.format("Policy%s.Rule%s violated", policyName, violatedRule);
-            generateViolatedRuleReport(description);
+            strBuilder.append(
+                    String.format("Policy%s.Rule%s violated; \n", policyName, violatedRule));
         }
+        return strBuilder.toString();
     }
 
     /**

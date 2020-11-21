@@ -32,8 +32,8 @@ public abstract class AbstractMatchListTerminalExpression extends AbstractTermin
     public boolean interpret(HttpMessage msg) {
         List<String> values = getValues();
         String relevantValue = getRelevantValue(msg);
+        if (relevantValue == null || relevantValue.isEmpty()) return true;
         for (int i = 1; i < values.size(); i++) {
-            if (relevantValue.isEmpty()) return true;
             if (!relevantValue.contains(values.get(i))) return false;
         }
         return true;

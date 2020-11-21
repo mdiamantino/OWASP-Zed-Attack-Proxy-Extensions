@@ -34,12 +34,12 @@ public class ResponseHeaderMatchRegexExpression extends AbstractMatchRegexTermin
     }
 
     protected String getPattern() {
-        return getValues().get(0);
+        return getValues().get(1);
     }
 
     @Override
     public String getRelevantValue(HttpMessage msg) {
         String headerName = getValues().get(0);
-        return msg.getRequestHeader().getHeader(headerName);
+        return msg.getResponseHeader().getHeader(headerName);
     }
 }

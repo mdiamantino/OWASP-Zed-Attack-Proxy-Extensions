@@ -26,8 +26,6 @@ import org.parosproxy.paros.network.HttpMessage;
 
 public abstract class AbstractMatchRegexTerminalExpression extends AbstractTerminalExpression {
 
-    private String pattern;
-
     public AbstractMatchRegexTerminalExpression(List<String> values) {
         super(values);
     }
@@ -36,9 +34,13 @@ public abstract class AbstractMatchRegexTerminalExpression extends AbstractTermi
 
     @Override
     public boolean interpret(HttpMessage msg) {
+        String pattern = getPattern();
         Pattern compiledPattern = Pattern.compile(pattern);
+
         String relevantValue = getRelevantValue(msg);
-        if (relevantValue.isEmpty()) return true;
+
+        if (relevantValue == null || relevantValue.isEmpty()) return true;
+
         Matcher matcher = compiledPattern.matcher(relevantValue);
         return matcher.find();
     }

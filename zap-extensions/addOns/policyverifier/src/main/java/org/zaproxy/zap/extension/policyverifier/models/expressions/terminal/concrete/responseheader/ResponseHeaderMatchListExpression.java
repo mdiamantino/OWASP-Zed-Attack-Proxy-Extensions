@@ -35,6 +35,6 @@ public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminal
     @Override
     public String getRelevantValue(HttpMessage msg) {
         String headerName = getValues().get(0);
-        return msg.getRequestHeader().getHeader(headerName);
+        return msg.getResponseHeader().getHeader(headerName);
     }
 }

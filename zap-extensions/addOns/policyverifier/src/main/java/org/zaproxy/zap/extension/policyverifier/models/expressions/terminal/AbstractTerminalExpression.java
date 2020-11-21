@@ -36,7 +36,7 @@ public abstract class AbstractTerminalExpression implements Expression {
     }
 
     protected List<String> getValues() {
-        return this.values;
+        return values;
     }
 
     /**
