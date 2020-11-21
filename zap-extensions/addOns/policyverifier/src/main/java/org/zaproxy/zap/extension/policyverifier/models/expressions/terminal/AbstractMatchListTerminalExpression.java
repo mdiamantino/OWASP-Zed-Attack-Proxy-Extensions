@@ -19,9 +19,8 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
-import org.parosproxy.paros.network.HttpMessage;
-
 import java.util.List;
+import org.parosproxy.paros.network.HttpMessage;
 
 public abstract class AbstractMatchListTerminalExpression extends AbstractTerminalExpression {
 

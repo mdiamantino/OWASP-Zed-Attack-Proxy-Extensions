@@ -20,9 +20,9 @@
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader;
 
 import java.util.List;
+import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchListTerminalExpression;
-import org.apache.commons.lang.IncompleteArgumentException;
 
 public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminalExpression {
     public ResponseHeaderMatchListExpression(List<String> values) {
