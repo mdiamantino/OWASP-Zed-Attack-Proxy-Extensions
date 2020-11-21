@@ -17,9 +17,9 @@ public class HttpUtility {
     private static final String twoHyphens = "--";
     private static String requestURL;
 
-    public static Map<?, ?> getRequest(String URL) throws IOException {
+    public static Map<String, String > getRequest(String URL) throws IOException {
         requestURL = URL;
-        Map<?, ?> response = null;
+        Map<String , String> response = null;
         try {
             constructGetRequest();
             response = readMultipleLinesRespone();
@@ -39,7 +39,7 @@ public class HttpUtility {
         httpConn.setDoOutput(false); // false indicates this is a GET request
     }
 
-    private static Map<?, ?> readMultipleLinesRespone() throws IOException {
+    private static Map<String , String > readMultipleLinesRespone() throws IOException {
         String response = "";
 
         // checks server's status code first
@@ -61,7 +61,7 @@ public class HttpUtility {
         } else {
             throw new IOException("Server returned non-OK status: " + status);
         }
-        return (Map) JSONObject.fromObject(response);
+        return JSONObject.fromObject(response);
     }
 
     private static void disconnect() {

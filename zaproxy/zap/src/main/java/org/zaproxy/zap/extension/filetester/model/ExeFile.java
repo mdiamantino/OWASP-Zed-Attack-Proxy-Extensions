@@ -1,21 +1,72 @@
 package org.zaproxy.zap.extension.filetester.model;
 
+import org.zaproxy.zap.extension.filetester.http.HttpUtility;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExeFile extends DownloadedFile {
+    private static final String API_KEY = "8668d17eb4c599b1abcb850c1f046240c5ce7b42930551905371bb87dd08564b";
+    private static final String GET_URL = "https://www.virustotal.com/vtapi/v2/file/report?apikey=%s&resource=%s";
+    private static final String POST_URL = "https://www.virustotal.com/vtapi/v2/file/scan";
+
+    private Map<String, String> params;
+    private Map<String, File> fileParams;
+    private String scanId;
+    private boolean virusScanCompleted;
+
     public ExeFile(File file) {
         super(file);
+        params = new HashMap<>();
+        params.put("apikey", API_KEY);
+        fileParams = new HashMap<>();
+        fileParams.put("file", file);
     }
 
     @Override
     public boolean isValid() throws IOException {
-        return false;
+//        this.getTestResults().
+        Map<?, ?> postRequest = HttpUtility.postRequest(POST_URL, params, fileParams);
+        scanId = (String) postRequest.get("scan_id");
+        return true;
     }
 
     @Override
     public List<FileTestResult> getTestResults() {
-        return null;
+        if (!virusScanCompleted) {
+            Map<String, String> results = null;
+            try {
+                results = getScanResults();
+                int responseCode = Integer.valueOf(results.get("response_code"));
+                if (responseCode == 1) {
+                    FileTestResult virusDetection = new FileTestResult("Virus Detection");
+                    String scanResultMessage = results.get("verbose_msg");
+                    int positives = Integer.valueOf(results.get("positives"));
+                    if (positives > 0) {
+                        int total = Integer.valueOf(results.get("total"));
+                        virusDetection.setResult(true);
+                        virusDetection.setRemarks(String.format("%s: %d out of %d scans flagged the file as a virus.", scanResultMessage, positives,total));
+                    } else {
+                        virusDetection.setResult(false);
+                    }
+                    this.getTestResults().add(virusDetection);
+                    virusScanCompleted = true;
+                } else {
+                    // the scan is still queued
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return this.getTestResults();
+    }
+
+    private Map<String, String> getScanResults() throws IOException {
+        String getUrl = String.format(GET_URL, API_KEY, scanId);
+        Map<String, String> getRequest = HttpUtility.getRequest(getUrl);
+        return getRequest;
     }
 }
