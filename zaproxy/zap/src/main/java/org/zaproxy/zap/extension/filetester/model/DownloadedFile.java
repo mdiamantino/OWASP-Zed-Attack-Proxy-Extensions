@@ -1,7 +1,7 @@
 package org.zaproxy.zap.extension.filetester.model;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class DownloadedFile implements IDownloadedFile {
@@ -12,7 +12,7 @@ public abstract class DownloadedFile implements IDownloadedFile {
     public DownloadedFile(File file) {
         this.file = file;
         this.name = file.getName();
-        testResults = new ArrayList<>();
+        testResults = new LinkedList<>();
     }
 
     public String getName() {

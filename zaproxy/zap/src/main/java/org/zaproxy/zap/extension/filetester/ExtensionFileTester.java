@@ -19,19 +19,22 @@
  */
 package org.zaproxy.zap.extension.filetester;
 
-import java.io.File;
 import java.util.Objects;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.httpclient.URI;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
+import org.parosproxy.paros.network.HttpHeader;
+import org.parosproxy.paros.network.HttpMessage;
+import org.parosproxy.paros.network.HttpSender;
 import org.parosproxy.paros.view.View;
+import org.zaproxy.zap.network.HttpSenderListener;
 import org.zaproxy.zap.view.ZapMenuItem;
 
-public class ExtensionFileTester extends ExtensionAdaptor {
-    public static final String NAME = "ExtensionPolicyVerifier";
-    protected static final String PREFIX = "policyverifier";
+public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderListener {
+    public static final String NAME = "ExtensionFileTester";
+    protected static final String PREFIX = "filetester";
     private javax.swing.JMenu menuPolicyPlugin = null;
 
     public ExtensionFileTester() {
@@ -43,6 +46,7 @@ public class ExtensionFileTester extends ExtensionAdaptor {
     public void hook(ExtensionHook extensionHook) {
         super.hook(extensionHook);
 
+        extensionHook.addHttpSenderListener(this);
         if (getView() != null) {
             extensionHook.getHookMenu().addNewMenu(getMenuPolicyPlugin());
         }
@@ -104,4 +108,25 @@ public class ExtensionFileTester extends ExtensionAdaptor {
         }
         return menuPolicyPlugin;
     }
+
+    @Override
+    public int getListenerOrder() {
+        return 1;
+    }
+
+    @Override
+    public void onHttpRequestSend(HttpMessage msg, int initiator, HttpSender sender) {
+        scan(msg);
+    }
+
+    @Override
+    public void onHttpResponseReceive(HttpMessage msg, int initiator, HttpSender sender) {
+        scan(msg);
+    }
+
+    private void scan(HttpMessage msg) {
+        String site = msg.getRequestHeader().getHostName() + ":" + msg.getRequestHeader().getHostPort();
+        System.out.println(site);
+    }
+
 }
