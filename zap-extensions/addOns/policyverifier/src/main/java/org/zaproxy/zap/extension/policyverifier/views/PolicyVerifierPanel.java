@@ -93,7 +93,6 @@ public class PolicyVerifierPanel extends AbstractPanel {
         jScrollPane.setViewportView(pane);
     }
 
-    private StringBuilder getStringBuilderForPolicies(List<Policy> policies) {
     private StringBuilder getStringBuilderForPolicies(List<Policy> policies) { // todo redesign
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");

@@ -66,25 +66,20 @@ public class RecursiveExpressionBuilder {
     }
 
     private void parseTerminalExpressionOrANot() {
-        symbol = lexer.nextSymbol();
-        try {
-            // TODO: list go ahead and should be put inside the expression factory.
-            // list should be called only if an operator is found.
+        if (ExpressionFactory.checkIfIsOperation(symbol)) {
             List<String> l = list();
             root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
             lexer.nextSymbol();
-        } catch (IllegalArgumentException e) {
-            if (symbol == OperatorEnum.NOT) {
-                NotExpression not = new NotExpression();
-                parseTerminalExpressionOrANot();
-                not.setLeftExpression(root);
-                root = not;
-            } else if (symbol == OperatorEnum.LEFT) {
-                parseOrExpressionAndInside();
-                symbol = lexer.nextSymbol();
-            } else {
-                throw new RuntimeException("Incorrect Expression");
-            }
+        } else if (symbol == OperatorEnum.NOT) {
+            NotExpression not = new NotExpression();
+            parseTerminalExpressionOrANot();
+            not.setLeftExpression(root);
+            root = not;
+        } else if (symbol == OperatorEnum.LEFT) {
+            parseOrExpressionAndInside();
+            symbol = lexer.nextSymbol();
+        } else {
+            throw new RuntimeException("Incorrect Expression");
         }
     }
 
