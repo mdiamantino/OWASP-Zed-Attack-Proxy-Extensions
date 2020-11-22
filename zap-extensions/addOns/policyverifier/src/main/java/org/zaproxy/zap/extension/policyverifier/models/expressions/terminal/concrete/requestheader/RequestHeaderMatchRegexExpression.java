@@ -28,9 +28,9 @@ public class RequestHeaderMatchRegexExpression extends AbstractMatchRegexTermina
 
     public RequestHeaderMatchRegexExpression(List<String> values) {
         super(values);
-        if (values.size() < 2)
+        if (values.size() != 2)
             throw new IncompleteArgumentException(
-                    "Not enough arguments were provided to match against the header. (Min 2 arguments)");
+                    "Not enough arguments were provided to match against the header. (Must contain exactly 2 arguments)");
     }
 
     protected String getPattern() {
