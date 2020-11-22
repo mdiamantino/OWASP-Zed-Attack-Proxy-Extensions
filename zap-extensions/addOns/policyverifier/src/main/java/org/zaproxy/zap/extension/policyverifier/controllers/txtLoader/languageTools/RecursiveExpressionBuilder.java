@@ -29,7 +29,6 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.c
 
 public class RecursiveExpressionBuilder {
     private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
-
     // Structural components
     private Expression root;
     private OperatorEnum symbol;
@@ -39,7 +38,6 @@ public class RecursiveExpressionBuilder {
 
     public RecursiveExpressionBuilder(String expression) {
         this.lexer = new Lexer(expression);
-        logger.info("Expression entered" + expression);
     }
 
     public Expression build() {
@@ -71,10 +69,10 @@ public class RecursiveExpressionBuilder {
 
     private void parseTerminalExpressionOrANot() {
         symbol = lexer.nextSymbol();
-        logger.info("Symbol: " + symbol);
         if (ExpressionFactory.checkIfIsOperation(symbol)) {
+            OperatorEnum operationSymbol = symbol;
             List<String> l = list();
-            root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+            root = ExpressionFactory.extractOperationFromSymbol(operationSymbol, l);
             lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();

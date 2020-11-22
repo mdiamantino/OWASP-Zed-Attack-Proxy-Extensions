@@ -19,6 +19,7 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.conc
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchRegexExpression;
 
 public class ExpressionFactory {
+
     private static final Map<OperatorEnum, Class<? extends Expression>> operations =
             new HashMap<OperatorEnum, Class<? extends Expression>>() {
                 private static final long serialVersionUID = -1113582265865921787L;
@@ -52,8 +54,17 @@ public class ExpressionFactory {
     public static Expression extractOperationFromSymbol(OperatorEnum symbol, List<String> l) {
         Expression res = null;
         try {
-            res = operations.get(symbol).getDeclaredConstructor(List.class).newInstance(l);
-        } catch (Exception ignore) {
+            Class<? extends Expression> clazz = operations.get(symbol);
+            res = clazz.getDeclaredConstructor(List.class).newInstance(l);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             // Ignore
         }
         return res;
