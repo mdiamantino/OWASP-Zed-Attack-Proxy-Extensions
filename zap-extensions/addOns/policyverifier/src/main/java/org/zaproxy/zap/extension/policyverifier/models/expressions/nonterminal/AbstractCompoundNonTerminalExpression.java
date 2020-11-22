@@ -29,8 +29,7 @@ public abstract class AbstractCompoundNonTerminalExpression implements Expressio
     protected Expression leftExpression;
     protected Expression rightExpression;
 
-    protected AbstractCompoundNonTerminalExpression() {
-    }
+    protected AbstractCompoundNonTerminalExpression() {}
 
     public void setLeftExpression(Expression leftExpression) {
         this.leftExpression = leftExpression;

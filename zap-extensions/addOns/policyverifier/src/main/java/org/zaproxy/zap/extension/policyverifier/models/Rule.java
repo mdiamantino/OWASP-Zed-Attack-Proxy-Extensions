@@ -21,9 +21,7 @@ package org.zaproxy.zap.extension.policyverifier.models;
 
 import org.parosproxy.paros.network.HttpMessage;
 
-/**
- * A Rule is an entity which can be valid or not according to the checked HttpMessage
- */
+/** A Rule is an entity which can be valid or not according to the checked HttpMessage */
 public interface Rule {
     default String getName() {
         return this.getClass().getSimpleName();

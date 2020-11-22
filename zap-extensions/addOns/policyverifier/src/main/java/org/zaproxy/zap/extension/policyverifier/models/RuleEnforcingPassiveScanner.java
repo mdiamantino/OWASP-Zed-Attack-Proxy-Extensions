@@ -19,6 +19,9 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import net.htmlparser.jericho.Source;
 import org.apache.log4j.Logger;
 import org.parosproxy.paros.control.Control;
@@ -28,10 +31,6 @@ import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 import org.zaproxy.zap.extension.pscan.ExtensionPassiveScan;
 import org.zaproxy.zap.extension.pscan.PassiveScanThread;
 import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * The model is a container of Policies defined by a set of policies, however the model is also a
@@ -93,26 +92,34 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
                 String.format(
                         "Validating HttpMessage against loaded policies : policySize %d",
                         policies.size()));
+        StringBuilder strBuilder = new StringBuilder();
+
         for (Policy policy : policies) {
             logger.info(String.format("inside loop, current policy: %s", policy.getName()));
             Set<String> violatedRulesNames = policy.getViolatedRulesNames(msg);
-            generatePolicyReport(policy.getName(), violatedRulesNames);
+            String violatedRuleReport = generatePolicyReport(policy.getName(), violatedRulesNames);
+            strBuilder.append(String.format("%s", violatedRuleReport));
         }
+
+        String policiesDescription = strBuilder.toString();
+        logger.info(String.format("violated policies: %s", policiesDescription));
+        if (!policiesDescription.isEmpty()) generateViolatedRuleReport(policiesDescription);
     }
 
     /**
      * Violated rules raise an alert displayed on the UI in the "Alerts" panel with the following
      * description format: "PolicyX.RuleY violated"
      *
-     * @param policyName         Name of the violated Policy
+     * @param policyName Name of the violated Policy
      * @param violatedRulesNames Set of the violated Policy Rules
      */
-    private void generatePolicyReport(String policyName, Set<String> violatedRulesNames) {
+    private String generatePolicyReport(String policyName, Set<String> violatedRulesNames) {
+        StringBuilder strBuilder = new StringBuilder();
         for (String violatedRule : violatedRulesNames) {
-            String description =
-                    String.format("Policy%s.Rule%s violated", policyName, violatedRule);
-            generateViolatedRuleReport(description);
+            strBuilder.append(
+                    String.format("Policy%s.Rule%s violated; \n", policyName, violatedRule));
         }
+        return strBuilder.toString();
     }
 
     /**
@@ -128,7 +135,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
 
     /**
      * @param msg Http request message to be checked for validity against rules.
-     * @param id  - Not used -
+     * @param id - Not used -
      */
     @Override
     public void scanHttpRequestSend(HttpMessage msg, int id) {
@@ -136,8 +143,8 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     }
 
     /**
-     * @param msg    Http response message to be checked for validity against rules.
-     * @param id     - Not used -
+     * @param msg Http response message to be checked for validity against rules.
+     * @param id - Not used -
      * @param source - Not used -
      */
     @Override

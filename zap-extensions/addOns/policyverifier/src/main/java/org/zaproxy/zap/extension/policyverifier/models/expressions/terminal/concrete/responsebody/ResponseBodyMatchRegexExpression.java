@@ -19,12 +19,18 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody;
 
+import java.util.List;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
 
 public class ResponseBodyMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
-    public ResponseBodyMatchRegexExpression(String pattern) {
-        super(pattern);
+
+    public ResponseBodyMatchRegexExpression(List<String> values) {
+        super(values);
+    }
+
+    protected String getPattern() {
+        return getValues().get(0);
     }
 
     @Override

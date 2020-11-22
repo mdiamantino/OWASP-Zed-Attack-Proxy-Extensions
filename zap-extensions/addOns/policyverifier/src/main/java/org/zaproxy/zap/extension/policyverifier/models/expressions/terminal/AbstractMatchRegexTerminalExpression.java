@@ -19,24 +19,29 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
-import org.parosproxy.paros.network.HttpMessage;
-
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.parosproxy.paros.network.HttpMessage;
 
 public abstract class AbstractMatchRegexTerminalExpression extends AbstractTerminalExpression {
 
-    private String pattern;
-
-    public AbstractMatchRegexTerminalExpression(String pattern) {
-        super();
-        this.pattern = pattern;
+    public AbstractMatchRegexTerminalExpression(List<String> values) {
+        super(values);
     }
+
+    protected abstract String getPattern();
 
     @Override
     public boolean interpret(HttpMessage msg) {
+        String pattern = getPattern();
         Pattern compiledPattern = Pattern.compile(pattern);
-        Matcher matcher = compiledPattern.matcher(getRelevantValue(msg));
+
+        String relevantValue = getRelevantValue(msg);
+
+        if (relevantValue == null || relevantValue.isEmpty()) return true;
+
+        Matcher matcher = compiledPattern.matcher(relevantValue);
         return matcher.find();
     }
 }
