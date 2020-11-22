@@ -21,12 +21,14 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageT
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
 
 public class RecursiveExpressionBuilder {
+    private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
     // Structural components
     private Expression root;
     private OperatorEnum symbol;
@@ -66,9 +68,11 @@ public class RecursiveExpressionBuilder {
     }
 
     private void parseTerminalExpressionOrANot() {
+        symbol = lexer.nextSymbol();
         if (ExpressionFactory.checkIfIsOperation(symbol)) {
+            OperatorEnum operationSymbol = symbol;
             List<String> l = list();
-            root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+            root = ExpressionFactory.extractOperationFromSymbol(operationSymbol, l);
             lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
@@ -79,7 +83,7 @@ public class RecursiveExpressionBuilder {
             parseOrExpressionAndInside();
             symbol = lexer.nextSymbol();
         } else {
-            throw new RuntimeException("Incorrect Expression");
+            throw new RuntimeException("Incorrect Expression: " + symbol);
         }
     }
 

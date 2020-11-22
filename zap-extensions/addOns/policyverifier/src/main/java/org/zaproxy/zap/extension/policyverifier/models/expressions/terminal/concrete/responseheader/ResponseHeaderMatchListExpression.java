@@ -29,7 +29,7 @@ public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminal
         super(values);
         if (values.size() < 2)
             throw new IncompleteArgumentException(
-                    "Not enough arguments were provided to match against the header. (Min 2 arguments)");
+                    "Not enough arguments were provided to match against the header. (Must contain at least 2 arguments)");
     }
 
     @Override

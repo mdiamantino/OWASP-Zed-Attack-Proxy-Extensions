@@ -20,6 +20,7 @@
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestbody;
 
 import java.util.List;
+import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
 
@@ -27,6 +28,9 @@ public class RequestBodyMatchRegexExpression extends AbstractMatchRegexTerminalE
 
     public RequestBodyMatchRegexExpression(List<String> values) {
         super(values);
+        if (values.size() != 1)
+            throw new IncompleteArgumentException(
+                    "Not enough arguments were provided to match against the header. (Must contain exactly 1 argument)");
     }
 
     protected String getPattern() {
