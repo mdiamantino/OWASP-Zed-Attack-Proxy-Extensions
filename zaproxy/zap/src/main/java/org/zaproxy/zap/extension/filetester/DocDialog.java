@@ -71,11 +71,8 @@ public class DocDialog extends AbstractDialog {
                 + "  background-color: #FFFFFF;\n"
                 + "}\n"
                 + "pre { font-family: monospace; }\n"
-                + "<body><p>To load a new policy, you need to create a .jar file containing the rules.</p>"
-                + "<p>ZAP and the extension are needed dependencies. Therefore, make sure to build them, and include their JARs as dependencies your policy project.</p>"
-                + "<p>Each rule must be defined in a separate java classes, implementing the interface Rule</p>"
-                + "<p>The rule class should implement the method <pre>boolean isValid(HttpMessage msg)</pre>, returning false when the rule is violated.</p>"
-                + "<p>You will find a step-by-step tutorial in : <b>Group19/solutions/user_story_01/Tutorial.pdf</b></p>"
+                + "<body><p>Click on the 'Activate Extension' button to start scanning the files that are being downloaded  .</p>"
+                + "<p>You will find a step-by-step tutorial in : <b>Group19/solutions/user_story_07/Tutorial.pdf</b></p>"
                 + "</body></html>";
     }
 }

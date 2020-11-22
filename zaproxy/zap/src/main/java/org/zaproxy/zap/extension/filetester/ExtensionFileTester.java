@@ -31,11 +31,18 @@ import org.parosproxy.paros.network.HttpSender;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.network.HttpSenderListener;
 import org.zaproxy.zap.view.ZapMenuItem;
+import org.apache.log4j.Logger;
+import org.parosproxy.paros.extension.ViewDelegate;
+import org.parosproxy.paros.core.proxy.ProxyListener;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 
 public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderListener {
     public static final String NAME = "ExtensionFileTester";
     protected static final String PREFIX = "filetester";
     private javax.swing.JMenu menuPolicyPlugin = null;
+    private int enable_step = 0;
+    private static Logger log = Logger.getLogger(ExtensionFileTester.class);
 
     public ExtensionFileTester() {
         super(NAME);
@@ -75,13 +82,24 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
 
 
     private ZapMenuItem getMenuOptionLoadPolicy() {
-        ZapMenuItem menuLoadPolicy = new ZapMenuItem(PREFIX + ".menu.submenu.loader");
-//        menuLoadPolicy.addActionListener(ae -> loadJarPolicy());
+        ZapMenuItem menuLoadPolicy = new ZapMenuItem("Activate/Deactivate Extension");
+        menuLoadPolicy.addActionListener(e -> {
+            this.enable_step += 1;
+            if(this.enable_step == 1) {
+                log.info("FileTester is now enabled");
+                log.info("Value is: " + this.enable_step);
+            }
+            else if(this.enable_step == 2){
+                log.info("Filetester is now disabled.");
+                log.info("Value is: " + this.enable_step);
+                enable_step =0;
+            }
+        });
         return menuLoadPolicy;
     }
 
     private ZapMenuItem getMenuOptionHelp() {
-        ZapMenuItem menuHelp = new ZapMenuItem(PREFIX + ".menu.submenu.help");
+        ZapMenuItem menuHelp = new ZapMenuItem("Help (Documentation)");
         menuHelp.addActionListener(
                 e -> {
                     DocDialog dialog =
@@ -93,17 +111,31 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         return menuHelp;
     }
 
+    private ZapMenuItem getReportOption() {
+        ZapMenuItem menuReport = new ZapMenuItem("Get Report of Scans");
+        menuReport.addActionListener(
+                e -> {
+                    DocDialog dialog =
+                            new DocDialog(
+                                    Objects.requireNonNull(View.getSingleton()).getMainFrame(),
+                                    true);
+                    dialog.setVisible(true);
+                });
+        return menuReport;
+    }
+
     private void setUpPluginMenu() {
         if (menuPolicyPlugin != null) {
             menuPolicyPlugin.add(getMenuOptionLoadPolicy()); // Adding loading button
             menuPolicyPlugin.add(getMenuOptionHelp()); // Adding Help button
+            menuPolicyPlugin.add(getReportOption()); //Adding the report button
         }
     }
 
     private javax.swing.JMenu getMenuPolicyPlugin() {
         if (menuPolicyPlugin == null) {
             menuPolicyPlugin = new javax.swing.JMenu();
-            menuPolicyPlugin.setText(Constant.messages.getString(PREFIX + ".menu.title"));
+            menuPolicyPlugin.setText("Extension FileTester");
             setUpPluginMenu();
         }
         return menuPolicyPlugin;
@@ -124,9 +156,13 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         scan(msg);
     }
 
-    private void scan(HttpMessage msg) {
+    private boolean scan(HttpMessage msg) {
+        if (this.enable_step  == 2) { // The extension is disabled so we do not react
+        return true;
+        }
         String site = msg.getRequestHeader().getHostName() + ":" + msg.getRequestHeader().getHostPort();
-        System.out.println(site);
+        log.info(site);
+        return true;
     }
 
 }
