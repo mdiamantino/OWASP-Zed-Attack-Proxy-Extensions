@@ -11,6 +11,7 @@ import net.sf.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +22,8 @@ public class JpegFile extends ImageFile {
 
     private Map<String, String> extractedMetadata;
 
-    public JpegFile(File file) {
-        super(file);
+    public JpegFile(String name, InputStream file) {
+        super(name, file);
         extractedMetadata = new HashMap<>();
     }
 
@@ -31,6 +32,7 @@ public class JpegFile extends ImageFile {
         boolean isValid = false;
         FileTestResult fileInvalidation = new FileTestResult("Jpeg Invalidation");
         if (isValid(JPEG_MAGIC_NUMBER)) {
+            this.getFile().reset();
             isValid = true;
             fileInvalidation.setResult(false);
             try {
@@ -46,8 +48,10 @@ public class JpegFile extends ImageFile {
             } catch (JpegProcessingException e) {
                 e.printStackTrace();
             }
+            fileInvalidation.setRemarks("");
         } else {
             fileInvalidation.setResult(true);
+            fileInvalidation.setRemarks("File invalid");
         }
         this.getTestResults().add(fileInvalidation);
         return isValid;

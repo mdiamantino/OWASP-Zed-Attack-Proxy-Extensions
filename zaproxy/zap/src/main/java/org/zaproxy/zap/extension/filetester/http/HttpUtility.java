@@ -1,11 +1,11 @@
 package org.zaproxy.zap.extension.filetester.http;
 
 import net.sf.json.JSONObject;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.Map;
 
 public class HttpUtility {
@@ -31,6 +31,7 @@ public class HttpUtility {
         return response;
     }
 
+
     private static void constructGetRequest() throws IOException {
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
@@ -40,7 +41,7 @@ public class HttpUtility {
     }
 
     private static JSONObject readMultipleLinesResponse() throws IOException {
-        String response = "";
+        String response = "{}";
 
         // checks server's status code first
         int status = httpConn.getResponseCode();
@@ -58,8 +59,6 @@ public class HttpUtility {
             responseStreamReader.close();
 
             response = stringBuilder.toString();
-        } else {
-            throw new IOException("Server returned non-OK status: " + status);
         }
         return JSONObject.fromObject(response);
     }
@@ -79,17 +78,16 @@ public class HttpUtility {
         request.flush();
     }
 
-    private static void addFilePart(String fieldName, File uploadFile) throws IOException {
-        String fileName = uploadFile.getName();
+    private static void addFilePart(String fieldName, InputStream uploadFile, String fileName) throws IOException {
         request.writeBytes(twoHyphens + boundary + crlf);
         request.writeBytes(
                 "Content-Disposition: form-data; name=\"" + fieldName + "\";filename=\"" + fileName + "\"" + crlf);
         request.writeBytes(crlf);
-        byte[] bytes = Files.readAllBytes(uploadFile.toPath());
+        byte[] bytes = IOUtils.toByteArray(uploadFile);
         request.write(bytes);
     }
 
-    private static void constructPostRequest(Map<String, String> params, Map<String, File> fileParams)
+    private static void constructPostRequest(Map<String, String> params, Map<String, InputStream> fileParams, String fileName)
             throws IOException {
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
@@ -104,17 +102,17 @@ public class HttpUtility {
         for (Map.Entry<String, String> p : params.entrySet()) {
             addFormField(p.getKey(), p.getValue());
         }
-        for (Map.Entry<String, File> f : fileParams.entrySet()) {
-            addFilePart(f.getKey(), f.getValue());
+        for (Map.Entry<String, InputStream> f : fileParams.entrySet()) {
+            addFilePart(f.getKey(), f.getValue(), fileName);
         }
     }
 
-    public static JSONObject postRequest(String URL, Map<String, String> params, Map<String, File> fileParams)
+    public static JSONObject postRequest(String URL, Map<String, String> params, Map<String, InputStream> fileParams, String fileName)
             throws IOException {
         requestURL = URL;
         JSONObject response = null;
         try {
-            constructPostRequest(params, fileParams);
+            constructPostRequest(params, fileParams, fileName);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();

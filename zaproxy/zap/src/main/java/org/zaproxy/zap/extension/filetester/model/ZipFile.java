@@ -1,21 +1,22 @@
 package org.zaproxy.zap.extension.filetester.model;
 
 import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class ZipFile extends DownloadedFile {
+
     private static final int BUFFER = 512;
     private static final long TOOBIG = 0x6400000; // Max size of unzipped data, 100MB
     private static final int TOOMANY = 1024; // Max number of files
 
-    public ZipFile(File file) {
-        super(file);
+    public ZipFile(String name, InputStream file) {
+        super(name, file);
     }
 
     @Override
@@ -25,7 +26,11 @@ public class ZipFile extends DownloadedFile {
     }
 
     private boolean isNotPasswordProtected() throws ZipException {
-        net.lingala.zip4j.ZipFile zipFile = new net.lingala.zip4j.ZipFile(this.getFile());
+        File file = new File(this.getName());
+        try {
+            FileUtils.copyInputStreamToFile(this.getFile(), file);
+        } catch (IOException e) {}
+        net.lingala.zip4j.ZipFile zipFile = new net.lingala.zip4j.ZipFile(file);
         boolean isEncrypted = zipFile.isEncrypted();
         FileTestResult encryptionDetection = new FileTestResult("Encryption Detection");
         if (isEncrypted) {
@@ -34,15 +39,20 @@ public class ZipFile extends DownloadedFile {
             encryptionDetection.setResult(false);
         }
         this.getTestResults().add(encryptionDetection);
+        try {
+            Files.deleteIfExists(Paths.get(this.getName()));
+        } catch (IOException e) {
+//            e.printStackTrace();
+        }
         return !isEncrypted;
     }
 
     private boolean isNotZIPBomb() throws IOException, IllegalArgumentException {
+        this.getFile().reset();
         boolean isValid = true;
         FileTestResult zipBombDetection = new FileTestResult("Zip Bomb Detection");
         FileTestResult pathTraversalDetection = new FileTestResult("Path Traversal Detection");
-        FileInputStream fis = new FileInputStream(this.getFile());
-        ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));
+        ZipInputStream zis = new ZipInputStream(new BufferedInputStream(this.getFile()));
         ZipEntry entry;
         int entries = 0;
         long total = 0;

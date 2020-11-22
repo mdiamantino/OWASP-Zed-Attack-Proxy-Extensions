@@ -19,23 +19,27 @@
  */
 package org.zaproxy.zap.extension.filetester;
 
+import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.httpclient.URI;
+import org.apache.commons.io.FilenameUtils;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
-import org.parosproxy.paros.network.HttpHeader;
-import org.parosproxy.paros.network.HttpMessage;
-import org.parosproxy.paros.network.HttpSender;
+import org.parosproxy.paros.network.*;
 import org.parosproxy.paros.view.View;
+import org.zaproxy.zap.extension.filetester.factory.FileFactory;
+import org.zaproxy.zap.extension.filetester.model.FileTestResult;
+import org.zaproxy.zap.extension.filetester.model.IDownloadedFile;
+import org.zaproxy.zap.extension.filetester.model.Report;
+import org.zaproxy.zap.network.HttpResponseBody;
 import org.zaproxy.zap.network.HttpSenderListener;
 import org.zaproxy.zap.view.ZapMenuItem;
 import org.apache.log4j.Logger;
-import org.parosproxy.paros.extension.ViewDelegate;
-import org.parosproxy.paros.core.proxy.ProxyListener;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 
 public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderListener {
     public static final String NAME = "ExtensionFileTester";
@@ -44,9 +48,16 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
     private int enable_step = 0;
     private static Logger log = Logger.getLogger(ExtensionFileTester.class);
 
+    private final FileFactory factory;
+    private List<IDownloadedFile> uncompletedFiles;
+    private List<IDownloadedFile> completedFiles;
+
     public ExtensionFileTester() {
         super(NAME);
         setI18nPrefix(PREFIX);
+        factory = new FileFactory();
+        uncompletedFiles = new LinkedList<>();
+        completedFiles = new LinkedList<>();
     }
 
     @Override
@@ -90,7 +101,7 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
                 log.info("Value is: " + this.enable_step);
             }
             else if(this.enable_step == 2){
-                log.info("Filetester is now disabled.");
+                log.info("FileTester is now disabled.");
                 log.info("Value is: " + this.enable_step);
                 enable_step =0;
             }
@@ -115,11 +126,7 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         ZapMenuItem menuReport = new ZapMenuItem("Get Report of Scans");
         menuReport.addActionListener(
                 e -> {
-                    DocDialog dialog =
-                            new DocDialog(
-                                    Objects.requireNonNull(View.getSingleton()).getMainFrame(),
-                                    true);
-                    dialog.setVisible(true);
+                    createReport(generateReport());
                 });
         return menuReport;
     }
@@ -158,11 +165,56 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
 
     private boolean scan(HttpMessage msg) {
         if (this.enable_step  == 2) { // The extension is disabled so we do not react
-        return true;
+            return true;
         }
         String site = msg.getRequestHeader().getHostName() + ":" + msg.getRequestHeader().getHostPort();
-        log.info(site);
+//        log.info(site);
+
+        try {
+            HttpRequestHeader requestHeader = msg.getRequestHeader();
+            HttpResponseHeader responseHeader = msg.getResponseHeader();
+            String fileName = URLDecoder.decode(requestHeader.getURI().getName(), StandardCharsets.UTF_8.toString());
+//            if (responseHeader.hasContentType("image/jpeg", "image/png", "application/zip", "application/octet-stream")) {
+            if (FilenameUtils.isExtension(fileName, "jpeg", "jpg", "png", "zip", "exe")) {
+                HttpResponseBody responseBody = msg.getResponseBody();
+                log.info(requestHeader.getURI() + "\t" + fileName + "\t" + FilenameUtils.getExtension(fileName));
+                InputStream fileStream = new ByteArrayInputStream(responseBody.getBytes());
+                IDownloadedFile file = factory.createdDownloadedFile(fileName, fileStream);
+                uncompletedFiles.add(file);
+                if (file.isValid()) {
+                    System.out.println("valid");
+                } else {
+                    // popUp();
+                    System.out.println("invalid");
+                }
+            }
+        } catch (Exception e) {
+//                e.printStackTrace();
+        }
         return true;
     }
 
+    private List<IDownloadedFile> generateReport() {
+        Report report = new Report();
+        List<IDownloadedFile> completed = report.generateReport(uncompletedFiles);
+        completedFiles.addAll(completed);
+        uncompletedFiles.removeAll(completed);
+        return completed;
+    }
+
+    private void createReport(List<IDownloadedFile> report) {
+        try(FileWriter fw = new FileWriter("file_tester_report.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+            {
+                for (IDownloadedFile r: report) {
+                    for (FileTestResult res: r.getTestResults()) {
+                        String output = String.format("File Name: %s\tTest Name: %s\tTest Result: %b\tTest Remarks: %s",
+                                r.getName(),res.getName(),res.getResult(),res.getRemarks()!=null?res.getRemarks():"");
+                        out.println(output);
+                    }
+                }
+            } catch (IOException e) {
+        }
+    }
 }

@@ -1,17 +1,18 @@
 package org.zaproxy.zap.extension.filetester.model;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class DownloadedFile implements IDownloadedFile {
+
     private String name;
-    private File file;
+    private InputStream file;
     private List<FileTestResult> testResults;
 
-    public DownloadedFile(File file) {
+    public DownloadedFile(String name, InputStream file) {
         this.file = file;
-        this.name = file.getName();
+        this.name = name;
         testResults = new LinkedList<>();
     }
 
@@ -23,7 +24,7 @@ public abstract class DownloadedFile implements IDownloadedFile {
         return testResults;
     }
 
-    public File getFile() {
+    public InputStream getFile() {
         return file;
     }
 }

@@ -5,24 +5,24 @@ import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.filetester.model.*;
 
 import java.io.File;
+import java.io.InputStream;
 
 public class FileFactory {
 
     private static final Logger logger = Logger.getLogger(FileFactory.class);
 
-    public IDownloadedFile createdDownloadedFile(String pathname) {
-        String fileExtension = FilenameUtils.getExtension(pathname).toLowerCase();
-        File file = new File(pathname);
+    public IDownloadedFile createdDownloadedFile(String name, InputStream file) {
+        String fileExtension = FilenameUtils.getExtension(name).toLowerCase();
         switch (fileExtension) {
             case "jpg":
             case "jpeg":
-                return new JpegFile(file);
+                return new JpegFile(name, file);
             case "png":
-                return new PngFile(file);
+                return new PngFile(name, file);
             case "zip":
-                return new ZipFile(file);
+                return new ZipFile(name, file);
             case "exe":
-                return new ExeFile(file);
+                return new ExeFile(name, file);
             default:
                 throw new IllegalArgumentException("Unknown extension type");
         }
