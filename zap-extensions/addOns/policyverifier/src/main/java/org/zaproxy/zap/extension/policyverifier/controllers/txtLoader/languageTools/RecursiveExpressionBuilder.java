@@ -21,12 +21,15 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageT
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
 
 public class RecursiveExpressionBuilder {
+    private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
+
     // Structural components
     private Expression root;
     private OperatorEnum symbol;
@@ -36,6 +39,7 @@ public class RecursiveExpressionBuilder {
 
     public RecursiveExpressionBuilder(String expression) {
         this.lexer = new Lexer(expression);
+        logger.info("Expression entered" + expression);
     }
 
     public Expression build() {
@@ -66,6 +70,8 @@ public class RecursiveExpressionBuilder {
     }
 
     private void parseTerminalExpressionOrANot() {
+        symbol = lexer.nextSymbol();
+        logger.info("Symbol: " + symbol);
         if (ExpressionFactory.checkIfIsOperation(symbol)) {
             List<String> l = list();
             root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
@@ -79,7 +85,7 @@ public class RecursiveExpressionBuilder {
             parseOrExpressionAndInside();
             symbol = lexer.nextSymbol();
         } else {
-            throw new RuntimeException("Incorrect Expression");
+            throw new RuntimeException("Incorrect Expression: " + symbol);
         }
     }
 
