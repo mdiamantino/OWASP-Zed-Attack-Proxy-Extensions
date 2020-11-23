@@ -198,10 +198,7 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
 
     private List<IDownloadedFile> generateReport() {
         Report report = new Report();
-        List<IDownloadedFile> completed = report.generateReport(uncompletedFiles);
-        completedFiles.addAll(completed);
-        uncompletedFiles.removeAll(completed);
-        return completed;
+        return report.generateReport(uncompletedFiles);
     }
 
     private void updateFileLists(List<IDownloadedFile> files) {
