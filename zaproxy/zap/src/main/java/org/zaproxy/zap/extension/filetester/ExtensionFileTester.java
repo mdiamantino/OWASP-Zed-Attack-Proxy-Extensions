@@ -126,7 +126,9 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         ZapMenuItem menuReport = new ZapMenuItem("Get Report of Scans");
         menuReport.addActionListener(
                 e -> {
-                    createReport(generateReport());
+                    List<IDownloadedFile> reportFiles = generateReport();
+                    createReport(reportFiles);
+                    updateFileLists(reportFiles);
                 });
         return menuReport;
     }
@@ -174,19 +176,19 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
             HttpRequestHeader requestHeader = msg.getRequestHeader();
             HttpResponseHeader responseHeader = msg.getResponseHeader();
             String fileName = URLDecoder.decode(requestHeader.getURI().getName(), StandardCharsets.UTF_8.toString());
-//            if (responseHeader.hasContentType("image/jpeg", "image/png", "application/zip", "application/octet-stream")) {
-            if (FilenameUtils.isExtension(fileName, "jpeg", "jpg", "png", "zip", "exe")) {
+            if (responseHeader.hasContentType("image/jpeg", "image/png", "application/zip", "application/octet-stream", "application/x-msdownload")
+                && FilenameUtils.isExtension(fileName, "jpeg", "jpg", "png", "zip", "exe")) {
                 HttpResponseBody responseBody = msg.getResponseBody();
                 log.info(requestHeader.getURI() + "\t" + fileName + "\t" + FilenameUtils.getExtension(fileName));
                 InputStream fileStream = new ByteArrayInputStream(responseBody.getBytes());
                 IDownloadedFile file = factory.createdDownloadedFile(fileName, fileStream);
-                uncompletedFiles.add(file);
                 if (file.isValid()) {
                     System.out.println("valid");
                 } else {
                     // popUp();
                     System.out.println("invalid");
                 }
+                uncompletedFiles.add(file);
             }
         } catch (Exception e) {
 //                e.printStackTrace();
@@ -200,6 +202,15 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         completedFiles.addAll(completed);
         uncompletedFiles.removeAll(completed);
         return completed;
+    }
+
+    private void updateFileLists(List<IDownloadedFile> files) {
+        for(IDownloadedFile file: files) {
+            if (file.isCompleted()) {
+                uncompletedFiles.remove(file);
+                completedFiles.add(file);
+            }
+        }
     }
 
     private void createReport(List<IDownloadedFile> report) {

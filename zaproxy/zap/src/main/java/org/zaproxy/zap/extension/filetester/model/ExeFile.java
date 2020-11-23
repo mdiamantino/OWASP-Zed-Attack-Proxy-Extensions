@@ -71,6 +71,9 @@ public class ExeFile extends DownloadedFile {
                 e.printStackTrace();
             }
         }
+        if (virusScanCompleted) {
+            isCompleted = true;
+        }
         return virusScans;
     }
 

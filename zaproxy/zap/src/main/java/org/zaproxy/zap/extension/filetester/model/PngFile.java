@@ -25,6 +25,7 @@ public class PngFile extends ImageFile {
             fileInvalidation.setRemarks("File invalid");
         }
         this.getTestResults().add(fileInvalidation);
+        isCompleted = true;
         return isValid;
     }
 }

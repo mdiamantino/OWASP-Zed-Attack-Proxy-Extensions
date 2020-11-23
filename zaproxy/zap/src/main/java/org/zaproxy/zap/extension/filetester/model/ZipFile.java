@@ -22,6 +22,7 @@ public class ZipFile extends DownloadedFile {
     @Override
     public boolean isValid() throws ZipException, IOException {
         boolean isValid = isNotPasswordProtected() && isNotZIPBomb();
+        isCompleted = true;
         return isValid;
     }
 

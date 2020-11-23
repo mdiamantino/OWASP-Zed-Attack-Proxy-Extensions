@@ -54,8 +54,10 @@ public class JpegFile extends ImageFile {
             fileInvalidation.setRemarks("File invalid");
         }
         this.getTestResults().add(fileInvalidation);
+        isCompleted = true;
         return isValid;
     }
+
 
     private void extractMetadata() throws JpegProcessingException, IOException {
         Iterable<JpegSegmentMetadataReader> readers = Arrays.asList(new ExifReader());
