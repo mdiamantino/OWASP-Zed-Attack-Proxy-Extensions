@@ -84,7 +84,7 @@ public class ExeFile extends DownloadedFile {
                                 scanResultMessage, positives, total));
                     } else {
                         virusDetection.setResult(false);
-                        virusDetection.setRemarks("");
+                        virusDetection.setRemarks("The file passed the test.");
                     }
                     virusScanCompleted = true;
                     isCompleted = true;

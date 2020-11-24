@@ -24,7 +24,7 @@ public class FileTesterScanner implements HttpSenderListener {
     private final FileFactory factory;
     private final Collection<String> allowedContentTypes = Arrays.asList("image/jpeg", "image/png", "application/zip", "application/octet-stream", "application/x-msdownload");
     private final Collection<String> allowedExtensions = Arrays.asList("jpeg", "jpg", "png", "zip", "exe");
-    private boolean isEnabled = true;
+    private boolean isEnabled = false;
 
     private static FileTesterScanner soleController;
     protected static final String PREFIX = "filetester";
@@ -35,12 +35,11 @@ public class FileTesterScanner implements HttpSenderListener {
 
     public void enableOrDisableListener() {
         // Check if communication with ui can happen in extension
+        isEnabled = !(isEnabled);
         String message = (isEnabled ? Constant.messages.getString(PREFIX + ".enable") : Constant.messages.getString(PREFIX + ".disable"));
         String title = "Alert!";
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
-        isEnabled = !(isEnabled);
     }
-
 
     public FileTesterScanner() {
         if (soleController != null) {
@@ -96,5 +95,4 @@ public class FileTesterScanner implements HttpSenderListener {
             e.printStackTrace();
         }
     }
-
 }

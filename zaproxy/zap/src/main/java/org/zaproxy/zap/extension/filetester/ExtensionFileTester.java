@@ -117,6 +117,4 @@ public class ExtensionFileTester extends ExtensionAdaptor {
         }
         return menuFileTester;
     }
-
-
 }

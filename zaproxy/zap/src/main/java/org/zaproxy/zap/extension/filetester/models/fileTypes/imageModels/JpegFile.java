@@ -69,7 +69,7 @@ public class JpegFile extends ImageFile {
                 metadataExtraction.setRemarks(JSONObject.fromObject(extractedMetadata).toString());
             }
             this.getTestResults().add(metadataExtraction);
-            fileInvalidation.setRemarks("");
+            fileInvalidation.setRemarks("The file passed the test.");
         } else {
             fileInvalidation.setResult(true);
             fileInvalidation.setRemarks("File invalid");

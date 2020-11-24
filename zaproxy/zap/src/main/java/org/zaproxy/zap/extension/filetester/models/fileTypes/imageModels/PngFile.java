@@ -44,7 +44,7 @@ public class PngFile extends ImageFile {
         if (isValid(PNG_MAGIC_NUMBER)) {
             isValid = true;
             fileInvalidation.setResult(false);
-            fileInvalidation.setRemarks("");
+            fileInvalidation.setRemarks("The file passed the test.");
         } else {
             fileInvalidation.setResult(true);
             fileInvalidation.setRemarks("File invalid");

@@ -70,6 +70,7 @@ public class ZipFile extends DownloadedFile {
         boolean isEncrypted = zipFile.isEncrypted();
         FileTestResult encryptionDetection = new FileTestResult(TEST_ZIP_ENCRYPTION_DETECTION);
         encryptionDetection.setResult(isEncrypted);
+        encryptionDetection.setRemarks((isEncrypted?"The file is encrypted." : "The file passed the test."));
         this.getTestResults().add(encryptionDetection);
         Files.deleteIfExists(Paths.get(this.getName()));
         return !isEncrypted;
@@ -96,6 +97,7 @@ public class ZipFile extends DownloadedFile {
                 byte[] data = new byte[BUFFER];
                 if (!doesNotContainPathTraversalInfo(entry.getName())) {
                     pathTraversalDetection.setResult(true);
+                    pathTraversalDetection.setRemarks("File contains path traversal vulnerabilities.");
                     this.getTestResults().add(pathTraversalDetection);
                     return false;
                 }
@@ -112,14 +114,18 @@ public class ZipFile extends DownloadedFile {
                 }
             }
             zipBombDetection.setResult(false);
+            zipBombDetection.setRemarks("The file passed the test.");
             this.getTestResults().add(zipBombDetection);
             pathTraversalDetection.setResult(false);
+            pathTraversalDetection.setRemarks("The file passed the test.");
             this.getTestResults().add(pathTraversalDetection);
         } catch (IllegalStateException ise) {
             isValid = false;
             pathTraversalDetection.setResult(true);
+            pathTraversalDetection.setRemarks("File contains path traversal vulnerabilities.");
             this.getTestResults().add(pathTraversalDetection);
             zipBombDetection.setResult(true);
+            zipBombDetection.setRemarks("File is a ZIP bomb.");
             this.getTestResults().add(zipBombDetection);
         }
         return isValid;
