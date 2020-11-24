@@ -73,7 +73,7 @@ public class RecursiveExpressionBuilder {
             OperatorEnum operationSymbol = symbol;
             List<String> l = list();
             root = ExpressionFactory.extractOperationFromSymbol(operationSymbol, l);
-            lexer.nextSymbol();
+            symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
             parseTerminalExpressionOrANot();
@@ -81,6 +81,7 @@ public class RecursiveExpressionBuilder {
             root = not;
         } else if (symbol == OperatorEnum.LEFT) {
             parseOrExpressionAndInside();
+            expect(OperatorEnum.RIGHT);
             symbol = lexer.nextSymbol();
         } else {
             throw new RuntimeException("Incorrect Expression: " + symbol);
