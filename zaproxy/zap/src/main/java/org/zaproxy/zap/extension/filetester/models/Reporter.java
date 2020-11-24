@@ -1,6 +1,7 @@
 package org.zaproxy.zap.extension.filetester.models;
 
 import org.parosproxy.paros.Constant;
+import org.parosproxy.paros.view.View;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Reporter {
     private static Reporter soleModel;
@@ -86,6 +88,9 @@ public class Reporter {
             updateFileLists(reportFiles);
         } catch (IOException ioException) {
             ioException.printStackTrace();
+            Objects.requireNonNull(View.getSingleton())
+                    .showWarningDialog(
+                            Constant.messages.getString(PREFIX + ".report.errorMessage"));
         }
     }
 }

@@ -81,6 +81,7 @@ public class ZipFile extends DownloadedFile {
      * @return True if the file is not a ZIP bomb.
      * @throws IOException if cannot read the input stream.
      */
+    // TODO SPLIT
     private boolean isNotZIPBomb() throws IOException {
         this.getFile().reset();
         boolean isValid = true;

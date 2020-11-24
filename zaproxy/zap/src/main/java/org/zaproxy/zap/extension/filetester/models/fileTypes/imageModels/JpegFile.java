@@ -89,15 +89,16 @@ public class JpegFile extends ImageFile {
         Metadata metadata;
         try {
             metadata = JpegMetadataReader.readMetadata(this.getFile(), readers);
-        } catch (JpegProcessingException e) {
-            return;
-        }
-        for (Directory directory : metadata.getDirectories()) {
-            if (!directory.toString().equals("File Directory (3 tags)")) {
-                for (Tag tag : directory.getTags()) {
-                    extractedMetadata.put(tag.getTagName(), tag.getDescription());
+            for (Directory directory : metadata.getDirectories()) {
+                if (!directory.toString().equals("File Directory (3 tags)")) {
+                    for (Tag tag : directory.getTags()) {
+                        extractedMetadata.put(tag.getTagName(), tag.getDescription());
+                    }
                 }
             }
+        } catch (JpegProcessingException ignore) {
+            // Ignore
         }
+
     }
 }

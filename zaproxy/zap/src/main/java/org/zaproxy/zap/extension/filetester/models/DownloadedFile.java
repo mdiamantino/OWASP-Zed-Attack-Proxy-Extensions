@@ -25,7 +25,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class DownloadedFile implements IDownloadedFile {
-
     private final String name;
     private final InputStream file;
     private final List<FileTestResult> testResults;
@@ -36,6 +35,9 @@ public abstract class DownloadedFile implements IDownloadedFile {
         this.name = name;
         testResults = new LinkedList<>();
     }
+
+    @Override
+    public abstract boolean isValid() throws IOException;
 
     @Override
     public String getName() {

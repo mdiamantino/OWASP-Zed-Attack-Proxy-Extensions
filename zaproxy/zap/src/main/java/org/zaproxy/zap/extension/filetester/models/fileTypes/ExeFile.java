@@ -69,9 +69,6 @@ public class ExeFile extends DownloadedFile {
 
     @Override
     public List<FileTestResult> getTestResults() throws IOException {
-        if (isCompleted) {
-            return testResults;
-        }
         if (!virusScanCompleted) {
             JSONObject results = getScanResults();
             if (!results.isEmpty()) {
