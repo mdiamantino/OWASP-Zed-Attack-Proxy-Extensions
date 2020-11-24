@@ -17,11 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.filetester.model;
+package org.zaproxy.zap.extension.filetester.models.fileTypes;
 
 import net.sf.json.JSONObject;
 import org.parosproxy.paros.Constant;
-import org.zaproxy.zap.extension.filetester.http.HttpUtility;
+import org.zaproxy.zap.extension.filetester.models.DownloadedFile;
+import org.zaproxy.zap.extension.filetester.models.FileTestResult;
+import org.zaproxy.zap.extension.filetester.models.httpUtils.HttpUtility;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.filetester.http;
+package org.zaproxy.zap.extension.filetester.models.httpUtils;
 
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
@@ -63,7 +63,7 @@ public class HttpUtility {
      * @throws IOException if cannot read the input stream.
      */
     public JSONObject postRequest(String URL, Map<String, String> params, Map<String, InputStream> fileParams,
-                                         String fileName) throws IOException {
+                                  String fileName) throws IOException {
         requestURL = URL;
         JSONObject response;
         try {
@@ -101,7 +101,7 @@ public class HttpUtility {
      * @throws IOException if cannot read the input stream.
      */
     private void constructPostRequest(Map<String, String> params, Map<String, InputStream> fileParams,
-                                             String fileName) throws IOException {
+                                      String fileName) throws IOException {
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
         httpConn.setUseCaches(false);

@@ -17,10 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.filetester.factory;
+package org.zaproxy.zap.extension.filetester.models;
 
 import org.apache.commons.io.FilenameUtils;
-import org.zaproxy.zap.extension.filetester.model.*;
+import org.zaproxy.zap.extension.filetester.models.fileTypes.ExeFile;
+import org.zaproxy.zap.extension.filetester.models.fileTypes.ZipFile;
+import org.zaproxy.zap.extension.filetester.models.fileTypes.imageModels.JpegFile;
+import org.zaproxy.zap.extension.filetester.models.fileTypes.imageModels.PngFile;
 
 import java.io.InputStream;
 
