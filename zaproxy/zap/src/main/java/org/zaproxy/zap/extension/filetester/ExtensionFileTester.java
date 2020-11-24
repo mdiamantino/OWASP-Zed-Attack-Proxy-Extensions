@@ -19,19 +19,15 @@
  */
 package org.zaproxy.zap.extension.filetester;
 
-import java.io.*;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
-import javax.swing.JOptionPane;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
-import org.parosproxy.paros.network.*;
+import org.parosproxy.paros.network.HttpMessage;
+import org.parosproxy.paros.network.HttpRequestHeader;
+import org.parosproxy.paros.network.HttpResponseHeader;
+import org.parosproxy.paros.network.HttpSender;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.filetester.factory.FileFactory;
 import org.zaproxy.zap.extension.filetester.model.FileTestResult;
@@ -40,34 +36,42 @@ import org.zaproxy.zap.extension.filetester.model.Report;
 import org.zaproxy.zap.network.HttpResponseBody;
 import org.zaproxy.zap.network.HttpSenderListener;
 import org.zaproxy.zap.view.ZapMenuItem;
-import org.apache.log4j.Logger;
 
+import javax.swing.*;
+import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+/**
+ * ExtensionFileTester is the entry point for the File Tester Extension. It operates on JPEG, PNG, ZIP, and EXE file types for different tests.
+ */
 public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderListener {
     public static final String NAME = "ExtensionFileTester";
     protected static final String PREFIX = "filetester";
-    private javax.swing.JMenu menuPolicyPlugin = null;
-    private int enable_step = 0;
-    private static Logger log = Logger.getLogger(ExtensionFileTester.class);
+    private static final Logger logger = Logger.getLogger(ExtensionFileTester.class);
 
     private final FileFactory factory;
+    private final Collection<String> allowedContentTypes = Arrays.asList("image/jpeg", "image/png", "application/zip", "application/octet-stream", "application/x-msdownload");
+    private final Collection<String> allowedExtensions = Arrays.asList("jpeg", "jpg", "png", "zip", "exe");
+
+    private javax.swing.JMenu menuFileTester = null;
+    private int enable_step = 0;
     private List<IDownloadedFile> uncompletedFiles;
-    private List<IDownloadedFile> completedFiles;
 
     public ExtensionFileTester() {
         super(NAME);
         setI18nPrefix(PREFIX);
         factory = new FileFactory();
         uncompletedFiles = new LinkedList<>();
-        completedFiles = new LinkedList<>();
     }
 
     @Override
     public void hook(ExtensionHook extensionHook) {
         super.hook(extensionHook);
-
         extensionHook.addHttpSenderListener(this);
         if (getView() != null) {
-            extensionHook.getHookMenu().addNewMenu(getMenuPolicyPlugin());
+            extensionHook.getHookMenu().addNewMenu(getFileTesterMenu());
         }
     }
 
@@ -86,41 +90,20 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         return Constant.messages.getString(PREFIX + ".desc");
     }
 
-    /**
-     * View method used to retrieve the loaded file from the view through a graphical file chooser.
-     * Only JAR files are accepted. When a valid file is picked, it is passed to the controller
-     * (PolicyLoaderController).
-     */
-
-
-    private ZapMenuItem getMenuOptionLoadPolicy() {
-        ZapMenuItem menuLoadPolicy = new ZapMenuItem("Activate/Deactivate Extension");
-        menuLoadPolicy.addActionListener(e -> {
+    private ZapMenuItem getMenuOptionFileTesterToggle() {
+        ZapMenuItem menuFileTester = new ZapMenuItem(PREFIX + ".menu.toggle");
+        menuFileTester.addActionListener(e -> {
+            String message = (enable_step % 2 == 0 ? Constant.messages.getString(PREFIX + ".enable") : Constant.messages.getString(PREFIX + ".disable"));
+            String title = "Alert!";
+            JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
             this.enable_step += 1;
-            if(this.enable_step == 1) {
-                String message = "The FileTester extension is now enabled!";
-                String title = "Alert!";
-                JOptionPane.showMessageDialog(null, message,  title, JOptionPane.INFORMATION_MESSAGE);
-                log.info("FileTester is now enabled");
-                log.info("Value is: " + this.enable_step);
-            }
-            else if(this.enable_step == 2){
-               //String message = "The FileTester extension is now disabled!";
-                //String title = "Alert!";
-                //JOptionPane.showMessageDialog(null, message,  title, JOptionPane.INFORMATION_MESSAGE);
-                String message = "An interesting file is found! The filename is not_a_virus.exe!";
-                String title = "Alert!";
-                JOptionPane.showMessageDialog(null, message,  title, JOptionPane.INFORMATION_MESSAGE);
-                log.info("FileTester is now disabled.");
-                log.info("Value is: " + this.enable_step);
-                enable_step =0;
-            }
+            logger.info(message);
         });
-        return menuLoadPolicy;
+        return menuFileTester;
     }
 
     private ZapMenuItem getMenuOptionHelp() {
-        ZapMenuItem menuHelp = new ZapMenuItem("Help");
+        ZapMenuItem menuHelp = new ZapMenuItem(PREFIX + ".menu.help");
         menuHelp.addActionListener(
                 e -> {
                     DocDialog dialog =
@@ -133,31 +116,35 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
     }
 
     private ZapMenuItem getReportOption() {
-        ZapMenuItem menuReport = new ZapMenuItem("Get Report of Scans");
+        ZapMenuItem menuReport = new ZapMenuItem(PREFIX + ".menu.report");
         menuReport.addActionListener(
                 e -> {
-                    List<IDownloadedFile> reportFiles = generateReport();
-                    createReport(reportFiles);
-                    updateFileLists(reportFiles);
+                    try {
+                        List<IDownloadedFile> reportFiles = generateReport();
+                        createReport(reportFiles);
+                        updateFileLists(reportFiles);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 });
         return menuReport;
     }
 
-    private void setUpPluginMenu() {
-        if (menuPolicyPlugin != null) {
-            menuPolicyPlugin.add(getMenuOptionLoadPolicy()); // Adding loading button
-            menuPolicyPlugin.add(getMenuOptionHelp()); // Adding Help button
-            menuPolicyPlugin.add(getReportOption()); //Adding the report button
+    private void setUpFileTesterMenu() {
+        if (menuFileTester != null) {
+            menuFileTester.add(getMenuOptionFileTesterToggle()); // Adding enable disable button
+            menuFileTester.add(getMenuOptionHelp()); // Adding Help button
+            menuFileTester.add(getReportOption()); //Adding the report button
         }
     }
 
-    private javax.swing.JMenu getMenuPolicyPlugin() {
-        if (menuPolicyPlugin == null) {
-            menuPolicyPlugin = new javax.swing.JMenu();
-            menuPolicyPlugin.setText("Extension FileTester");
-            setUpPluginMenu();
+    private javax.swing.JMenu getFileTesterMenu() {
+        if (menuFileTester == null) {
+            menuFileTester = new javax.swing.JMenu();
+            menuFileTester.setText(Constant.messages.getString(PREFIX + ".menu.title"));
+            setUpFileTesterMenu();
         }
-        return menuPolicyPlugin;
+        return menuFileTester;
     }
 
     @Override
@@ -175,66 +162,71 @@ public class ExtensionFileTester extends ExtensionAdaptor implements HttpSenderL
         scan(msg);
     }
 
-    private boolean scan(HttpMessage msg) {
-        if (this.enable_step  == 2) { // The extension is disabled so we do not react
-            return true;
+    private void scan(HttpMessage msg) {
+        if (this.enable_step == 2) {
+            return;
         }
-        String site = msg.getRequestHeader().getHostName() + ":" + msg.getRequestHeader().getHostPort();
-//        log.info(site);
-
         try {
             HttpRequestHeader requestHeader = msg.getRequestHeader();
             HttpResponseHeader responseHeader = msg.getResponseHeader();
             String fileName = URLDecoder.decode(requestHeader.getURI().getName(), StandardCharsets.UTF_8.toString());
-            if (responseHeader.hasContentType("image/jpeg", "image/png", "application/zip", "application/octet-stream", "application/x-msdownload")
-                && FilenameUtils.isExtension(fileName, "jpeg", "jpg", "png", "zip", "exe")) {
+            if (responseHeader.hasContentType(allowedContentTypes.toArray(new String[0])) && FilenameUtils.isExtension(fileName, allowedExtensions)) {
                 HttpResponseBody responseBody = msg.getResponseBody();
-                log.info(requestHeader.getURI() + "\t" + fileName + "\t" + FilenameUtils.getExtension(fileName));
                 InputStream fileStream = new ByteArrayInputStream(responseBody.getBytes());
                 IDownloadedFile file = factory.createdDownloadedFile(fileName, fileStream);
-                if (file.isValid()) {
-                    System.out.println("valid");
-                } else {
-                    String message = "An interesting file is found! The filename is" + fileName +"!" ;
-                    String title = "Alert!";
-                    JOptionPane.showMessageDialog(null, message,  title, JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println("invalid");
+                if (!file.isValid()) {
+                    String title = Constant.messages.getString(PREFIX + ".menu.alert.title");
+                    String description = String.format(Constant.messages.getString(PREFIX + ".menu.alert.desc"), fileName);
+                    JOptionPane.showMessageDialog(null, description, title, JOptionPane.INFORMATION_MESSAGE);
                 }
                 uncompletedFiles.add(file);
             }
         } catch (Exception e) {
-//                e.printStackTrace();
+            e.printStackTrace();
         }
-        return true;
     }
 
-    private List<IDownloadedFile> generateReport() {
+    /**
+     * Generates a report of files with the latest test results;
+     *
+     * @return List of files with latest test results.
+     * @throws IOException if cannot read the input stream.
+     */
+    private List<IDownloadedFile> generateReport() throws IOException {
         Report report = new Report();
         return report.generateReport(uncompletedFiles);
     }
 
-    private void updateFileLists(List<IDownloadedFile> files) {
-        for(IDownloadedFile file: files) {
-            if (file.isCompleted()) {
-                uncompletedFiles.remove(file);
-                completedFiles.add(file);
+    /**
+     * Creates a text file from the report of the tests performed on the downloaded files.
+     *
+     * @param report List of latest file results
+     * @throws IOException if cannot read the input stream.
+     */
+    private void createReport(List<IDownloadedFile> report) throws IOException {
+        try (FileWriter fw = new FileWriter(Constant.messages.getString(PREFIX + ".report.name"), true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter pw = new PrintWriter(bw)) {
+            for (IDownloadedFile r : report) {
+                for (FileTestResult res : r.getTestResults()) {
+                    String output = String.format(Constant.messages.getString(PREFIX + ".report.syntax"),
+                            r.getName(), res.getName(), res.getResult(), res.getRemarks() != null ? res.getRemarks() : "");
+                    pw.println(output);
+                }
             }
         }
     }
 
-    private void createReport(List<IDownloadedFile> report) {
-        try(FileWriter fw = new FileWriter("file_tester_report.txt", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw))
-            {
-                for (IDownloadedFile r: report) {
-                    for (FileTestResult res: r.getTestResults()) {
-                        String output = String.format("File Name: %s\tTest Name: %s\tTest Result: %b\tTest Remarks: %s",
-                                r.getName(),res.getName(),res.getResult(),res.getRemarks()!=null?res.getRemarks():"");
-                        out.println(output);
-                    }
-                }
-            } catch (IOException e) {
+    /**
+     * Removes the files from list of uncompleted files if their testing is complete.
+     *
+     * @param files List of files with latest results.
+     */
+    private void updateFileLists(List<IDownloadedFile> files) {
+        for (IDownloadedFile file : files) {
+            if (file.isCompleted()) {
+                uncompletedFiles.remove(file);
+            }
         }
     }
 }

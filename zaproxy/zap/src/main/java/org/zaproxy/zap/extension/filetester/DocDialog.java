@@ -19,10 +19,14 @@
  */
 package org.zaproxy.zap.extension.filetester;
 
-import java.awt.*;
-import javax.swing.*;
 import org.parosproxy.paros.extension.AbstractDialog;
 
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * DocDialog sets up the UI components.
+ */
 public class DocDialog extends AbstractDialog {
     private static final long serialVersionUID = 1L;
 
