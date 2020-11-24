@@ -53,8 +53,9 @@ public class RuleEnforcingPassiveScannerUnitTest {
         reps.scanHttpRequestSend(new HttpMessage(), 1);
 
         // Then
-        verify(reps, times(1)).generateViolatedRuleReport(contains("Policypolicy.Rulea"));
-        verify(reps, times(1)).generateViolatedRuleReport(matches(" *Policypolicy\\.Ruleb.*"));
+        verify(reps, times(1))
+                .generateViolatedRuleReport(
+                        matches(".*Policypolicy\\.Rulea[\\S\\s]*Policypolicy\\.Ruleb[\\S\\s]*"));
     }
 
     @Test
@@ -70,6 +71,5 @@ public class RuleEnforcingPassiveScannerUnitTest {
         verify(reps, never()).generateViolatedRuleReport(contains("Policypolicy.Rulea"));
         verify(reps, never()).generateViolatedRuleReport(matches(" *Policypolicy\\.Ruleb.*"));
         verify(reps, times(1)).generateViolatedRuleReport(contains("Policypolicy.Rulec"));
-        verify(reps, times(1)).generateViolatedRuleReport(contains("Policypolicy.Ruled"));
     }
 }
