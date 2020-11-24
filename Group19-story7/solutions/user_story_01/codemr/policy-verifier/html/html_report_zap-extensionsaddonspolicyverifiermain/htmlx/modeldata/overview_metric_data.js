@@ -1,1 +1,0 @@
-var CodeMR_ProjectMetrics = {"Project Name":"zap-extensions working set: {zap-extensions.addOns.policyverifier.main}", "Number of Highly Problematic Classes":0, "Number of Entities":14, "Number of Problematic Classes":0, "Class Lines of Code":336, "Number of External Packages":22, "Number of Packages":4, "Number of External Entities":55}
