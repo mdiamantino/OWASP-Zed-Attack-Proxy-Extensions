@@ -63,6 +63,7 @@ public class JpegFile extends ImageFile {
             if (extractedMetadata.isEmpty()) {
                 isValid = true;
                 metadataExtraction.setResult(false);
+                metadataExtraction.setRemarks("The file passed the test.");
             } else {
                 metadataExtraction.setResult(true);
                 metadataExtraction.setRemarks(JSONObject.fromObject(extractedMetadata).toString());

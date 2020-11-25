@@ -29,7 +29,6 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import org.mockito.internal.util.reflection.*;
 
 /**
  * Reporter maintains the list of files which were tested. It also creates the report from that list.
