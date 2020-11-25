@@ -20,10 +20,12 @@
 package org.zaproxy.zap.extension.filetester.models.fileTypes;
 
 import net.sf.json.JSONObject;
+import org.parosproxy.paros.Constant;
 import org.zaproxy.zap.extension.filetester.models.DownloadedFile;
 import org.zaproxy.zap.extension.filetester.models.FileTestResult;
 import org.zaproxy.zap.extension.filetester.models.httpUtils.HttpUtility;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -35,7 +37,7 @@ import java.util.Map;
  * ExeFile manages the validation of EXE file types by performing a virus scan through an external API.
  */
 public class ExeFile extends DownloadedFile {
-
+    protected static final String PREFIX = "filetester";
     private static final String API_KEY = "8668d17eb4c599b1abcb850c1f046240c5ce7b42930551905371bb87dd08564b";
     private static final String GET_URL = "https://www.virustotal.com/vtapi/v2/file/report?apikey=%s&resource=%s";
     private static final String POST_URL = "https://www.virustotal.com/vtapi/v2/file/scan";
@@ -82,6 +84,9 @@ public class ExeFile extends DownloadedFile {
                         virusDetection.setResult(true);
                         virusDetection.setRemarks(String.format("%s: %d out of %d scans flagged the file as a virus.",
                                 scanResultMessage, positives, total));
+                        String title = Constant.messages.getString(PREFIX + ".menu.alert.title");
+                        String description = String.format(Constant.messages.getString(PREFIX + ".menu.alert.desc"), this.getName());
+                        JOptionPane.showMessageDialog(null, description, title, JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         virusDetection.setResult(false);
                         virusDetection.setRemarks("The file passed the test.");
