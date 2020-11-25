@@ -120,8 +120,8 @@ public class ZipFile extends DownloadedFile {
             this.getTestResults().add(pathTraversalDetection);
         } catch (IllegalStateException ise) {
             isValid = false;
-            pathTraversalDetection.setResult(true);
-            pathTraversalDetection.setRemarks("File contains path traversal vulnerabilities.");
+            pathTraversalDetection.setResult(false);
+            pathTraversalDetection.setRemarks("The file passed the test.");
             this.getTestResults().add(pathTraversalDetection);
             zipBombDetection.setResult(true);
             zipBombDetection.setRemarks("File is a ZIP bomb.");
