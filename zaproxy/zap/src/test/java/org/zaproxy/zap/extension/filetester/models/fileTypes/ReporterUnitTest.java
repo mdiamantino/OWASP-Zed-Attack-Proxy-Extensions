@@ -17,21 +17,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.filetester.models;
+package org.zaproxy.zap.extension.filetester.models.fileTypes;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import org.junit.jupiter.api.Test;
+import org.zaproxy.zap.extension.filetester.models.IDownloadedFile;
+import org.zaproxy.zap.extension.filetester.models.Reporter;
 
-public class FileTesterUnitTestHelper {
-    private static final String directory = System.getProperty("user.dir") + "/src/test/resources/org/zaproxy/zap/extension/filetester/";
+import java.util.LinkedList;
+import java.util.List;
 
-    public static IDownloadedFile createFile(String filePath) throws IOException {
-        FileFactory fileFactory = new FileFactory();
-        File file = new File(directory + filePath);
-        InputStream stream = new ByteArrayInputStream(Files.readAllBytes(file.toPath()));
-        return fileFactory.createdDownloadedFile(filePath, stream);
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class ReporterUnitTest {
+    @Test
+    public void reportWhenNoUncompletedFileIsPresent() {
+        List<IDownloadedFile> mockList = new LinkedList<>();
+        Reporter reporter = Reporter.getSingleton();
+        reporter.setUncompletedFiles(mockList);
+        reporter.getReport();
+        List<IDownloadedFile> result = reporter.getUncompletedFiles();
+        assertEquals(0, result.size());
     }
 }

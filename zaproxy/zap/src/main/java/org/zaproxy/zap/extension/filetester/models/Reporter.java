@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import org.mockito.internal.util.reflection.*;
 
 /**
  * Reporter maintains the list of files which were tested. It also creates the report from that list.
@@ -63,12 +64,12 @@ public class Reporter {
      * @throws IOException if cannot read the input stream.
      */
     private void createReport(List<IDownloadedFile> report) throws IOException {
-        try (FileWriter fw = new FileWriter(Constant.messages.getString(PREFIX + ".report.name"), true);
+        try (FileWriter fw = new FileWriter("file_tester_report.txt", true);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter pw = new PrintWriter(bw)) {
             for (IDownloadedFile r : report) {
                 for (FileTestResult res : r.getTestResults()) {
-                    String output = String.format(Constant.messages.getString(PREFIX + ".report.syntax"),
+                    String output = String.format("File Name: %s\tTest Name: %s\tTest Result: %b\tTest Remarks: %s",
                             r.getName(), res.getName(), res.getResult(), res.getRemarks() != null ? res.getRemarks() : "");
                     pw.println(output);
                 }
@@ -117,5 +118,13 @@ public class Reporter {
                     .showWarningDialog(
                             Constant.messages.getString(PREFIX + ".report.errorMessage"));
         }
+    }
+
+    // For unit testing
+    public void setUncompletedFiles(List<IDownloadedFile> uncompletedFiles) {
+        this.uncompletedFiles = uncompletedFiles;
+    }
+    public List<IDownloadedFile> getUncompletedFiles() {
+        return uncompletedFiles;
     }
 }
