@@ -42,8 +42,8 @@ import java.util.Map;
 public class JpegFile extends ImageFile {
 
     private static final int JPEG_FILE_SIGNATURE = 0xffd8ffe0;
-    private static final String TEST_JPEG_VALIDATION = Constant.messages.getString("filetester.jpeg.valid");
-    private static final String TEST_EXIF_EXTRACTION = Constant.messages.getString("filetester.jpeg.exif");
+    private static final String TEST_JPEG_VALIDATION = "Jpeg Invalidation";
+    private static final String TEST_EXIF_EXTRACTION = "EXIF Metadata Extraction";
 
     private Map<String, String> extractedMetadata;
 
@@ -99,6 +99,5 @@ public class JpegFile extends ImageFile {
         } catch (JpegProcessingException ignore) {
             // Ignore
         }
-
     }
 }

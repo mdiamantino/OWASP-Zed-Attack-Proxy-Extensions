@@ -38,9 +38,9 @@ import java.util.zip.ZipInputStream;
  */
 public class ZipFile extends DownloadedFile {
 
-    private static final String TEST_ZIP_ENCRYPTION_DETECTION = Constant.messages.getString("filetester.zip.encrypted");
-    private static final String TEST_ZIP_BOMB_DETECTION = Constant.messages.getString("filetester.zip.bomb");
-    private static final String TEST_ZIP_PATH_TRAVERSAL_DETECTION = Constant.messages.getString("filetester.zip.path");
+    private static final String TEST_ZIP_ENCRYPTION_DETECTION = "Encryption Detection";
+    private static final String TEST_ZIP_BOMB_DETECTION = "Zip Bomb Detection";
+    private static final String TEST_ZIP_PATH_TRAVERSAL_DETECTION = "Path Traversal Detection";
 
     private static final int BUFFER = 512;
     private static final long TOO_BIG = 0x6400000; // Max size of unzipped data, 100MB

@@ -31,7 +31,7 @@ import java.io.InputStream;
 public class PngFile extends ImageFile {
 
     private static final int PNG_MAGIC_NUMBER = 0x89504e47;
-    private static final String TEST_PNG_VALIDATION = Constant.messages.getString("filetester.png.valid");
+    private static final String TEST_PNG_VALIDATION = "PNG Invalidation";
 
     public PngFile(String name, InputStream file) {
         super(name, file);

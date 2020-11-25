@@ -37,10 +37,10 @@ import java.util.Map;
  */
 public class ExeFile extends DownloadedFile {
 
-    private static final String API_KEY = Constant.messages.getString("filetester.exe.scan.key");
-    private static final String GET_URL = Constant.messages.getString("filetester.exe.scan.get");
-    private static final String POST_URL = Constant.messages.getString("filetester.exe.scan.post");
-    private static final String TEST_VIRUS_DETECTION = Constant.messages.getString("filetester.exe.scan");
+    private static final String API_KEY = "8668d17eb4c599b1abcb850c1f046240c5ce7b42930551905371bb87dd08564b";
+    private static final String GET_URL = "https://www.virustotal.com/vtapi/v2/file/report?apikey=%s&resource=%s";
+    private static final String POST_URL = "https://www.virustotal.com/vtapi/v2/file/scan";
+    private static final String TEST_VIRUS_DETECTION = "Virus Detection";
 
     private Map<String, String> params;
     private Map<String, InputStream> fileParams;

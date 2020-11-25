@@ -23,7 +23,7 @@ package org.zaproxy.zap.extension.filetester.models;
  * FileTestResult manages the name, result and remarks of a test.
  */
 public class FileTestResult {
-    private String name;
+    private final String name;
     private boolean result;
     private String remarks;
 
@@ -33,10 +33,6 @@ public class FileTestResult {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean getResult() {
