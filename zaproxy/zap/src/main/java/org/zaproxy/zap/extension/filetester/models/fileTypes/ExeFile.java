@@ -84,8 +84,8 @@ public class ExeFile extends DownloadedFile {
                         virusDetection.setResult(true);
                         virusDetection.setRemarks(String.format("%s: %d out of %d scans flagged the file as a virus.",
                                 scanResultMessage, positives, total));
-                        String title = Constant.messages.getString(PREFIX + ".menu.alert.title");
-                        String description = String.format(Constant.messages.getString(PREFIX + ".menu.alert.desc"), this.getName());
+                        String title = "Alert";
+                        String description = String.format("An interesting file is found! The filename is %s !", this.getName());
                         JOptionPane.showMessageDialog(null, description, title, JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         virusDetection.setResult(false);

@@ -6,7 +6,7 @@ Level of completeness:                     Completed.
 Date completed:                            25/11/2020
 Number of unit tests:                      20
 Number of scenario tests:                  3
-Total test coverage:                       50% of lines of code
+Total test coverage:                       55% of lines of code
 GIT commit identifier at start of story:   8dba972f715be3b835b44e750e9ec2e769eed5a7
 GIT commit identifier at end of story:     -- to be updated --
 Time spent on user story:                  Alaa El Hariri: 10h
