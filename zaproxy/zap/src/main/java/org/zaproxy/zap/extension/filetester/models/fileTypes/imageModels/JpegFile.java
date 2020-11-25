@@ -27,7 +27,6 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifReader;
 import net.sf.json.JSONObject;
-import org.parosproxy.paros.Constant;
 import org.zaproxy.zap.extension.filetester.models.FileTestResult;
 
 import java.io.IOException;

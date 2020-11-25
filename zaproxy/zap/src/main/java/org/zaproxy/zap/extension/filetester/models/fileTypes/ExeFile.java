@@ -20,7 +20,6 @@
 package org.zaproxy.zap.extension.filetester.models.fileTypes;
 
 import net.sf.json.JSONObject;
-import org.parosproxy.paros.Constant;
 import org.zaproxy.zap.extension.filetester.models.DownloadedFile;
 import org.zaproxy.zap.extension.filetester.models.FileTestResult;
 import org.zaproxy.zap.extension.filetester.models.httpUtils.HttpUtility;
@@ -48,6 +47,7 @@ public class ExeFile extends DownloadedFile {
     private boolean virusScanCompleted;
     private List<FileTestResult> testResults;
     private FileTestResult virusDetection;
+    private HttpUtility httpUtility;
 
     public ExeFile(String name, InputStream file) {
         super(name, file);
@@ -57,11 +57,11 @@ public class ExeFile extends DownloadedFile {
         fileParams.put("file", file);
         testResults = new LinkedList<>();
         virusDetection = new FileTestResult(TEST_VIRUS_DETECTION);
+        httpUtility = new HttpUtility();
     }
 
     @Override
     public boolean isValid() throws IOException {
-        HttpUtility httpUtility = new HttpUtility();
         JSONObject postRequest = httpUtility.postRequest(POST_URL, params, fileParams, this.getName());
         scanId = (String) postRequest.get("scan_id");
         return true;
@@ -106,7 +106,10 @@ public class ExeFile extends DownloadedFile {
      */
     private JSONObject getScanResults() throws IOException {
         String getUrl = String.format(GET_URL, API_KEY, scanId);
-        HttpUtility httpUtility = new HttpUtility();
         return httpUtility.getRequest(getUrl);
+    }
+
+    public void setHttpUtility(HttpUtility httpUtility) {
+        this.httpUtility = httpUtility;
     }
 }

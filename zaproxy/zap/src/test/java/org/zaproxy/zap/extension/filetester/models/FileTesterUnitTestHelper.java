@@ -1,7 +1,4 @@
-package org.zaproxy.zap.extension.filetester;
-
-import org.zaproxy.zap.extension.filetester.models.FileFactory;
-import org.zaproxy.zap.extension.filetester.models.IDownloadedFile;
+package org.zaproxy.zap.extension.filetester.models;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

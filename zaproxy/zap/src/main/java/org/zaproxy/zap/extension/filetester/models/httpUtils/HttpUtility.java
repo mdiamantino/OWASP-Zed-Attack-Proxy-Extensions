@@ -35,9 +35,9 @@ public class HttpUtility {
     private static final String boundary = "*****";
     private static final String crlf = "\r\n";
     private static final String twoHyphens = "--";
+    private static String requestURL;
     private HttpURLConnection httpConn;
     private DataOutputStream request;
-    private static String requestURL;
 
     /**
      * Performs HTTP GET request on an external API.

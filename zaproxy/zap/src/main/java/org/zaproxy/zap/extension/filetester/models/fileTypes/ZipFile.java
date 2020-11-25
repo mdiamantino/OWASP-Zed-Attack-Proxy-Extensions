@@ -20,7 +20,6 @@
 package org.zaproxy.zap.extension.filetester.models.fileTypes;
 
 import org.apache.commons.io.FileUtils;
-import org.parosproxy.paros.Constant;
 import org.zaproxy.zap.extension.filetester.models.DownloadedFile;
 import org.zaproxy.zap.extension.filetester.models.FileTestResult;
 
@@ -70,7 +69,7 @@ public class ZipFile extends DownloadedFile {
         boolean isEncrypted = zipFile.isEncrypted();
         FileTestResult encryptionDetection = new FileTestResult(TEST_ZIP_ENCRYPTION_DETECTION);
         encryptionDetection.setResult(isEncrypted);
-        encryptionDetection.setRemarks((isEncrypted?"The file is encrypted." : "The file passed the test."));
+        encryptionDetection.setRemarks((isEncrypted ? "The file is encrypted." : "The file passed the test."));
         this.getTestResults().add(encryptionDetection);
         Files.deleteIfExists(Paths.get(this.getName()));
         return !isEncrypted;

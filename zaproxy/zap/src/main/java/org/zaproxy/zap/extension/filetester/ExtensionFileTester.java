@@ -19,7 +19,6 @@
  */
 package org.zaproxy.zap.extension.filetester;
 
-import org.apache.log4j.Logger;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
@@ -32,17 +31,15 @@ import org.zaproxy.zap.view.ZapMenuItem;
 import java.util.Objects;
 
 /**
- * ExtensionFileTester is the entry point for the File Tester Extension. It operates on JPEG, PNG, ZIP, and EXE file types for different tests.
+ * ExtensionFileTester manages and creates the UI components of the extension.
  */
 public class ExtensionFileTester extends ExtensionAdaptor {
     public static final String NAME = "ExtensionFileTester";
     protected static final String PREFIX = "filetester";
-    private static final Logger logger = Logger.getLogger(ExtensionFileTester.class);
     private FileTesterScanner fileTesterScanner;
     private Reporter reportGenerator;
 
     private javax.swing.JMenu menuFileTester = null;
-
 
     public ExtensionFileTester() {
         super(NAME);

@@ -1,3 +1,22 @@
+/*
+ * Zed Attack Proxy (ZAP) and its related class files.
+ *
+ * ZAP is an HTTP/HTTPS proxy for assessing web application security.
+ *
+ * Copyright 2020 The ZAP Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.zaproxy.zap.extension.filetester.models;
 
 import org.parosproxy.paros.Constant;
@@ -11,15 +30,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Reporter maintains the list of files which were tested. It also creates the report from that list.
+ */
 public class Reporter {
-    private static Reporter soleModel;
     protected static final String PREFIX = "filetester";
+    private static Reporter soleModel;
     private List<IDownloadedFile> uncompletedFiles = new LinkedList<>();
 
     public Reporter() {
         if (soleModel != null) {
             throw new RuntimeException(
-                    "Use getInstance() method to get the single instance of this class.");
+                    "Use getSingleton() method to get the single instance of this class.");
         }
     }
 
@@ -30,11 +52,9 @@ public class Reporter {
         return soleModel;
     }
 
-
     public void addFile(IDownloadedFile file) {
         uncompletedFiles.add(file);
     }
-
 
     /**
      * Creates a text file from the report of the tests performed on the downloaded files.
@@ -69,8 +89,13 @@ public class Reporter {
         }
     }
 
-    //      * Generates a report of files with the latest test results;
-    public List<IDownloadedFile> generateReport() throws IOException {
+    /**
+     * Generates a report of files with the latest test results.
+     *
+     * @return Files with latest test results.
+     * @throws IOException if cannot read the input stream.
+     */
+    private List<IDownloadedFile> generateReport() throws IOException {
         List<IDownloadedFile> completedFiles = new LinkedList<>();
         for (IDownloadedFile file : uncompletedFiles) {
             List<FileTestResult> testResults = file.getTestResults();

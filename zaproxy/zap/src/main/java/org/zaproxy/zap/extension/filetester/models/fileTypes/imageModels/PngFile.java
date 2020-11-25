@@ -19,7 +19,6 @@
  */
 package org.zaproxy.zap.extension.filetester.models.fileTypes.imageModels;
 
-import org.parosproxy.paros.Constant;
 import org.zaproxy.zap.extension.filetester.models.FileTestResult;
 
 import java.io.IOException;

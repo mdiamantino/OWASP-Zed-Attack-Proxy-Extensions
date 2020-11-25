@@ -1,7 +1,6 @@
 package org.zaproxy.zap.extension.filetester.models;
 
 import org.junit.jupiter.api.Test;
-import org.zaproxy.zap.extension.filetester.FileTesterUnitTestHelper;
 import org.zaproxy.zap.extension.filetester.models.fileTypes.ExeFile;
 import org.zaproxy.zap.extension.filetester.models.fileTypes.ZipFile;
 import org.zaproxy.zap.extension.filetester.models.fileTypes.imageModels.JpegFile;
@@ -35,7 +34,7 @@ public class FileFactoryUnitTest {
 
     @Test
     public void exeFileObjectCreation() throws IOException {
-        assertEquals(ExeFile.class, FileTesterUnitTestHelper.createFile("exeCorrect.exe").getClass());
+        assertEquals(ExeFile.class, FileTesterUnitTestHelper.createFile("exeTestSample.exe").getClass());
     }
 
     @Test

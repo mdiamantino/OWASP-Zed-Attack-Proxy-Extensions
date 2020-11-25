@@ -1,7 +1,8 @@
 package org.zaproxy.zap.extension.filetester.models.fileTypes.imageModels;
 
 import org.junit.jupiter.api.Test;
-import org.zaproxy.zap.extension.filetester.FileTesterUnitTestHelper;
+import org.zaproxy.zap.extension.filetester.models.FileTesterUnitTestHelper;
+import org.zaproxy.zap.extension.filetester.models.IDownloadedFile;
 
 import java.io.IOException;
 
@@ -12,21 +13,21 @@ public class JpegUnitTest {
 
     @Test
     public void jpegFileWithCorrectSignature() throws IOException {
-        JpegFile jpegFile = (JpegFile) FileTesterUnitTestHelper.createFile("jpegCorrect.jpeg");
+        IDownloadedFile jpegFile = FileTesterUnitTestHelper.createFile("jpegCorrect.jpeg");
         assertTrue(jpegFile.isValid());
         assertTrue(jpegFile.isCompleted());
     }
 
     @Test
     public void jpegFileWithIncorrectSignature() throws IOException {
-        JpegFile jpegFile = (JpegFile) FileTesterUnitTestHelper.createFile("jpegIncorrect.jpg");
+        IDownloadedFile jpegFile = FileTesterUnitTestHelper.createFile("jpegIncorrect.jpg");
         assertFalse(jpegFile.isValid());
         assertTrue(jpegFile.isCompleted());
     }
 
     @Test
     public void jpegFileWithExifData() throws IOException {
-        JpegFile jpegFile = (JpegFile) FileTesterUnitTestHelper.createFile("jpegExif.jpg");
+        IDownloadedFile jpegFile = FileTesterUnitTestHelper.createFile("jpegExif.jpg");
         assertFalse(jpegFile.isValid());
         assertTrue(jpegFile.isCompleted());
     }
