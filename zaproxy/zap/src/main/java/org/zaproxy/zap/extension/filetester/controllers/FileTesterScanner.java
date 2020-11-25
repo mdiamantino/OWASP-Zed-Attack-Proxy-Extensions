@@ -45,7 +45,6 @@ import java.util.Collection;
 public class FileTesterScanner implements HttpSenderListener {
     protected static final String PREFIX = "filetester";
     private static FileTesterScanner soleController;
-    private final FileFactory factory;
     private final Collection<String> allowedContentTypes = Arrays.asList("image/jpeg", "image/png", "application/zip", "application/octet-stream", "application/x-msdownload");
     private final Collection<String> allowedExtensions = Arrays.asList("jpeg", "jpg", "png", "zip", "exe");
     private boolean isEnabled = false;
@@ -55,7 +54,6 @@ public class FileTesterScanner implements HttpSenderListener {
             throw new RuntimeException(
                     "Use getInstance() method to get the single instance of this class.");
         }
-        factory = new FileFactory();
     }
 
     public static FileTesterScanner getSingleton() {
@@ -100,7 +98,7 @@ public class FileTesterScanner implements HttpSenderListener {
             if (responseHeader.hasContentType(allowedContentTypes.toArray(new String[0])) && FilenameUtils.isExtension(fileName, allowedExtensions)) {
                 HttpResponseBody responseBody = msg.getResponseBody();
                 InputStream fileStream = new ByteArrayInputStream(responseBody.getBytes());
-                IDownloadedFile file = factory.createdDownloadedFile(fileName, fileStream);
+                IDownloadedFile file = FileFactory.createdDownloadedFile(fileName, fileStream);
                 if (!file.isValid()) {
                     String title = Constant.messages.getString(PREFIX + ".menu.alert.title");
                     String description = String.format(Constant.messages.getString(PREFIX + ".menu.alert.desc"), fileName);

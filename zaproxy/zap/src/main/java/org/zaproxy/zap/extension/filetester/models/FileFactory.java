@@ -38,7 +38,7 @@ public class FileFactory {
      * @param fileInputStream Stream of the file
      * @return Object of a class that implements IDownloaded. Currently supported file types are JPEG, PNG, ZIP, EXE.
      */
-    public IDownloadedFile createdDownloadedFile(String name, InputStream fileInputStream) {
+    public static IDownloadedFile createdDownloadedFile(String name, InputStream fileInputStream) {
         String fileExtension = FilenameUtils.getExtension(name).toLowerCase();
         switch (fileExtension) {
             case "jpg":
