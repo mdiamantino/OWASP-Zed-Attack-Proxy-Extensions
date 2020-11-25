@@ -69,6 +69,8 @@ dependencies {
     api("org.jgrapht:jgrapht-core:0.9.0")
     api("org.swinglabs.swingx:swingx-all:1.6.5-1")
     api("org.xerial:sqlite-jdbc:3.32.3.2")
+    api("net.lingala.zip4j:zip4j:2.6.4")
+    api("com.drewnoakes:metadata-extractor:2.15.0")
 
     implementation("commons-validator:commons-validator:1.7")
     // Don't need its dependencies, for now.
