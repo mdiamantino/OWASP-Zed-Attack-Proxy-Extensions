@@ -17,29 +17,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
 import java.util.List;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchListTerminalExpression;
 
-public class RequestHeaderMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
-
-    public RequestHeaderMatchRegexExpression(List<String> values) {
+public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminalExpression {
+    public ResponseHeaderMatchListExpression(List<String> values) {
         super(values);
         if (values.size() < 2)
             throw new IncompleteArgumentException(
                     "Not enough arguments were provided to match against the header. (Min 2 arguments)");
     }
 
-    protected String getPattern() {
-        return getValues().get(1);
-    }
-
     @Override
     public String getRelevantValue(HttpMessage msg) {
         String headerName = getValues().get(0);
-        return msg.getRequestHeader().getHeader(headerName);
+        return msg.getResponseHeader().getHeader(headerName);
     }
 }

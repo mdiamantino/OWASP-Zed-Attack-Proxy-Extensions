@@ -49,7 +49,6 @@ public class PolicyLoaderController {
         if (soleController == null) {
             soleController = new PolicyLoaderController();
         }
-
         return soleController;
     }
 

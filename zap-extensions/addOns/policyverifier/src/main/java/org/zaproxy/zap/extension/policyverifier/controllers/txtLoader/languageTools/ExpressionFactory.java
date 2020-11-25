@@ -23,12 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestbody.RequestBodyMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader.RequestHeaderMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody.ResponseBodyMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader.ResponseHeaderMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestBodyMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestHeaderMatchListExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestHeaderMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseBodyMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseHeaderMatchListExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseHeaderMatchRegexExpression;
 
 public class ExpressionFactory {
     private static final Map<OperatorEnum, Class<? extends Expression>> operations =
@@ -40,22 +40,16 @@ public class ExpressionFactory {
                     put(OperatorEnum.MRQHR, RequestHeaderMatchRegexExpression.class);
                     put(OperatorEnum.MRSHL, ResponseHeaderMatchListExpression.class);
                     put(OperatorEnum.MRSHR, ResponseHeaderMatchRegexExpression.class);
-                    put(OperatorEnum.MRSBR, ResponseBodyMatchRegexExpression.class);
                     put(OperatorEnum.MRQBR, RequestBodyMatchRegexExpression.class);
+                    put(OperatorEnum.MRSBR, ResponseBodyMatchRegexExpression.class);
                 }
             };
 
-    public static boolean checkIfIsOperation(OperatorEnum op) {
+    public static boolean isTokenAnOperation(OperatorEnum op) {
         return operations.containsKey(op);
     }
 
-    public static Expression extractOperationFromSymbol(OperatorEnum symbol, List<String> l) {
-        Expression res = null;
-        try {
-            res = operations.get(symbol).getDeclaredConstructor(List.class).newInstance(l);
-        } catch (Exception ignore) {
-            // Ignore
-        }
-        return res;
+    public static Expression extractOperationFromSymbol(OperatorEnum symbol, List<String> l) throws Exception {
+        return operations.get(symbol).getDeclaredConstructor(List.class).newInstance(l);
     }
 }

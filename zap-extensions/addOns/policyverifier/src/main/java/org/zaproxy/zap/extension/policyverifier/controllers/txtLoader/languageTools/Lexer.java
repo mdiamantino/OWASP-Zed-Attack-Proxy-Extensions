@@ -35,7 +35,7 @@ public class Lexer {
     }
 
     public String getString() {
-        if (symbol != OperatorEnum.STRING) throw new RuntimeException("");
+        if (symbol != OperatorEnum.STRING) throw new RuntimeException("Cannot extract string from a non word token.");
         return string;
     }
 
@@ -85,9 +85,6 @@ public class Lexer {
                     } else if (input.sval.equalsIgnoreCase("MRSBR")) {
                         symbol = OperatorEnum.MRSBR;
                     }
-                    break;
-                case StreamTokenizer.TT_EOL:
-                    symbol = OperatorEnum.EOL;
                     break;
                 case StreamTokenizer.TT_EOF:
                     symbol = OperatorEnum.EOF;

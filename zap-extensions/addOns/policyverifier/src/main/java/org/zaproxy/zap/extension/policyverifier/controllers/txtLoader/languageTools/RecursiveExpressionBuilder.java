@@ -22,9 +22,9 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageT
 import java.util.ArrayList;
 import java.util.List;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AndExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.NotExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.OrExpression;
 
 public class RecursiveExpressionBuilder {
     // Structural components
@@ -66,9 +66,13 @@ public class RecursiveExpressionBuilder {
     }
 
     private void parseTerminalExpressionOrANot() {
-        if (ExpressionFactory.checkIfIsOperation(symbol)) {
-            List<String> l = list();
-            root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+        if (ExpressionFactory.isTokenAnOperation(symbol)) {
+            List<String> l = extractOperationArgumentList();
+            try {
+                root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+            } catch (Exception e) {
+                throw new RuntimeException("Parameters for exception");
+            }
             lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
@@ -83,7 +87,7 @@ public class RecursiveExpressionBuilder {
         }
     }
 
-    private List<String> list() {
+    private List<String> extractOperationArgumentList() {
         List<String> l = new ArrayList<>();
         expect(OperatorEnum.LEFT_BR);
         while (true) {

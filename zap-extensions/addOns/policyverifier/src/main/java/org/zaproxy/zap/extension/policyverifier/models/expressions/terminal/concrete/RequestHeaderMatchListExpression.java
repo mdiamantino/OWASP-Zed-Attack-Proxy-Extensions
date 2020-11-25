@@ -17,15 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responseheader;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
 import java.util.List;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchListTerminalExpression;
 
-public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminalExpression {
-    public ResponseHeaderMatchListExpression(List<String> values) {
+public class RequestHeaderMatchListExpression extends AbstractMatchListTerminalExpression {
+    public RequestHeaderMatchListExpression(List<String> values) {
         super(values);
         if (values.size() < 2)
             throw new IncompleteArgumentException(
@@ -35,6 +35,6 @@ public class ResponseHeaderMatchListExpression extends AbstractMatchListTerminal
     @Override
     public String getRelevantValue(HttpMessage msg) {
         String headerName = getValues().get(0);
-        return msg.getResponseHeader().getHeader(headerName);
+        return msg.getRequestHeader().getHeader(headerName);
     }
 }

@@ -17,20 +17,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
+import java.util.List;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AbstractCompoundNonTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
 
-public class NotExpression extends AbstractCompoundNonTerminalExpression {
+public class RequestBodyMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
 
-    public NotExpression() {
-        super();
-        setRightExpression(null);
+    public RequestBodyMatchRegexExpression(List<String> values) {
+        super(values);
+    }
+
+    protected String getPattern() {
+        return getValues().get(0);
     }
 
     @Override
-    public boolean interpret(HttpMessage msg) {
-        return !leftExpression.interpret(msg);
+    public String getRelevantValue(HttpMessage msg) {
+        return msg.getRequestBody().toString();
     }
 }
