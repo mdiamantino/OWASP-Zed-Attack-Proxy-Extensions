@@ -35,6 +35,7 @@ import org.zaproxy.zap.view.ZapMenuItem;
 
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     private static final Logger logger = Logger.getLogger(ExtensionPolicyVerifier.class);
+    private PolicyLoaderController policyLoaderController;
     public static final String NAME = "ExtensionPolicyVerifier";
     protected static final String PREFIX = "policyverifier";
     private javax.swing.JMenu menuPolicyPlugin = null;
@@ -42,6 +43,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     public ExtensionPolicyVerifier() {
         super(NAME);
         setI18nPrefix(PREFIX);
+        policyLoaderController = new PolicyLoaderController();
     }
 
     @Override
@@ -94,7 +96,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
                                     Constant.messages.getString(
                                             PREFIX + ".loader.notfoundorempty"));
                 } else {
-                    PolicyLoaderController.getSingleton().loadPolicy(file);
+                    policyLoaderController.loadPolicy(file);
                 }
             } catch (Exception ex) {
                 View.getSingleton()
