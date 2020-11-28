@@ -19,15 +19,18 @@
  */
 package org.zaproxy.zap.extension.policyverifier.views;
 
-import java.awt.*;
-import javax.swing.*;
+import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.AbstractDialog;
+import org.parosproxy.paros.view.View;
+
+import javax.swing.*;
+import java.util.Objects;
 
 public class DocDialog extends AbstractDialog {
     private static final long serialVersionUID = 1L;
 
-    public DocDialog(Frame owner, boolean modal) {
-        super(owner, modal);
+    public DocDialog() {
+        super(Objects.requireNonNull(View.getSingleton()).getMainFrame(), true);
         JPanel mainPanel = new JPanel();
         setUpHelpTextBox(mainPanel);
         setUpOkButton(mainPanel);
@@ -36,46 +39,17 @@ public class DocDialog extends AbstractDialog {
     }
 
     private void setUpHelpTextBox(JPanel mainPanel) {
-        GridBagConstraints gbcPanel = new GridBagConstraints();
-        gbcPanel.gridx = 0;
-        gbcPanel.gridy = 0;
-        gbcPanel.insets = new Insets(0, 0, 0, 0);
-        gbcPanel.fill = GridBagConstraints.BOTH;
-        gbcPanel.anchor = GridBagConstraints.NORTHWEST;
-        gbcPanel.weightx = 1.0D;
-        gbcPanel.weighty = 1.0D;
-        gbcPanel.ipady = 2;
-        gbcPanel.gridwidth = 2;
-        JPanel panel = new JPanel();
         JLabel label = new JLabel();
-        label.setText(getHelpDoc());
+        label.setText(Constant.messages.getString("policyverifier.docs.content"));
+        JPanel panel = new JPanel();
         panel.add(label);
-        mainPanel.add(panel, gbcPanel);
+        mainPanel.add(panel);
     }
 
     private void setUpOkButton(JPanel mainPanel) {
-        GridBagConstraints gbcButtons = new GridBagConstraints();
-        gbcButtons.gridx = 1;
-        gbcButtons.gridy = 1;
-        gbcButtons.insets = new Insets(2, 2, 2, 2);
-        gbcButtons.anchor = GridBagConstraints.SOUTHEAST;
         JButton btnOk = new JButton();
-        btnOk.setText("Ok");
+        btnOk.setText(Constant.messages.getString("policyverifier.docs.okbutton"));
         btnOk.addActionListener(e -> dispose());
-        mainPanel.add(btnOk, gbcButtons);
-    }
-
-    private String getHelpDoc() {
-        return "<html><style>\n"
-                + "body {\n"
-                + "  background-color: #FFFFFF;\n"
-                + "}\n"
-                + "pre { font-family: monospace; }\n"
-                + "<body><p>To load a new policy, you need to create a .jar file containing the rules.</p>"
-                + "<p>ZAP and the extension are needed dependencies. Therefore, make sure to build them, and include their JARs as dependencies your policy project.</p>"
-                + "<p>Each rule must be defined in a separate java classes, implementing the interface Rule</p>"
-                + "<p>The rule class should implement the method <pre>boolean isValid(HttpMessage msg)</pre>, returning false when the rule is violated.</p>"
-                + "<p>You will find a step-by-step tutorial in : <b>Group19/solutions/user_story_01/Tutorial.pdf</b></p>"
-                + "</body></html>";
+        mainPanel.add(btnOk);
     }
 }

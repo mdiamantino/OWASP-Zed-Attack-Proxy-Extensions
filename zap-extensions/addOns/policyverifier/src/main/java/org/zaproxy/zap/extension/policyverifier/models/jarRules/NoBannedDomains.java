@@ -17,29 +17,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.rules;
+package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-public class NoEmails implements Rule {
-    private final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}", Pattern.CASE_INSENSITIVE);
+public class NoBannedDomains implements Rule {
+    private final List<String> BANNED_DOMAINS =
+            new ArrayList<>(Arrays.asList("facebook.com", "twitter.com"));
 
     /**
-     * Checks if the request contains a valid email address.
+     * Checks if the request is going to a domain in the list of banned domains.
      *
-     * @return false when an email address is included.
+     * @return false when the request's domain is in the banned domains list.
      */
     @Override
     public boolean isValid(HttpMessage msg) {
-        boolean hasEmailInHeader =
-                VALID_EMAIL_ADDRESS_REGEX
-                        .matcher(msg.getRequestHeader().getHeadersAsString())
-                        .find();
-        boolean hasEmailInBody =
-                VALID_EMAIL_ADDRESS_REGEX.matcher(msg.getRequestBody().toString()).find();
-        return !hasEmailInHeader && !hasEmailInBody;
+        String msgHostname = msg.getRequestHeader().getHostName();
+        for (String domain : BANNED_DOMAINS) {
+            if (msgHostname.equalsIgnoreCase(domain)
+                    || msgHostname.toLowerCase().endsWith("." + domain.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // For testing purposes
+    public List<String> getBANNED_DOMAINS() {
+        return BANNED_DOMAINS;
     }
 }

@@ -42,7 +42,7 @@ public class RuleEnforcingPassiveScanner extends PluginPassiveScanner {
     private static final Logger logger = Logger.getLogger(RuleEnforcingPassiveScanner.class);
     private final String NAME = "PolicyVerifier";
     private List<Alert> calledAlerts = new ArrayList<>();
-    private static int PLUGIN_ID = 5019;
+    private static int PLUGIN_ID = 5000019;
 
     public static RuleEnforcingPassiveScanner getSingleton() {
         return (RuleEnforcingPassiveScanner)

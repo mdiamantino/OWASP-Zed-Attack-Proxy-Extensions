@@ -96,7 +96,7 @@ public class PolicyVerifierPanel extends AbstractPanel {
     private StringBuilder getStringBuilderForPolicies(List<Policy> policies) { // todo redesign
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        sb.append("<header>" + STYLES + "</header>");
+        sb.append("<header>" + Constant.messages.getString("policyverifier.panel.styles") + "</header>");
         sb.append("<body><table>");
 
         // Table header
@@ -121,30 +121,4 @@ public class PolicyVerifierPanel extends AbstractPanel {
         return sb;
     }
 
-    private static String STYLES =
-            "<style>\n"
-                    + "body {\n"
-                    + "  font-family:sans-serif; \n"
-                    + "  overflow:auto; \n"
-                    + "}\n"
-                    + "table {\n"
-                    + "  text-align:left;\n"
-                    + "  border-collapse:collapse;\n"
-                    + "  width:80%;\n"
-                    + "}\n"
-                    + "td, th {\n"
-                    + "  text-align:left;\n"
-                    + "  border:1px solid grey;\n"
-                    + "  padding:5px;\n"
-                    + "}\n"
-                    + "tr.policy th {\n"
-                    + "  background:#B9D9E3\n"
-                    + "}\n"
-                    + "thead th {\n"
-                    + "  font-weight:normal;\n"
-                    + "}\n"
-                    + "tbody td {\n"
-                    + "  padding-left:16px;\n"
-                    + "}\n"
-                    + "</style>\n";
 }

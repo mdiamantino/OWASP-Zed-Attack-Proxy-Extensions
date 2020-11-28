@@ -17,47 +17,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.rules;
+package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.jarRules.NoEmails;
 
-public class NoBannedKeywordsUnitTest {
-
-    NoBannedKeywords rule;
+public class NoEmailsUnitTest {
+    private NoEmails rule;
 
     @BeforeEach
-    public void setup() {
-        rule = new NoBannedKeywords();
+    public void setUp() throws Exception {
+        rule = new NoEmails();
+    }
+
+    private HttpMessage getMockMessage(String headers, String body) {
+        HttpMessage msg = mock(HttpMessage.class, RETURNS_DEEP_STUBS);
+        when(msg.getRequestHeader().isText()).thenReturn(true);
+        when(msg.getRequestHeader().getHeadersAsString()).thenReturn(headers);
+        when(msg.getRequestBody().toString()).thenReturn(body);
+        return msg;
     }
 
     @Test
-    public void isValid_NoBannedKeywordsInRequestBody_Valid() {
-        HttpMessage msg = new HttpMessage();
-        msg.setRequestBody("NO BANNED KEYWORDS IN THIS TEXT");
+    public void shouldNotFlagRequestWithoutEmail() {
+        HttpMessage msg = getMockMessage("", "username=example");
         assertTrue(rule.isValid(msg));
     }
 
     @Test
-    public void isValid_BannedUppercaseKeywordInRequestBody_NotValid() {
-        HttpMessage msg = new HttpMessage();
-        Set<String> bannedKeywords = rule.getBANNED_KEYS();
-        String bannedKeyword = new ArrayList<>(bannedKeywords).get(0);
-        msg.setRequestBody(bannedKeyword.toUpperCase());
+    public void shouldFlagPostRequestWithEmail() {
+        HttpMessage msg = getMockMessage("", "email=example@example.com");
         assertFalse(rule.isValid(msg));
     }
 
     @Test
-    public void isValid_BannedLowercaseKeywordInRequestBody_NotValid() {
-        HttpMessage msg = new HttpMessage();
-        Set<String> bannedKeywords = rule.getBANNED_KEYS();
-        String bannedKeyword = new ArrayList<>(bannedKeywords).get(0);
-        msg.setRequestBody(bannedKeyword.toLowerCase());
+    public void shouldFlagPostGetRequestWithEmail() {
+        HttpMessage msg = getMockMessage("GET /?email=example@example.com HTTP/1.1\n", "");
+        assertFalse(rule.isValid(msg));
     }
 }

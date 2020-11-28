@@ -34,11 +34,11 @@ import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 import org.zaproxy.zap.view.ZapMenuItem;
 
 public class ExtensionPolicyVerifier extends ExtensionAdaptor {
-    private static final Logger logger = Logger.getLogger(ExtensionPolicyVerifier.class);
     private PolicyLoaderController policyLoaderController;
-    public static final String NAME = "ExtensionPolicyVerifier";
-    protected static final String PREFIX = "policyverifier";
+    private static final String NAME = "ExtensionPolicyVerifier";
+    private final String PREFIX = "policyverifier";
     private javax.swing.JMenu menuPolicyPlugin = null;
+    private DocDialog documentationDialog = new DocDialog();
 
     public ExtensionPolicyVerifier() {
         super(NAME);
@@ -71,50 +71,15 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         return Constant.messages.getString(PREFIX + ".desc");
     }
 
-    /**
-     * View method used to retrieve the loaded file from the view through a graphical file chooser.
-     * Only JAR files are accepted. When a valid file is picked, it is passed to the controller
-     * (PolicyLoaderController).
-     */
-    public void loadFile(String description, String extensions) {
-        JFileChooser fileChooser = new JFileChooser(Constant.getContextsDir());
-        fileChooser.setAcceptAllFileFilterUsed(false); // Only .jar files can be picked
-        FileNameExtensionFilter jarFilter =
-                new FileNameExtensionFilter(description, extensions); // Accepting .jar only
-        fileChooser.setFileFilter(jarFilter);
-
-        File file;
-        int rc =
-                fileChooser.showOpenDialog(
-                        Objects.requireNonNull(View.getSingleton()).getMainFrame());
-        if (rc == JFileChooser.APPROVE_OPTION) {
-            try {
-                file = fileChooser.getSelectedFile();
-                if (file == null || !file.exists()) {
-                    View.getSingleton()
-                            .showWarningDialog(
-                                    Constant.messages.getString(
-                                            PREFIX + ".loader.notfoundorempty"));
-                } else {
-                    policyLoaderController.loadPolicy(file);
-                }
-            } catch (Exception ex) {
-                View.getSingleton()
-                        .showWarningDialog(
-                                Constant.messages.getString(PREFIX + ".loader.genericerror"));
-            }
-        }
-    }
-
     private ZapMenuItem getMenuOptionLoadPolicyFromJar() {
         ZapMenuItem menuLoadPolicy = new ZapMenuItem(PREFIX + ".menu.submenu.jarloader");
-        menuLoadPolicy.addActionListener(ae -> loadFile("Jar files", "jar"));
+        menuLoadPolicy.addActionListener(ae -> policyLoaderController.loadFile("Jar files", "jar"));
         return menuLoadPolicy;
     }
 
     private ZapMenuItem getMenuOptionLoadPolicyFromTxt() {
         ZapMenuItem menuLoadPolicy = new ZapMenuItem(PREFIX + ".menu.submenu.txtloader");
-        menuLoadPolicy.addActionListener(ae -> loadFile("Txt files", "txt"));
+        menuLoadPolicy.addActionListener(ae -> policyLoaderController.loadFile("Txt files", "txt"));
         return menuLoadPolicy;
     }
 
@@ -122,11 +87,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         ZapMenuItem menuHelp = new ZapMenuItem(PREFIX + ".menu.submenu.help");
         menuHelp.addActionListener(
                 e -> {
-                    DocDialog dialog =
-                            new DocDialog(
-                                    Objects.requireNonNull(View.getSingleton()).getMainFrame(),
-                                    true);
-                    dialog.setVisible(true);
+                    documentationDialog.setVisible(true);
                 });
         return menuHelp;
     }

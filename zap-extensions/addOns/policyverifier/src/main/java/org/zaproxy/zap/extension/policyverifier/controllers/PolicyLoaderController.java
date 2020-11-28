@@ -26,6 +26,9 @@ import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  * This class manages manages communication between the view and the model It is a singleton,
  * because only one instance is used, by one entity only.
@@ -60,6 +63,41 @@ public class PolicyLoaderController {
             Objects.requireNonNull(View.getSingleton())
                     .showWarningDialog(
                             Constant.messages.getString(PREFIX + ".loader.instantiationerror"));
+        }
+    }
+
+    /**
+     * View method used to retrieve the loaded file from the view through a graphical file chooser.
+     * Only JAR files are accepted. When a valid file is picked, it is passed to the controller
+     * (PolicyLoaderController).
+     */
+    public void loadFile(String description, String extensions) {
+        JFileChooser fileChooser = new JFileChooser(Constant.getContextsDir());
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter jarFilter =
+                new FileNameExtensionFilter(description, extensions);
+        fileChooser.setFileFilter(jarFilter);
+
+        File file;
+        int rc =
+                fileChooser.showOpenDialog(
+                        Objects.requireNonNull(View.getSingleton()).getMainFrame());
+        if (rc == JFileChooser.APPROVE_OPTION) {
+            try {
+                file = fileChooser.getSelectedFile();
+                if (file == null || !file.exists()) {
+                    View.getSingleton()
+                            .showWarningDialog(
+                                    Constant.messages.getString(
+                                            PREFIX + ".loader.notfoundorempty"));
+                } else {
+                    loadPolicy(file);
+                }
+            } catch (Exception ex) {
+                View.getSingleton()
+                        .showWarningDialog(
+                                Constant.messages.getString(PREFIX + ".loader.genericerror"));
+            }
         }
     }
 }
