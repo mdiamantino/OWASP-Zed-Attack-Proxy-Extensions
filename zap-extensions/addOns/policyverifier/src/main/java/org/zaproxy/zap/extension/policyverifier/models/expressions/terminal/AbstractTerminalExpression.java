@@ -19,9 +19,10 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
-import java.util.List;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
+
+import java.util.List;
 
 /**
  * Defines an Expression that is immediately evaluated without needing to go into other expressions

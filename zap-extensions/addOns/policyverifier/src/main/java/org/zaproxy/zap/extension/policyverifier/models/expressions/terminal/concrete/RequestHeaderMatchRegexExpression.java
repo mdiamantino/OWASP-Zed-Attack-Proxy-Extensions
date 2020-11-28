@@ -19,10 +19,11 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
-import java.util.List;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
+
+import java.util.List;
 
 public class RequestHeaderMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
 

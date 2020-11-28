@@ -19,9 +19,10 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
-import java.util.regex.Pattern;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
+
+import java.util.regex.Pattern;
 
 public class NoEmails implements Rule {
     private final Pattern VALID_EMAIL_ADDRESS_REGEX =

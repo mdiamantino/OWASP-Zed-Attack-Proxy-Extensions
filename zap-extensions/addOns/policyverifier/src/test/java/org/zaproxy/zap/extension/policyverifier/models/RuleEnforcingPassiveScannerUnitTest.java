@@ -27,11 +27,11 @@ import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
 
 public class RuleEnforcingPassiveScannerUnitTest {
-    protected RuleEnforcingPassiveScanner reps;
+    protected PolicyVerifierPassiveScanner reps;
 
     @BeforeEach
     public void setUp() throws Exception {
-        reps = spy(new RuleEnforcingPassiveScanner());
+        reps = spy(new PolicyVerifierPassiveScanner());
         // We cannot raise real alerts, because the ZAP machinery is never setup
         doNothing().when(reps).generateViolatedRuleReport(anyString());
     }

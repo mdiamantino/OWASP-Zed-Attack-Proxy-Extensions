@@ -19,12 +19,13 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AndExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.NotExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.OrExpression;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecursiveExpressionBuilder {
     // Structural components

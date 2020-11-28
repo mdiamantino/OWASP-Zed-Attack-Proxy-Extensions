@@ -19,16 +19,12 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
+import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestBodyMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestHeaderMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseBodyMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseHeaderMatchRegexExpression;
 
 public class ExpressionFactory {
     private static final Map<OperatorEnum, Class<? extends Expression>> operations =

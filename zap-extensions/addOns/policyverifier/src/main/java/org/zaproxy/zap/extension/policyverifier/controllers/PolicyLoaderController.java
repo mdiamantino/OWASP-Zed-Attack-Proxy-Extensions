@@ -19,27 +19,27 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
-import java.io.File;
-import java.util.Objects;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
+import org.zaproxy.zap.extension.policyverifier.models.PoliciesReporter;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
-import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.util.Objects;
 
 /**
  * This class manages manages communication between the view and the model It is a singleton,
  * because only one instance is used, by one entity only.
  */
 public class PolicyLoaderController {
-    private RuleEnforcingPassiveScanner reps;
+    private PoliciesReporter reps;
     private String PREFIX = "policyverifier";
     private PolicyGeneratorFactory generatorDispatcher;
 
     public PolicyLoaderController() {
-        reps = RuleEnforcingPassiveScanner.getSingleton();
+        reps = new PoliciesReporter();
         generatorDispatcher = new PolicyGeneratorFactory();
     }
 

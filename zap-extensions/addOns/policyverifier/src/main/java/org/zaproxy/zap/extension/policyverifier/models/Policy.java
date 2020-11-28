@@ -19,12 +19,15 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models;
 
-import java.util.HashSet;
-import java.util.Set;
 import org.apache.log4j.Logger;
 import org.parosproxy.paros.network.HttpMessage;
 
-/** A Policy is a set of Rules that an HTTP Message must follow, otherwise the policy is violated */
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * A Policy is a set of Rules that an HTTP Message must follow, otherwise the policy is violated
+ */
 public class Policy {
     private final Set<Rule> rules;
     private static final Logger logger = Logger.getLogger(Policy.class);
