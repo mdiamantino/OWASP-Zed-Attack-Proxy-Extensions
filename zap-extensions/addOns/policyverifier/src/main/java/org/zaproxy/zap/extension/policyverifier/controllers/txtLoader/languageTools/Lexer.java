@@ -35,7 +35,8 @@ public class Lexer {
     }
 
     public String getString() {
-        if (symbol != OperatorEnum.STRING) throw new RuntimeException("Cannot extract string from a non word token.");
+        if (symbol != OperatorEnum.STRING)
+            throw new RuntimeException("Cannot extract string from a non word token.");
         return string;
     }
 
@@ -72,18 +73,19 @@ public class Lexer {
                     symbol = OperatorEnum.RIGHT_BR;
                     break;
                 case StreamTokenizer.TT_WORD:
-                    if (input.sval.equalsIgnoreCase("MRQHL")) {
-                        symbol = OperatorEnum.MRQHL;
-                    } else if (input.sval.equalsIgnoreCase("MRQHR")) {
-                        symbol = OperatorEnum.MRQHR;
-                    } else if (input.sval.equalsIgnoreCase("MRSHL")) {
-                        symbol = OperatorEnum.MRSHL;
-                    } else if (input.sval.equalsIgnoreCase("MRSHR")) {
-                        symbol = OperatorEnum.MRSHR;
-                    } else if (input.sval.equalsIgnoreCase("MRQBR")) {
-                        symbol = OperatorEnum.MRQBR;
-                    } else if (input.sval.equalsIgnoreCase("MRSBR")) {
-                        symbol = OperatorEnum.MRSBR;
+                    System.out.println("'" + input.sval + "'");
+                    if (input.sval.equalsIgnoreCase("REQUEST_BODY")) {
+                        symbol = OperatorEnum.REQUEST_BODY;
+                    } else if (input.sval.equalsIgnoreCase("REQUEST_HEADER")) {
+                        symbol = OperatorEnum.REQUEST_HEADER;
+                    } else if (input.sval.equalsIgnoreCase("RESPONSE_BODY")) {
+                        symbol = OperatorEnum.RESPONSE_BODY;
+                    } else if (input.sval.equalsIgnoreCase("RESPONSE_HEADER")) {
+                        symbol = OperatorEnum.RESPONSE_HEADER;
+                    } else if (input.sval.equalsIgnoreCase("matchList")) {
+                        symbol = OperatorEnum.matchList;
+                    } else if (input.sval.equalsIgnoreCase("matchRegex")) {
+                        symbol = OperatorEnum.matchRegex;
                     }
                     break;
                 case StreamTokenizer.TT_EOF:

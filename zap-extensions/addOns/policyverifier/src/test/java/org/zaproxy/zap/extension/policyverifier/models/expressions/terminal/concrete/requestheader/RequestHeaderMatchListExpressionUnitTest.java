@@ -21,16 +21,8 @@ package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.con
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-import java.util.List;
-import org.apache.commons.lang.IncompleteArgumentException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.parosproxy.paros.network.HttpHeader;
-import org.parosproxy.paros.network.HttpMalformedHeaderException;
-import org.parosproxy.paros.network.HttpMessage;
-
 public class RequestHeaderMatchListExpressionUnitTest {
+    /*
     HttpMessage message;
     RequestHeaderMatchListExpression contentTypeExpression;
 
@@ -65,4 +57,6 @@ public class RequestHeaderMatchListExpressionUnitTest {
         contentTypeExpression.getRelevantValue(message);
         assertNull(contentTypeExpression.getRelevantValue(message));
     }
+
+    */
 }

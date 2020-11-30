@@ -19,23 +19,9 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
-import java.util.List;
-import org.parosproxy.paros.network.HttpMessage;
-
-public abstract class AbstractMatchListTerminalExpression extends AbstractTerminalExpression {
-
-    public AbstractMatchListTerminalExpression(List<String> values) {
-        super(values);
-    }
-
-    @Override
-    public boolean interpret(HttpMessage msg) {
-        List<String> values = getValues();
-        String relevantValue = getRelevantValue(msg);
-        if (relevantValue == null || relevantValue.isEmpty()) return true;
-        for (int i = 1; i < values.size(); i++) {
-            if (!relevantValue.contains(values.get(i))) return false;
-        }
-        return true;
-    }
+public enum Subject {
+    REQUEST_BODY,
+    REQUEST_HEADER,
+    RESPONSE_BODY,
+    RESPONSE_HEADER,
 }

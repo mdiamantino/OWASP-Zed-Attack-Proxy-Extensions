@@ -20,6 +20,8 @@
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
 import java.util.List;
+import java.util.function.Function;
+import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 
@@ -27,12 +29,29 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
  * Defines an Expression that is immediately evaluated without needing to go into other expressions
  */
 public abstract class AbstractTerminalExpression implements Expression {
-
     private List<String> values;
+    Function<HttpMessage, String> subjectLambda;
 
-    public AbstractTerminalExpression(List<String> values) {
+    public AbstractTerminalExpression(Subject subject, List<String> values) {
         super();
         this.values = values;
+
+        subjectLambda = constructSubjectLambda(subject);
+    }
+
+    private Function<HttpMessage, String> constructSubjectLambda(Subject subject) {
+        switch (subject) {
+            case REQUEST_BODY:
+                return (HttpMessage msg) -> msg.getRequestBody().toString();
+            case REQUEST_HEADER:
+                return (HttpMessage msg) -> msg.getRequestHeader().getHeader(consumeHeaderName());
+            case RESPONSE_BODY:
+                return (HttpMessage msg) -> msg.getResponseBody().toString();
+            case RESPONSE_HEADER:
+                return (HttpMessage msg) -> msg.getResponseHeader().getHeader(consumeHeaderName());
+            default:
+                throw new RuntimeException("Unknown subject" + subject);
+        }
     }
 
     protected List<String> getValues() {
@@ -45,5 +64,18 @@ public abstract class AbstractTerminalExpression implements Expression {
      * @param msg the HttpMessage that has been sent in a particular call
      * @return the string containing the correct part of the context to evaluate
      */
-    public abstract String getRelevantValue(HttpMessage msg);
+    public String getRelevantValue(HttpMessage msg) {
+        return subjectLambda.apply(msg);
+    }
+
+    private String consumeHeaderName() {
+        if (values.size() < 1) {
+            throw new IncompleteArgumentException(
+                    "Not enough arguments were provided to match against the header. (Must contain exactly 1 argument)");
+        }
+
+        String headerName = values.get(0);
+        values.remove(0); // We consumed the header name
+        return headerName;
+    }
 }

@@ -20,26 +20,32 @@
 package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
 
-public class ResponseHeaderMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
+public class MatchRegexTerminalExpression extends AbstractTerminalExpression {
 
-    public ResponseHeaderMatchRegexExpression(List<String> values) {
-        super(values);
-        if (values.size() != 2)
-            throw new IncompleteArgumentException(
-                    "Not enough arguments were provided to match against the header. (Must contain exactly 2 arguments)");
-    }
+    public MatchRegexTerminalExpression(Subject subject, List<String> values) {
+        super(subject, values);
 
-    protected String getPattern() {
-        return getValues().get(1);
+        if (values.size() != 1)
+            throw new IncompleteArgumentException("Expected exactly one argument: the regexp");
     }
 
     @Override
-    public String getRelevantValue(HttpMessage msg) {
-        String headerName = getValues().get(0);
-        return msg.getResponseHeader().getHeader(headerName);
+    public boolean interpret(HttpMessage msg) {
+        String pattern = getValues().get(0);
+        Pattern compiledPattern = Pattern.compile(pattern);
+
+        String relevantValue = getRelevantValue(msg);
+
+        if (relevantValue == null || relevantValue.isEmpty()) return true;
+
+        Matcher matcher = compiledPattern.matcher(relevantValue);
+        return matcher.find();
     }
 }

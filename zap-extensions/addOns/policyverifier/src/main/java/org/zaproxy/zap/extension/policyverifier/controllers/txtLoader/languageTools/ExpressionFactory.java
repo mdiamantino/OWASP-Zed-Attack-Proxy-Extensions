@@ -19,39 +19,69 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestBodyMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.RequestHeaderMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseBodyMatchRegexExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseHeaderMatchListExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.ResponseHeaderMatchRegexExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.MatchListTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.MatchRegexTerminalExpression;
 
 public class ExpressionFactory {
-
-    private static final Map<OperatorEnum, Class<? extends Expression>> operations =
-            new HashMap<OperatorEnum, Class<? extends Expression>>() {
-                private static final long serialVersionUID = -1113582265865921787L;
-
-                {
-                    put(OperatorEnum.MRQHL, RequestHeaderMatchListExpression.class);
-                    put(OperatorEnum.MRQHR, RequestHeaderMatchRegexExpression.class);
-                    put(OperatorEnum.MRSHL, ResponseHeaderMatchListExpression.class);
-                    put(OperatorEnum.MRSHR, ResponseHeaderMatchRegexExpression.class);
-                    put(OperatorEnum.MRQBR, RequestBodyMatchRegexExpression.class);
-                    put(OperatorEnum.MRSBR, ResponseBodyMatchRegexExpression.class);
-                }
-            };
-
     public static boolean isTokenAnOperation(OperatorEnum op) {
-        return operations.containsKey(op);
+        try {
+            getOperationClass(op);
+            return true;
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
-    public static Expression extractOperationFromSymbol(OperatorEnum symbol, List<String> l) throws Exception {
-        return operations.get(symbol).getDeclaredConstructor(List.class).newInstance(l);
+    private static Class<? extends AbstractTerminalExpression> getOperationClass(
+            OperatorEnum symbol) {
+        Class<? extends AbstractTerminalExpression> operation;
+        switch (symbol) {
+            case matchList:
+                return MatchListTerminalExpression.class;
+            case matchRegex:
+                return MatchRegexTerminalExpression.class;
+            default:
+                System.out.println("Unknown operation symbol" + symbol);
+                throw new RuntimeException(
+                        "Unknown operation symbol" + symbol); // todo throw something more relevant
+        }
+    }
+
+    public static boolean isTokenASubject(OperatorEnum op) {
+        try {
+            getSubject(op);
+            return true;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    private static Subject getSubject(OperatorEnum symbol) {
+        Class<? extends AbstractTerminalExpression> operation;
+        switch (symbol) // todo: might need to move this elsewhere
+        {
+            case REQUEST_BODY:
+                return Subject.REQUEST_BODY;
+            case REQUEST_HEADER:
+                return Subject.REQUEST_HEADER;
+            case RESPONSE_BODY:
+                return Subject.RESPONSE_BODY;
+            case RESPONSE_HEADER:
+                return Subject.RESPONSE_HEADER;
+            default:
+                throw new RuntimeException("Unknown subject symbol" + symbol);
+        }
+    }
+
+    public static Expression extractOperationFromSymbol(
+            OperatorEnum symbol, OperatorEnum subjectSymbol, List<String> l) throws Exception {
+        Subject subject = getSubject(subjectSymbol);
+        return getOperationClass(symbol)
+                .getDeclaredConstructor(Subject.class, List.class)
+                .newInstance(subject, l);
     }
 }

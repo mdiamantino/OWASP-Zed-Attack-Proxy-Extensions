@@ -69,11 +69,19 @@ public class RecursiveExpressionBuilder {
 
     private void parseTerminalExpressionOrANot() {
         if (ExpressionFactory.isTokenAnOperation(symbol)) {
+            OperatorEnum operationSymbol = symbol;
+            OperatorEnum subjectSymbol = lexer.nextSymbol();
+            if (!ExpressionFactory.isTokenASubject(subjectSymbol)) {
+                throw new RuntimeException("Expected a subject");
+            }
+
             List<String> l = extractOperationArgumentList();
             try {
-                root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+                root =
+                        ExpressionFactory.extractOperationFromSymbol(
+                                operationSymbol, subjectSymbol, l);
             } catch (Exception e) {
-                throw new RuntimeException("Parameters for exception");
+                throw new RuntimeException(e); // propagate
             }
             lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
@@ -107,7 +115,7 @@ public class RecursiveExpressionBuilder {
     private void expect(OperatorEnum t) {
         symbol = lexer.nextSymbol();
         if (symbol != t) {
-            throw new RuntimeException("Expected" + t);
+            throw new RuntimeException("Expected " + t + "but got " + symbol);
         }
     }
 }
