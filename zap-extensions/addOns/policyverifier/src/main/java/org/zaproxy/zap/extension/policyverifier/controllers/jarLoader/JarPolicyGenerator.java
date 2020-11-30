@@ -39,8 +39,8 @@ import java.util.zip.ZipInputStream;
 /**
  * The class groups all behaviours needed in order to extract a policy from a Jar File
  */
-public class PolicyGeneratorFromJar implements PolicyGenerator {
-    private static final Logger logger = Logger.getLogger(PolicyGeneratorFromJar.class);
+public class JarPolicyGenerator implements PolicyGenerator {
+    private static final Logger logger = Logger.getLogger(JarPolicyGenerator.class);
     private File file;
 
 
@@ -52,7 +52,7 @@ public class PolicyGeneratorFromJar implements PolicyGenerator {
         this.file = file;
     }
 
-    public PolicyGeneratorFromJar() {
+    public JarPolicyGenerator() {
     }
 
     /**
@@ -139,7 +139,7 @@ public class PolicyGeneratorFromJar implements PolicyGenerator {
         loader =
                 URLClassLoader.newInstance(
                         new URL[]{jar.toURI().toURL()},
-                        PolicyGeneratorFromJar.class.getClassLoader());
+                        JarPolicyGenerator.class.getClassLoader());
         return loader;
     }
 }

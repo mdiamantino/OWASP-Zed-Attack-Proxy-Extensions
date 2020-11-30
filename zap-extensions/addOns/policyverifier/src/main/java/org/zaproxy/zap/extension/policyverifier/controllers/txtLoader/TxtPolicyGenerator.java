@@ -34,9 +34,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PolicyGeneratorFromTxt implements PolicyGenerator {
+public class TxtPolicyGenerator implements PolicyGenerator {
     Pattern rulePattern = Pattern.compile("ruleName\\s*=\\s*(\\w*)\\s*,\\s*body\\s*=\\s*(.*);");
-    private static final Logger logger = Logger.getLogger(PolicyGeneratorFromTxt.class);
+    private static final Logger logger = Logger.getLogger(TxtPolicyGenerator.class);
     private File file;
 
 

@@ -20,8 +20,8 @@
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
 import org.apache.commons.io.FilenameUtils;
-import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
-import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
+import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.JarPolicyGenerator;
+import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.TxtPolicyGenerator;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 
 import java.io.File;
@@ -32,9 +32,9 @@ public class PolicyGenerationDelegator {
     public Policy generatePolicy(File file) throws Exception {
         String extension = FilenameUtils.getExtension(file.getName());
         if (extension.equals("jar")) {
-            policyGenerator = new PolicyGeneratorFromJar();
+            policyGenerator = new JarPolicyGenerator();
         } else if (extension.equals("txt")) {
-            policyGenerator = new PolicyGeneratorFromTxt();
+            policyGenerator = new TxtPolicyGenerator();
         }
         assert policyGenerator != null;
         policyGenerator.setFile(file);
