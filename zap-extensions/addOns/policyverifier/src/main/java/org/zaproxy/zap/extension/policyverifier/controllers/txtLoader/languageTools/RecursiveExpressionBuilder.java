@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.AndExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.NotExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete.OrExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AndExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.NotExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.OrExpression;
 
 public class RecursiveExpressionBuilder {
     private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
@@ -68,12 +68,14 @@ public class RecursiveExpressionBuilder {
     }
 
     private void parseTerminalExpressionOrANot() {
-        symbol = lexer.nextSymbol();
-        if (ExpressionFactory.checkIfIsOperation(symbol)) {
-            OperatorEnum operationSymbol = symbol;
-            List<String> l = list();
-            root = ExpressionFactory.extractOperationFromSymbol(operationSymbol, l);
-            symbol = lexer.nextSymbol();
+        if (ExpressionFactory.isTokenAnOperation(symbol)) {
+            List<String> l = extractOperationArgumentList();
+            try {
+                root = ExpressionFactory.extractOperationFromSymbol(symbol, l);
+            } catch (Exception e) {
+                throw new RuntimeException("Parameters for exception");
+            }
+            lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
             parseTerminalExpressionOrANot();
@@ -88,7 +90,7 @@ public class RecursiveExpressionBuilder {
         }
     }
 
-    private List<String> list() {
+    private List<String> extractOperationArgumentList() {
         List<String> l = new ArrayList<>();
         expect(OperatorEnum.LEFT_BR);
         while (true) {

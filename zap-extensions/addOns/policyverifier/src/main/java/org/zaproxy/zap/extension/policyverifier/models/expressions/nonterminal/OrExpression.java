@@ -17,20 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.concrete;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal;
 
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AbstractCompoundNonTerminalExpression;
 
-public class NotExpression extends AbstractCompoundNonTerminalExpression {
-
-    public NotExpression() {
-        super();
-        setRightExpression(null);
-    }
+public class OrExpression extends AbstractCompoundNonTerminalExpression {
 
     @Override
     public boolean interpret(HttpMessage msg) {
-        return !leftExpression.interpret(msg);
+        return leftExpression.interpret(msg) || rightExpression.interpret(msg);
     }
 }

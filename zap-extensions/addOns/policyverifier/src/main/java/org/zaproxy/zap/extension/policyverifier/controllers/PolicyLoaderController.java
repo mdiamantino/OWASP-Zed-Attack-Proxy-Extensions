@@ -31,26 +31,13 @@ import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScann
  * because only one instance is used, by one entity only.
  */
 public class PolicyLoaderController {
-    private static PolicyLoaderController soleController;
     private RuleEnforcingPassiveScanner reps;
     private String PREFIX = "policyverifier";
     private PolicyGeneratorFactory generatorDispatcher;
 
     public PolicyLoaderController() {
-        if (soleController != null) {
-            throw new RuntimeException(
-                    "Use getInstance() method to get the single instance of this class.");
-        }
         reps = RuleEnforcingPassiveScanner.getSingleton();
         generatorDispatcher = new PolicyGeneratorFactory();
-    }
-
-    public static PolicyLoaderController getSingleton() {
-        if (soleController == null) {
-            soleController = new PolicyLoaderController();
-        }
-
-        return soleController;
     }
 
     /**

@@ -19,7 +19,6 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-// TODO ADD OTHER OPERATORS
 public enum OperatorEnum {
     LEFT,
     RIGHT,
@@ -38,5 +37,4 @@ public enum OperatorEnum {
     MRSBR,
     INVALID,
     EOF,
-    EOL
 }

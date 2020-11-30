@@ -19,11 +19,6 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGeneratorFactory;
 import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools.RecursiveExpressionBuilder;
@@ -32,6 +27,12 @@ import org.zaproxy.zap.extension.policyverifier.models.Rule;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpression;
 
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PolicyGeneratorFromTxt extends PolicyGeneratorFactory {
     Pattern rulePattern = Pattern.compile("ruleName\\s*=\\s*(\\w*)\\s*,\\s*body\\s*=\\s*(.*);");
     private static final Logger logger = Logger.getLogger(PolicyGeneratorFromTxt.class);
@@ -39,7 +40,6 @@ public class PolicyGeneratorFromTxt extends PolicyGeneratorFactory {
     @Override
     public Policy generatePolicy() throws Exception {
         String policyName = getFileName();
-        logger.info("Got file name, gettin rules");
         Set<Rule> rules = getRules();
         return new Policy(rules, policyName);
     }

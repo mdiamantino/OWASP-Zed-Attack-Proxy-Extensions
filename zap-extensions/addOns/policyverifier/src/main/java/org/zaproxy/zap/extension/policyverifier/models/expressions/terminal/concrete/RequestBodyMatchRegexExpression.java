@@ -17,16 +17,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.responsebody;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
 import java.util.List;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractMatchRegexTerminalExpression;
 
-public class ResponseBodyMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
+public class RequestBodyMatchRegexExpression extends AbstractMatchRegexTerminalExpression {
 
-    public ResponseBodyMatchRegexExpression(List<String> values) {
+    public RequestBodyMatchRegexExpression(List<String> values) {
         super(values);
         if (values.size() != 1)
             throw new IncompleteArgumentException(
@@ -39,6 +39,6 @@ public class ResponseBodyMatchRegexExpression extends AbstractMatchRegexTerminal
 
     @Override
     public String getRelevantValue(HttpMessage msg) {
-        return msg.getResponseBody().toString();
+        return msg.getRequestBody().toString();
     }
 }

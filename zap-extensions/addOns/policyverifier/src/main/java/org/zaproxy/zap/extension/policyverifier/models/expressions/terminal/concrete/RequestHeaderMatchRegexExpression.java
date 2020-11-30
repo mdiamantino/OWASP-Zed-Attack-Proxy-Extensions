@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.requestheader;
+package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
 
 import java.util.List;
 import org.apache.commons.lang.IncompleteArgumentException;
