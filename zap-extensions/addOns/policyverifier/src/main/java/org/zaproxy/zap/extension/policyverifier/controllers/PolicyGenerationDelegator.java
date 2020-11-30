@@ -26,23 +26,10 @@ import org.zaproxy.zap.extension.policyverifier.models.Policy;
 
 import java.io.File;
 
-public class PolicyGeneratorFactory {
-    File file;
-    PolicyGeneratorFactory policyGenerator;
+public class PolicyGenerationDelegator {
+    PolicyGenerator policyGenerator;
 
-    public File getFile() {
-        return file;
-    }
-
-    public String getFileName() {
-        return FilenameUtils.removeExtension(file.getName());
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public Policy generatePolicy() throws Exception {
+    public Policy generatePolicy(File file) throws Exception {
         String extension = FilenameUtils.getExtension(file.getName());
         if (extension.equals("jar")) {
             policyGenerator = new PolicyGeneratorFromJar();

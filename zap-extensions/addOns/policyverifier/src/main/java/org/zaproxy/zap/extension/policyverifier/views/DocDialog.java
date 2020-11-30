@@ -24,6 +24,7 @@ import org.parosproxy.paros.extension.AbstractDialog;
 import org.parosproxy.paros.view.View;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Objects;
 
 public class DocDialog extends AbstractDialog {
@@ -38,18 +39,41 @@ public class DocDialog extends AbstractDialog {
         this.pack();
     }
 
+    private GridBagConstraints generatePanelForHelpTextBox() {
+        GridBagConstraints gbcPanel = new GridBagConstraints();
+        gbcPanel.gridx = 0;
+        gbcPanel.gridy = 0;
+        gbcPanel.insets = new Insets(0, 0, 0, 0);
+        gbcPanel.fill = GridBagConstraints.BOTH;
+        gbcPanel.anchor = GridBagConstraints.NORTHWEST;
+        gbcPanel.weightx = 1.0D;
+        gbcPanel.weighty = 1.0D;
+        gbcPanel.ipady = 2;
+        gbcPanel.gridwidth = 2;
+        return gbcPanel;
+    }
+
     private void setUpHelpTextBox(JPanel mainPanel) {
         JLabel label = new JLabel();
         label.setText(Constant.messages.getString("policyverifier.docs.content"));
         JPanel panel = new JPanel();
         panel.add(label);
-        mainPanel.add(panel);
+        mainPanel.add(panel, generatePanelForHelpTextBox());
+    }
+
+    private GridBagConstraints generateLayoutForOkButton() {
+        GridBagConstraints gbcButtons = new GridBagConstraints();
+        gbcButtons.gridx = 1;
+        gbcButtons.gridy = 1;
+        gbcButtons.insets = new Insets(2, 2, 2, 2);
+        gbcButtons.anchor = GridBagConstraints.SOUTHEAST;
+        return gbcButtons;
     }
 
     private void setUpOkButton(JPanel mainPanel) {
         JButton btnOk = new JButton();
         btnOk.setText(Constant.messages.getString("policyverifier.docs.okbutton"));
         btnOk.addActionListener(e -> dispose());
-        mainPanel.add(btnOk);
+        mainPanel.add(btnOk, generateLayoutForOkButton());
     }
 }

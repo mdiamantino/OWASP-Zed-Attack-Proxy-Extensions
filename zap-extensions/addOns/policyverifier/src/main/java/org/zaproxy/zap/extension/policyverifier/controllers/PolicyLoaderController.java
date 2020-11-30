@@ -36,11 +36,11 @@ import java.util.Objects;
 public class PolicyLoaderController {
     private PoliciesReporter reps;
     private String PREFIX = "policyverifier";
-    private PolicyGeneratorFactory generatorDispatcher;
+    private PolicyGenerationDelegator generatorDispatcher;
 
     public PolicyLoaderController() {
         reps = new PoliciesReporter();
-        generatorDispatcher = new PolicyGeneratorFactory();
+        generatorDispatcher = new PolicyGenerationDelegator();
     }
 
     /**
@@ -55,8 +55,7 @@ public class PolicyLoaderController {
         try {
             //            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
             // Adding to model
-            generatorDispatcher.setFile(file);
-            loadedPolicy = generatorDispatcher.generatePolicy();
+            loadedPolicy = generatorDispatcher.generatePolicy(file);
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
             System.out.println(e.getMessage());

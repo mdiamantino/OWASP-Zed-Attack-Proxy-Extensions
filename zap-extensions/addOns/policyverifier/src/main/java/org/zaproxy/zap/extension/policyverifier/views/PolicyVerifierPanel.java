@@ -99,7 +99,7 @@ public class PolicyVerifierPanel extends AbstractPanel {
     private StringBuilder getStringBuilderForPolicies(List<Policy> policies) { // todo redesign
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        sb.append("<header>" + Constant.messages.getString("policyverifier.panel.styles") + "</header>");
+        sb.append("<header>").append(Constant.messages.getString("policyverifier.panel.styles")).append("</header>");
         sb.append("<body><table>");
 
         // Table header
