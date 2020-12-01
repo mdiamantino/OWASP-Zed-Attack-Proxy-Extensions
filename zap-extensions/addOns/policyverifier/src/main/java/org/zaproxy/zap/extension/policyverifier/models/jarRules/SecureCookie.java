@@ -35,7 +35,7 @@ public class SecureCookie implements Rule {
         String cookieParams = httpMessage.getCookieParamsAsString();
         return cookieParams.isEmpty()
                 || (cookieParams.contains("SameSite")
-                && cookieParams.contains("HttpOnly")
-                && cookieParams.contains("Secure"));
+                        && cookieParams.contains("HttpOnly")
+                        && cookieParams.contains("Secure"));
     }
 }

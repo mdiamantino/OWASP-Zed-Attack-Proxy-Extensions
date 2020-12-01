@@ -19,15 +19,14 @@
  */
 package org.zaproxy.zap.extension.policyverifier.views;
 
+import java.awt.*;
+import java.util.List;
+import javax.swing.*;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.AbstractPanel;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 import org.zaproxy.zap.utils.FontUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 
 public class PolicyVerifierPanel extends AbstractPanel {
     private static PolicyVerifierPanel solePanelView;
@@ -52,9 +51,7 @@ public class PolicyVerifierPanel extends AbstractPanel {
         return solePanelView;
     }
 
-    /**
-     * This method initializes this
-     */
+    /** This method initializes this */
     private void initialize() {
         this.setLayout(new BorderLayout());
         this.setName(Constant.messages.getString("policyverifier.menu.title")); // ZAP: i18n
@@ -99,7 +96,9 @@ public class PolicyVerifierPanel extends AbstractPanel {
     private StringBuilder getStringBuilderForPolicies(List<Policy> policies) { // todo redesign
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
-        sb.append("<header>").append(Constant.messages.getString("policyverifier.panel.styles")).append("</header>");
+        sb.append("<header>")
+                .append(Constant.messages.getString("policyverifier.panel.styles"))
+                .append("</header>");
         sb.append("<body><table>");
 
         // Table header
@@ -123,5 +122,4 @@ public class PolicyVerifierPanel extends AbstractPanel {
         sb.append("</table></body></html>");
         return sb;
     }
-
 }

@@ -33,9 +33,9 @@ public class ExpressionFactory {
 
     private static AbstractTerminalExpression getOperationClass(OperatorEnum symbol) {
         switch (symbol) {
-            case matchList:
+            case MATCH_LIST:
                 return new MatchListTerminalExpression();
-            case matchRegex:
+            case MATCH_HEADER:
                 return new MatchRegexTerminalExpression();
             default:
                 Lexer.logger.info("token: " + symbol);
@@ -54,7 +54,6 @@ public class ExpressionFactory {
     }
 
     private static Subject getSubject(OperatorEnum symbol) {
-        Class<? extends AbstractTerminalExpression> operation;
         switch (symbol) // todo: might need to move this elsewhere
         {
             case REQUEST_BODY:

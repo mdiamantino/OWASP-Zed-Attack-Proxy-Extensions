@@ -19,6 +19,8 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.htmlparser.jericho.Source;
 import org.parosproxy.paros.control.Control;
 import org.parosproxy.paros.core.scanner.Alert;
@@ -26,9 +28,6 @@ import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.pscan.ExtensionPassiveScan;
 import org.zaproxy.zap.extension.pscan.PassiveScanThread;
 import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The model is a container of Policies defined by a set of policies, however the model is also a
@@ -58,9 +57,7 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
         this.policiesReporter = policiesReporter;
     }
 
-    /**
-     * Generates a graphical report (in the form of a ZAP alert), that a rule was violated
-     */
+    /** Generates a graphical report (in the form of a ZAP alert), that a rule was violated */
     protected void generateViolatedRuleReport(HttpMessage msg) {
         String policiesDescription = policiesReporter.generateReportOnAllPolicies(msg);
         if (policiesDescription.isEmpty()) return;
@@ -71,7 +68,7 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
 
     /**
      * @param msg Http request message to be checked for validity against rules.
-     * @param id  - Not used -
+     * @param id - Not used -
      */
     @Override
     public void scanHttpRequestSend(HttpMessage msg, int id) {
@@ -79,8 +76,8 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
     }
 
     /**
-     * @param msg    Http response message to be checked for validity against rules.
-     * @param id     - Not used -
+     * @param msg Http response message to be checked for validity against rules.
+     * @param id - Not used -
      * @param source - Not used -
      */
     @Override

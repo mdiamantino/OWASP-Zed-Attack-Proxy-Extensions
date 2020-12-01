@@ -19,12 +19,11 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
-import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.Rule;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
 public class NoBannedKeywords implements Rule {
     private Set<String> BANNED_KEYS = new HashSet<>(Arrays.asList("SELECT", "DELETE"));

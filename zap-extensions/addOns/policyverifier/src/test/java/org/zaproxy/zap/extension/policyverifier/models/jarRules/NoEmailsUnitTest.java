@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.jarRules.NoEmails;
 
 public class NoEmailsUnitTest {
     private NoEmails rule;

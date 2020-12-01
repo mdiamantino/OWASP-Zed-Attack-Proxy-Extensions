@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMalformedHeaderException;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.jarRules.SecureCookie;
 
 public class SecureCookieRuleUnitTest {
     SecureCookie rule;

@@ -43,10 +43,7 @@ public class JarPolicyGeneratorUnitTest {
         jarPolicyGenerator = new JarPolicyGenerator();
     }
 
-    /**
-     * Testing a standard case in which the jar contains two classes representing rules
-     *
-     */
+    /** Testing a standard case in which the jar contains two classes representing rules */
     @Test
     public void generatePolicy_JarContainsCorrect() {
         File jarForTest = new File(TEST_RESOURCES_PATH + "/PolicyExample.jar");

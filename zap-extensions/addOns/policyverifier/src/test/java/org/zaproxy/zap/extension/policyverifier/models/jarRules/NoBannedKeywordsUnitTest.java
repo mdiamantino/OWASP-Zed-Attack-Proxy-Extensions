@@ -27,7 +27,6 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.jarRules.NoBannedKeywords;
 
 public class NoBannedKeywordsUnitTest {
 

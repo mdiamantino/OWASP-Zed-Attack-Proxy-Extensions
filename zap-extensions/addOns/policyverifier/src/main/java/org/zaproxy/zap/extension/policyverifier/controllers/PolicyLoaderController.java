@@ -19,15 +19,14 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
+import java.io.File;
+import java.util.Objects;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.models.PoliciesReporter;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.util.Objects;
 
 /**
  * This class manages manages communication between the view and the model It is a singleton,
@@ -75,8 +74,7 @@ public class PolicyLoaderController {
     public void loadFile(String description, String extensions) {
         JFileChooser fileChooser = new JFileChooser(Constant.getContextsDir());
         fileChooser.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter jarFilter =
-                new FileNameExtensionFilter(description, extensions);
+        FileNameExtensionFilter jarFilter = new FileNameExtensionFilter(description, extensions);
         fileChooser.setFileFilter(jarFilter);
 
         File file;

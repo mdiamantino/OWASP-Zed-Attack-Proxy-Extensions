@@ -27,7 +27,6 @@ import java.util.Random;
 import java.util.Set;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
-import org.zaproxy.zap.extension.policyverifier.models.jarRules.*;
 
 public class TestUtils {
     public static String buildDomainUrl(String domain) {

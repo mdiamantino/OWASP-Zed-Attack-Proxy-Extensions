@@ -32,12 +32,13 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
     private static final String NAME = "ExtensionPolicyVerifier";
     private final String PREFIX = "policyverifier";
     private javax.swing.JMenu menuPolicyPlugin = null;
-    private DocDialog documentationDialog = new DocDialog();
+    private DocDialog documentationDialog;
 
     public ExtensionPolicyVerifier() {
         super(NAME);
         setI18nPrefix(PREFIX);
         policyLoaderController = new PolicyLoaderController();
+        documentationDialog = new DocDialog();
     }
 
     @Override

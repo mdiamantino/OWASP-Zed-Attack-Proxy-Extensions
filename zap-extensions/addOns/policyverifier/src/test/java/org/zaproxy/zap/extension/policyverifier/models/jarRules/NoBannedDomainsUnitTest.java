@@ -27,9 +27,10 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.jarRules.NoBannedDomains;
 
-/** Unit test for {@link NoBannedDomains}. */
+/**
+ * Unit test for {@link org.zaproxy.zap.extension.policyverifier.models.jarRules.NoBannedDomains}.
+ */
 public class NoBannedDomainsUnitTest {
     private NoBannedDomains rule;
     private HttpMessage msg;
