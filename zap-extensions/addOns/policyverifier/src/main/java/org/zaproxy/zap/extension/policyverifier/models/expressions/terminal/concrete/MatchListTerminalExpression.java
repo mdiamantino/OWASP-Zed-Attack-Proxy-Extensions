@@ -37,7 +37,7 @@ public class MatchListTerminalExpression extends AbstractTerminalExpression {
     }
 
     @Override
-    public boolean interpret(HttpMessage msg) {
+    public boolean test(HttpMessage msg) {
         List<String> values = getValues();
         String relevantValue = getRelevantValue(msg);
         if (relevantValue == null || relevantValue.isEmpty()) return true;

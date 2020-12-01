@@ -20,7 +20,8 @@
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
 import java.util.List;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
+import java.util.function.Predicate;
+import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractTerminalExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.MatchListTerminalExpression;
@@ -69,7 +70,7 @@ public class ExpressionFactory {
         }
     }
 
-    public static Expression extractOperationFromSymbol(
+    public static Predicate<HttpMessage> extractOperationFromSymbol(
             OperatorEnum symbol, OperatorEnum subjectSymbol, List<String> l) {
         Subject subject = getSubject(subjectSymbol);
         AbstractTerminalExpression expression = getOperationClass(symbol);

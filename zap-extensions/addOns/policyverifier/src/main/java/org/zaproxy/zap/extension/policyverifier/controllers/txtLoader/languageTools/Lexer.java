@@ -37,18 +37,6 @@ public class Lexer {
         input = new StreamTokenizer(reader);
 
         input.wordChars('_', '_'); // todo
-
-        if (logger == null) {
-            logger = Logger.getLogger("MyLog");
-            try {
-                // This block configure the logger with handler and formatter
-                FileHandler fh = new FileHandler("C:\\Users\\mamalaki\\zap-ext.log");
-                logger.addHandler(fh);
-                fh.setFormatter(new SimpleFormatter());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public String getString() {
@@ -64,7 +52,6 @@ public class Lexer {
         try {
             int token = input.nextToken();
             System.out.println("token: " + token);
-            logger.info("token: " + token);
 
             switch (token) {
                 case '(':

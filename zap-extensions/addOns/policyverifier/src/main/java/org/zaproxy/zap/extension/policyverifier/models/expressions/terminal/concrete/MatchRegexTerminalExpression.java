@@ -37,7 +37,7 @@ public class MatchRegexTerminalExpression extends AbstractTerminalExpression {
     }
 
     @Override
-    public boolean interpret(HttpMessage msg) {
+    public boolean test(HttpMessage msg) {
         String pattern = getValues().get(0);
         Pattern compiledPattern = Pattern.compile(pattern);
 

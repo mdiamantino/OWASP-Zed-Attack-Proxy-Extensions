@@ -21,14 +21,14 @@ package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
 
 /**
  * Defines an Expression that is immediately evaluated without needing to go into other expressions
  */
-public abstract class AbstractTerminalExpression implements Expression {
+public abstract class AbstractTerminalExpression implements Predicate<HttpMessage> {
     private List<String> values;
     Function<HttpMessage, String> subjectLambda;
 

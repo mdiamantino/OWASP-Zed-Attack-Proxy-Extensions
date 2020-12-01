@@ -21,17 +21,15 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageT
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import org.apache.log4j.Logger;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AndExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.NotExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.OrExpression;
+import org.parosproxy.paros.network.HttpMessage;
 
 public class RecursiveExpressionBuilder {
     private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
     // Structural components
-    private Expression root;
     private OperatorEnum symbol;
+    private Predicate<HttpMessage> pred;
 
     // Helper
     private final Lexer lexer;
@@ -40,30 +38,26 @@ public class RecursiveExpressionBuilder {
         this.lexer = new Lexer(expression);
     }
 
-    public Expression build() {
+    public Predicate<HttpMessage> build() {
         parseOrExpressionAndInside();
-        return root;
+        return pred;
     }
 
     private void parseOrExpressionAndInside() {
         parseAndExpressionAndInside();
         while (symbol == OperatorEnum.OR) {
-            OrExpression or = new OrExpression();
-            or.setLeftExpression(root);
+            Predicate<HttpMessage> predCur = pred;
             parseAndExpressionAndInside();
-            or.setRightExpression(root);
-            root = or;
+            pred = predCur.or(pred);
         }
     }
 
     private void parseAndExpressionAndInside() {
         parseTerminalExpressionOrANot();
         while (symbol == OperatorEnum.AND) {
-            AndExpression and = new AndExpression();
-            and.setLeftExpression(root);
+            Predicate<HttpMessage> predCur = pred;
             parseTerminalExpressionOrANot();
-            and.setRightExpression(root);
-            root = and;
+            pred = predCur.and(pred);
         }
     }
 
@@ -77,15 +71,13 @@ public class RecursiveExpressionBuilder {
             }
 
             List<String> l = extractOperationArgumentList();
-            root = ExpressionFactory.extractOperationFromSymbol(operationSymbol, subjectSymbol, l);
+            pred = ExpressionFactory.extractOperationFromSymbol(operationSymbol, subjectSymbol, l);
 
-            System.out.println("Finished with expression: " + root);
+            System.out.println("Finished with expression: " + pred);
             symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
-            NotExpression not = new NotExpression();
             parseTerminalExpressionOrANot();
-            not.setLeftExpression(root);
-            root = not;
+            pred = pred.negate();
         } else if (symbol == OperatorEnum.LEFT) {
             parseOrExpressionAndInside();
             expect(OperatorEnum.RIGHT);
@@ -93,6 +85,8 @@ public class RecursiveExpressionBuilder {
         } else {
             throw new RuntimeException("Incorrect Expression: " + symbol);
         }
+
+        assert pred != null;
     }
 
     private List<String> extractOperationArgumentList() {

@@ -17,25 +17,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal;
+package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
+import java.util.function.Predicate;
+import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-/**
- * These expressions need to evaluate multiple expressions before the final interpretation can be
- * returned.
- */
-public abstract class AbstractCompoundNonTerminalExpression implements Expression {
-    protected Expression leftExpression;
-    protected Expression rightExpression;
+public class PredicateRule implements Rule {
+    Predicate<HttpMessage> myPredicate;
+    String name;
 
-    protected AbstractCompoundNonTerminalExpression() {}
-
-    public void setLeftExpression(Expression leftExpression) {
-        this.leftExpression = leftExpression;
+    public PredicateRule(Predicate<HttpMessage> myExpression, String name) {
+        this.myPredicate = myExpression;
+        this.name = name;
     }
 
-    public void setRightExpression(Expression rightExpression) {
-        this.rightExpression = rightExpression;
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isValid(HttpMessage msg) {
+        return myPredicate.test(msg);
     }
 }

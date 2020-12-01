@@ -23,15 +23,16 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
+import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGenerator;
 import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools.RecursiveExpressionBuilder;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Expression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.RuleByExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.PredicateRule;
 
 public class TxtPolicyGenerator implements PolicyGenerator {
     Pattern rulePattern = Pattern.compile("ruleName\\s*=\\s*(\\w*)\\s*,\\s*body\\s*=\\s*(.*);");
@@ -72,7 +73,7 @@ public class TxtPolicyGenerator implements PolicyGenerator {
         logger.info(
                 String.format("Building rule with name=%s and body=%s", ruleName, ruleExpression));
         RecursiveExpressionBuilder expr = new RecursiveExpressionBuilder(ruleExpression + "\r\n");
-        Expression ruleExpr = expr.build();
-        return new RuleByExpression(ruleExpr, ruleName);
+        Predicate<HttpMessage> ruleExpr = expr.build();
+        return new PredicateRule(ruleExpr, ruleName);
     }
 }
