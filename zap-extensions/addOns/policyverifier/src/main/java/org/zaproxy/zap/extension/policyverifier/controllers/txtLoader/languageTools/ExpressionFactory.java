@@ -35,7 +35,7 @@ public class ExpressionFactory {
         switch (symbol) {
             case MATCH_LIST:
                 return new MatchListTerminalExpression();
-            case MATCH_HEADER:
+            case MATCH_REGEX:
                 return new MatchRegexTerminalExpression();
             default:
                 Lexer.logger.info("token: " + symbol);

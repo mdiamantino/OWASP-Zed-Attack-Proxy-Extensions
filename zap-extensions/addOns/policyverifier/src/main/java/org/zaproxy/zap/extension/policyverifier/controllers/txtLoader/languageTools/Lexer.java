@@ -108,7 +108,7 @@ public class Lexer {
                     } else if (input.sval.equalsIgnoreCase("matchList")) {
                         symbol = OperatorEnum.MATCH_LIST;
                     } else if (input.sval.equalsIgnoreCase("matchRegex")) {
-                        symbol = OperatorEnum.MATCH_HEADER;
+                        symbol = OperatorEnum.MATCH_REGEX;
                     }
                     break;
                 case StreamTokenizer.TT_EOF:

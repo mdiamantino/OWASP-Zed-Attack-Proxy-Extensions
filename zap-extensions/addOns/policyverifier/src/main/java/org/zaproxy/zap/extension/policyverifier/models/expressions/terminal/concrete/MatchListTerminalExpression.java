@@ -41,8 +41,8 @@ public class MatchListTerminalExpression extends AbstractTerminalExpression {
         List<String> values = getValues();
         String relevantValue = getRelevantValue(msg);
         if (relevantValue == null || relevantValue.isEmpty()) return true;
-        for (int i = 1; i < values.size(); i++) {
-            if (!relevantValue.contains(values.get(i))) return false;
+        for (String value : values) {
+            if (!relevantValue.contains(value)) return false;
         }
         return true;
     }

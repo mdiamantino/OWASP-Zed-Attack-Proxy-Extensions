@@ -30,7 +30,7 @@ public enum OperatorEnum {
     OR,
     NOT,
     MATCH_LIST,
-    MATCH_HEADER,
+    MATCH_REGEX,
     REQUEST_BODY,
     REQUEST_HEADER,
     RESPONSE_BODY,
