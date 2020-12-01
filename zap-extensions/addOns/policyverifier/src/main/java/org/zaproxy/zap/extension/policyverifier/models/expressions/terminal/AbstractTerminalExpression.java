@@ -56,15 +56,18 @@ public abstract class AbstractTerminalExpression implements Expression {
     }
 
     private Function<HttpMessage, String> constructSubjectLambda(Subject subject) {
+        String header;
         switch (subject) {
             case REQUEST_BODY:
                 return (HttpMessage msg) -> msg.getRequestBody().toString();
             case REQUEST_HEADER:
-                return (HttpMessage msg) -> msg.getRequestHeader().getHeader(consumeHeaderName());
+                header = consumeHeaderName();
+                return (HttpMessage msg) -> msg.getRequestHeader().getHeader(header);
             case RESPONSE_BODY:
                 return (HttpMessage msg) -> msg.getResponseBody().toString();
             case RESPONSE_HEADER:
-                return (HttpMessage msg) -> msg.getResponseHeader().getHeader(consumeHeaderName());
+                header = consumeHeaderName();
+                return (HttpMessage msg) -> msg.getResponseHeader().getHeader(header);
             default:
                 throw new RuntimeException("Unknown subject" + subject);
         }
