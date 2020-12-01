@@ -127,19 +127,18 @@ public class PolicyVerifierPanel extends AbstractPanel {
         sb.append("<body><table>");
 
         // Table header
-        sb.append("<thead><tr><th>Name</th> <th>Times violated</th></tr></thead>");
+        sb.append("<thead><tr><th>Name</th> </tr></thead>");
 
         // Insert policies
         for (Policy policy : policies) {
             sb.append(
                     String.format(
-                            "<tr class=\"policy\"> <th>Policy: %s</th> <th>%d</th></tr>",
-                            policy.getName(), 0));
+                            "<tr class=\"policy\"> <th>Policy: %s</th></tr>", policy.getName()));
 
             // Insert rules
             sb.append("<tbody>");
             for (Rule rule : policy.getRules()) {
-                sb.append(String.format("<tr><td> %s </td><td> %d </td></tr>", rule.getName(), 0));
+                sb.append(String.format("<tr><td> %s </td></tr>", rule.getName()));
             }
             sb.append("</tbody>");
         }

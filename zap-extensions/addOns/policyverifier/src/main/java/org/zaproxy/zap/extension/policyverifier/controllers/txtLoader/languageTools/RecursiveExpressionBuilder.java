@@ -48,6 +48,7 @@ public class RecursiveExpressionBuilder {
         while (symbol == OperatorEnum.OR) {
             Predicate<HttpMessage> predCur = pred;
             parseAndExpressionAndInside();
+            System.out.println("cur = " + predCur + "new= " + pred);
             pred = predCur.or(pred);
         }
     }
