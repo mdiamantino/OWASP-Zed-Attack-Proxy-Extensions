@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.rules;
+package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.Set;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
+import org.zaproxy.zap.extension.policyverifier.models.jarRules.*;
 
 public class TestUtils {
     public static String buildDomainUrl(String domain) {

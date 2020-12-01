@@ -19,34 +19,22 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
-import java.io.File;
 import org.apache.commons.io.FilenameUtils;
-import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.PolicyGeneratorFromJar;
-import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.PolicyGeneratorFromTxt;
+import org.zaproxy.zap.extension.policyverifier.controllers.jarLoader.JarPolicyGenerator;
+import org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.TxtPolicyGenerator;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
 
-public class PolicyGeneratorFactory {
-    File file;
-    PolicyGeneratorFactory policyGenerator;
+import java.io.File;
 
-    public File getFile() {
-        return file;
-    }
+public class PolicyGenerationDelegator {
+    PolicyGenerator policyGenerator;
 
-    public String getFileName() {
-        return FilenameUtils.removeExtension(file.getName());
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public Policy generatePolicy() throws Exception {
+    public Policy generatePolicy(File file) throws Exception {
         String extension = FilenameUtils.getExtension(file.getName());
         if (extension.equals("jar")) {
-            policyGenerator = new PolicyGeneratorFromJar();
+            policyGenerator = new JarPolicyGenerator();
         } else if (extension.equals("txt")) {
-            policyGenerator = new PolicyGeneratorFromTxt();
+            policyGenerator = new TxtPolicyGenerator();
         }
         assert policyGenerator != null;
         policyGenerator.setFile(file);

@@ -17,20 +17,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.rules;
+package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-public class HttpsOnly implements Rule {
+public class SecureCookie implements Rule {
 
     /**
-     * Checks if the request's protocol is HTTPS
+     * Checks if the request contains "secure" cookies. A secure cookie must have the have the
+     * HttpOnly,Secure,SameSite attributes set
      *
-     * @return false when the request's protocol is not HTTPS
+     * @return false when cookies are not secure.
      */
     @Override
     public boolean isValid(HttpMessage httpMessage) {
-        return httpMessage.getRequestHeader().isSecure();
+        String cookieParams = httpMessage.getCookieParamsAsString();
+        return cookieParams.isEmpty()
+                || (cookieParams.contains("SameSite")
+                && cookieParams.contains("HttpOnly")
+                && cookieParams.contains("Secure"));
     }
 }

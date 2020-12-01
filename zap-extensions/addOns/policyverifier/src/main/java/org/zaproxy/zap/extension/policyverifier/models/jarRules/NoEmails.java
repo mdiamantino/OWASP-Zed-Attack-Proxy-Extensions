@@ -17,25 +17,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.rules;
+package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-public class SecureCookie implements Rule {
+import java.util.regex.Pattern;
+
+public class NoEmails implements Rule {
+    private final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}", Pattern.CASE_INSENSITIVE);
 
     /**
-     * Checks if the request contains "secure" cookies. A secure cookie must have the have the
-     * HttpOnly,Secure,SameSite attributes set
+     * Checks if the request contains a valid email address.
      *
-     * @return false when cookies are not secure.
+     * @return false when an email address is included.
      */
     @Override
-    public boolean isValid(HttpMessage httpMessage) {
-        String cookieParams = httpMessage.getCookieParamsAsString();
-        return cookieParams.isEmpty()
-                || (cookieParams.contains("SameSite")
-                        && cookieParams.contains("HttpOnly")
-                        && cookieParams.contains("Secure"));
+    public boolean isValid(HttpMessage msg) {
+        boolean hasEmailInHeader =
+                VALID_EMAIL_ADDRESS_REGEX
+                        .matcher(msg.getRequestHeader().getHeadersAsString())
+                        .find();
+        boolean hasEmailInBody =
+                VALID_EMAIL_ADDRESS_REGEX.matcher(msg.getRequestBody().toString()).find();
+        return !hasEmailInHeader && !hasEmailInBody;
     }
 }

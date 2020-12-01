@@ -19,6 +19,11 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.jarLoader;
 
+import org.apache.log4j.Logger;
+import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGenerator;
+import org.zaproxy.zap.extension.policyverifier.models.Policy;
+import org.zaproxy.zap.extension.policyverifier.models.Rule;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,25 +35,33 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.apache.log4j.Logger;
-import org.zaproxy.zap.extension.policyverifier.controllers.PolicyGeneratorFactory;
-import org.zaproxy.zap.extension.policyverifier.models.Policy;
-import org.zaproxy.zap.extension.policyverifier.models.Rule;
 
-/** The class groups all behaviours needed in order to extract a policy from a Jar File */
-public class PolicyGeneratorFromJar extends PolicyGeneratorFactory {
-    private static final Logger logger = Logger.getLogger(PolicyGeneratorFromJar.class);
+/**
+ * The class groups all behaviours needed in order to extract a policy from a Jar File
+ */
+public class JarPolicyGenerator implements PolicyGenerator {
+    private static final Logger logger = Logger.getLogger(JarPolicyGenerator.class);
+    private File file;
 
-    public PolicyGeneratorFromJar() {}
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public JarPolicyGenerator() {
+    }
 
     /**
      * Instantiate all Rules defined in the jar and creates a policy from them.
      *
      * @return The Policy containing all rules defined in the given Jar
-     * @throws IOException if could not read .classes in the jar file
+     * @throws IOException              if could not read .classes in the jar file
      * @throws IllegalArgumentException if jar is empty
      */
-    @Override
     public Policy generatePolicy() throws Exception {
         logger.info("Generating Policy for JAR");
         Set<Rule> rules = getRules();
@@ -70,7 +83,7 @@ public class PolicyGeneratorFromJar extends PolicyGeneratorFactory {
      * @return Set of instantiated rules given the Jar they have been compiled into
      * @throws Exception if could not load or instantiate the classes properly
      */
-    protected Set<Rule> getRules() throws Exception {
+    public Set<Rule> getRules() throws Exception {
         logger.warn("In GetRules() ");
         Set<Rule> instances = new HashSet<>();
         Set<String> classesNames = getRulesNamesInJarFile();
@@ -92,9 +105,9 @@ public class PolicyGeneratorFromJar extends PolicyGeneratorFactory {
      * @throws IOException if cannot read the input stream of the file
      */
     private Set<String> getRulesNamesInJarFile() throws IOException {
-        logger.info("Getting Names in jar file " + getFileName());
+        logger.info("Getting Names in jar file " + getFileName(file));
         Set<String> classNames = new HashSet<>();
-        logger.info("File: " + getFileName());
+        logger.info("File: " + getFileName(file));
         ZipInputStream zip = new ZipInputStream(new FileInputStream(getFile()));
         logger.info("Got ZIP");
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
@@ -125,8 +138,8 @@ public class PolicyGeneratorFromJar extends PolicyGeneratorFactory {
         ClassLoader loader;
         loader =
                 URLClassLoader.newInstance(
-                        new URL[] {jar.toURI().toURL()},
-                        PolicyGeneratorFromJar.class.getClassLoader());
+                        new URL[]{jar.toURI().toURL()},
+                        JarPolicyGenerator.class.getClassLoader());
         return loader;
     }
 }

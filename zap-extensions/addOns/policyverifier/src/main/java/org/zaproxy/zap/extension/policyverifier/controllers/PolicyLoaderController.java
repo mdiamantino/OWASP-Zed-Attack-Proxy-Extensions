@@ -19,25 +19,28 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
-import java.io.File;
-import java.util.Objects;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
+import org.zaproxy.zap.extension.policyverifier.models.PoliciesReporter;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
-import org.zaproxy.zap.extension.policyverifier.models.RuleEnforcingPassiveScanner;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.util.Objects;
 
 /**
  * This class manages manages communication between the view and the model It is a singleton,
  * because only one instance is used, by one entity only.
  */
 public class PolicyLoaderController {
-    private RuleEnforcingPassiveScanner reps;
+    private PoliciesReporter reps;
     private String PREFIX = "policyverifier";
-    private PolicyGeneratorFactory generatorDispatcher;
+    private PolicyGenerationDelegator generatorDispatcher;
 
     public PolicyLoaderController() {
-        reps = RuleEnforcingPassiveScanner.getSingleton();
-        generatorDispatcher = new PolicyGeneratorFactory();
+        reps = new PoliciesReporter();
+        generatorDispatcher = new PolicyGenerationDelegator();
     }
 
     /**
@@ -52,8 +55,7 @@ public class PolicyLoaderController {
         try {
             //            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
             // Adding to model
-            generatorDispatcher.setFile(file);
-            loadedPolicy = generatorDispatcher.generatePolicy();
+            loadedPolicy = generatorDispatcher.generatePolicy(file);
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,6 +64,41 @@ public class PolicyLoaderController {
                             Constant.messages.getString(PREFIX + ".loader.instantiationerror")
                                     + " :"
                                     + e);
+        }
+    }
+
+    /**
+     * View method used to retrieve the loaded file from the view through a graphical file chooser.
+     * Only JAR files are accepted. When a valid file is picked, it is passed to the controller
+     * (PolicyLoaderController).
+     */
+    public void loadFile(String description, String extensions) {
+        JFileChooser fileChooser = new JFileChooser(Constant.getContextsDir());
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter jarFilter =
+                new FileNameExtensionFilter(description, extensions);
+        fileChooser.setFileFilter(jarFilter);
+
+        File file;
+        int rc =
+                fileChooser.showOpenDialog(
+                        Objects.requireNonNull(View.getSingleton()).getMainFrame());
+        if (rc == JFileChooser.APPROVE_OPTION) {
+            try {
+                file = fileChooser.getSelectedFile();
+                if (file == null || !file.exists()) {
+                    View.getSingleton()
+                            .showWarningDialog(
+                                    Constant.messages.getString(
+                                            PREFIX + ".loader.notfoundorempty"));
+                } else {
+                    loadPolicy(file);
+                }
+            } catch (Exception ex) {
+                View.getSingleton()
+                        .showWarningDialog(
+                                Constant.messages.getString(PREFIX + ".loader.genericerror"));
+            }
         }
     }
 }

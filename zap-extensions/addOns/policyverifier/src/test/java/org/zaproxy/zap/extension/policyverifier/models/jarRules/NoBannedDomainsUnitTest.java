@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.rules;
+package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,6 +27,7 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
+import org.zaproxy.zap.extension.policyverifier.models.jarRules.NoBannedDomains;
 
 /** Unit test for {@link NoBannedDomains}. */
 public class NoBannedDomainsUnitTest {
