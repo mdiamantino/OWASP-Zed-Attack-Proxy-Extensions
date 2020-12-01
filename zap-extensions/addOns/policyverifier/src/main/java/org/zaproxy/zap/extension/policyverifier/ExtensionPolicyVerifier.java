@@ -47,6 +47,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
 
         if (getView() != null) {
             extensionHook.getHookMenu().addNewMenu(getMenuPolicyPlugin());
+            //
             extensionHook.getHookView().addStatusPanel(PolicyVerifierPanel.getSingleton());
         }
     }
@@ -89,7 +90,8 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
 
     private void setUpPluginMenu() {
         if (menuPolicyPlugin != null) {
-            menuPolicyPlugin.add(getMenuOptionLoadPolicyFromJar()); // Adding loading button
+            menuPolicyPlugin.add(getMenuOptionLoadPolicyFromJar()); // Adding loading
+            // button
             menuPolicyPlugin.add(getMenuOptionLoadPolicyFromTxt());
             menuPolicyPlugin.add(getMenuOptionHelp()); // Adding Help button
         }

@@ -29,9 +29,15 @@ import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 public class PoliciesReporter {
     private static final Logger logger = Logger.getLogger(PoliciesReporter.class);
     private List<Policy> policies = new ArrayList<>();
+    private boolean isInitializedWithPluginPassiveScanner = false;
 
-    public PoliciesReporter() {
-        PolicyVerifierPassiveScanner.getSingleton().setPoliciesReporter(this);
+    public PoliciesReporter() {}
+
+    private void initialize() {
+        if (!isInitializedWithPluginPassiveScanner) {
+            PolicyVerifierPassiveScanner.getSingleton().setPoliciesReporter(this);
+            isInitializedWithPluginPassiveScanner = true;
+        }
     }
 
     /**
@@ -40,6 +46,7 @@ public class PoliciesReporter {
      * @param policy Policy to add
      */
     public void addPolicy(Policy policy) {
+        initialize();
         for (Policy previouslyAddedPolicy : policies) {
             if (policy.getName().equals(previouslyAddedPolicy.getName())) {
                 policies.remove(previouslyAddedPolicy);

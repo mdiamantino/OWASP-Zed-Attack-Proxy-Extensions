@@ -33,12 +33,12 @@ import org.zaproxy.zap.extension.policyverifier.models.Policy;
  * because only one instance is used, by one entity only.
  */
 public class PolicyLoaderController {
-    private PoliciesReporter reps;
+    private PoliciesReporter policiesReporter;
     private String PREFIX = "policyverifier";
     private PolicyGenerationDelegator generatorDispatcher;
 
     public PolicyLoaderController() {
-        reps = new PoliciesReporter();
+        policiesReporter = new PoliciesReporter();
         generatorDispatcher = new PolicyGenerationDelegator();
     }
 
@@ -55,7 +55,7 @@ public class PolicyLoaderController {
             //            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
             // Adding to model
             loadedPolicy = generatorDispatcher.generatePolicy(file);
-            reps.addPolicy(loadedPolicy);
+            policiesReporter.addPolicy(loadedPolicy);
         } catch (Exception e) {
             e.printStackTrace();
             Objects.requireNonNull(View.getSingleton())

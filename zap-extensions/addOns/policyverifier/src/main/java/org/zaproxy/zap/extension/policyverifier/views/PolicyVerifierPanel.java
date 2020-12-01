@@ -97,7 +97,32 @@ public class PolicyVerifierPanel extends AbstractPanel {
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<header>")
-                .append(Constant.messages.getString("policyverifier.panel.styles"))
+                .append(
+                        "<style>\n"
+                                + "body {\n"
+                                + "  font-family:sans-serif; \n"
+                                + "  overflow:auto; \n"
+                                + "}\n"
+                                + "table {\n"
+                                + "  text-align:left;\n"
+                                + "  border-collapse:collapse;\n"
+                                + "  width:80%;\n"
+                                + "}\n"
+                                + "td, th {\n"
+                                + "  text-align:left;\n"
+                                + "  border:1px solid grey;\n"
+                                + "  padding:5px;\n"
+                                + "}\n"
+                                + "tr.policy th {\n"
+                                + "  background:#B9D9E3\n"
+                                + "}\n"
+                                + "thead th {\n"
+                                + "  font-weight:normal;\n"
+                                + "}\n"
+                                + "tbody td {\n"
+                                + "  padding-left:16px;\n"
+                                + "}\n"
+                                + "</style>\n")
                 .append("</header>");
         sb.append("<body><table>");
 

@@ -22,7 +22,6 @@ package org.zaproxy.zap.extension.policyverifier.views;
 import java.awt.*;
 import java.util.Objects;
 import javax.swing.*;
-import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.AbstractDialog;
 import org.parosproxy.paros.view.View;
 
@@ -54,7 +53,8 @@ public class DocDialog extends AbstractDialog {
 
     private void setUpHelpTextBox(JPanel mainPanel) {
         JLabel label = new JLabel();
-        label.setText(Constant.messages.getString("policyverifier.docs.content"));
+        label.setText(
+                "<html><style>body {background-color: #FFFFFF;}pre { font-family: monospace; }<body><p>To load a new policy, you need to create a .jar file containing the rules.</p><p>ZAP and the extension are needed dependencies. Therefore, make sure to build them, and include their JARs as dependencies your policy project.</p><p>Each rule must be defined in a separate java classes, implementing the interface Rule</p><p>The rule class should implement the method <pre>boolean isValid(HttpMessage msg)</pre>, returning false when the rule is violated.</p><p>You will find a step-by-step tutorial in : <b>Group19/solutions/user_story_01/Tutorial.pdf</b></p></body></html>");
         JPanel panel = new JPanel();
         panel.add(label);
         mainPanel.add(panel, generatePanelForHelpTextBox());
@@ -71,7 +71,7 @@ public class DocDialog extends AbstractDialog {
 
     private void setUpOkButton(JPanel mainPanel) {
         JButton btnOk = new JButton();
-        btnOk.setText(Constant.messages.getString("policyverifier.docs.okbutton"));
+        btnOk.setText("Ok");
         btnOk.addActionListener(e -> dispose());
         mainPanel.add(btnOk, generateLayoutForOkButton());
     }
