@@ -32,11 +32,27 @@ public abstract class AbstractTerminalExpression implements Expression {
     private List<String> values;
     Function<HttpMessage, String> subjectLambda;
 
-    public AbstractTerminalExpression(Subject subject, List<String> values) {
+    public AbstractTerminalExpression() {
         super();
-        this.values = values;
+    }
 
-        subjectLambda = constructSubjectLambda(subject);
+    public void setSubjectAndValues(Subject subject, List<String> values) {
+        this.values = values;
+        subjectLambda = constructSubjectLambda(subject); // values must be set
+    }
+
+    /**
+     * Specifies which part of the context needs to be interpreted
+     *
+     * @param msg the HttpMessage that has been sent in a particular call
+     * @return the string containing the correct part of the context to evaluate
+     */
+    public String getRelevantValue(HttpMessage msg) {
+        return subjectLambda.apply(msg);
+    }
+
+    protected List<String> getValues() {
+        return values;
     }
 
     private Function<HttpMessage, String> constructSubjectLambda(Subject subject) {
@@ -52,20 +68,6 @@ public abstract class AbstractTerminalExpression implements Expression {
             default:
                 throw new RuntimeException("Unknown subject" + subject);
         }
-    }
-
-    protected List<String> getValues() {
-        return values;
-    }
-
-    /**
-     * Specifies which part of the context needs to be interpreted
-     *
-     * @param msg the HttpMessage that has been sent in a particular call
-     * @return the string containing the correct part of the context to evaluate
-     */
-    public String getRelevantValue(HttpMessage msg) {
-        return subjectLambda.apply(msg);
     }
 
     private String consumeHeaderName() {

@@ -68,6 +68,7 @@ public class RecursiveExpressionBuilder {
     }
 
     private void parseTerminalExpressionOrANot() {
+        symbol = lexer.nextSymbol();
         if (ExpressionFactory.isTokenAnOperation(symbol)) {
             OperatorEnum operationSymbol = symbol;
             OperatorEnum subjectSymbol = lexer.nextSymbol();
@@ -76,14 +77,10 @@ public class RecursiveExpressionBuilder {
             }
 
             List<String> l = extractOperationArgumentList();
-            try {
-                root =
-                        ExpressionFactory.extractOperationFromSymbol(
-                                operationSymbol, subjectSymbol, l);
-            } catch (Exception e) {
-                throw new RuntimeException(e); // propagate
-            }
-            lexer.nextSymbol();
+            root = ExpressionFactory.extractOperationFromSymbol(operationSymbol, subjectSymbol, l);
+
+            System.out.println("Finished with expression: " + root);
+            symbol = lexer.nextSymbol();
         } else if (symbol == OperatorEnum.NOT) {
             NotExpression not = new NotExpression();
             parseTerminalExpressionOrANot();
@@ -107,7 +104,7 @@ public class RecursiveExpressionBuilder {
             symbol = lexer.nextSymbol();
             if (symbol == OperatorEnum.RIGHT_BR) break;
             else if (symbol != OperatorEnum.COMMA)
-                throw new RuntimeException("Expected" + OperatorEnum.COMMA);
+                throw new RuntimeException("Expected" + OperatorEnum.COMMA + "but got " + symbol);
         }
         return l;
     }
@@ -115,7 +112,7 @@ public class RecursiveExpressionBuilder {
     private void expect(OperatorEnum t) {
         symbol = lexer.nextSymbol();
         if (symbol != t) {
-            throw new RuntimeException("Expected " + t + "but got " + symbol);
+            throw new RuntimeException("Expected " + t + " but got " + symbol);
         }
     }
 }

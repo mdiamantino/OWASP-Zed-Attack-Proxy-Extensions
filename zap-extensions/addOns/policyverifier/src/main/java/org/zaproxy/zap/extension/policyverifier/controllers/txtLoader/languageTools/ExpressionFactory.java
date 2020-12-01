@@ -28,26 +28,19 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.conc
 
 public class ExpressionFactory {
     public static boolean isTokenAnOperation(OperatorEnum op) {
-        try {
-            getOperationClass(op);
-            return true;
-        } catch (RuntimeException e) {
-            return false;
-        }
+        return getOperationClass(op) != null;
     }
 
-    private static Class<? extends AbstractTerminalExpression> getOperationClass(
-            OperatorEnum symbol) {
-        Class<? extends AbstractTerminalExpression> operation;
+    private static AbstractTerminalExpression getOperationClass(OperatorEnum symbol) {
         switch (symbol) {
             case matchList:
-                return MatchListTerminalExpression.class;
+                return new MatchListTerminalExpression();
             case matchRegex:
-                return MatchRegexTerminalExpression.class;
+                return new MatchRegexTerminalExpression();
             default:
+                Lexer.logger.info("token: " + symbol);
                 System.out.println("Unknown operation symbol" + symbol);
-                throw new RuntimeException(
-                        "Unknown operation symbol" + symbol); // todo throw something more relevant
+                return null;
         }
     }
 
@@ -78,10 +71,14 @@ public class ExpressionFactory {
     }
 
     public static Expression extractOperationFromSymbol(
-            OperatorEnum symbol, OperatorEnum subjectSymbol, List<String> l) throws Exception {
+            OperatorEnum symbol, OperatorEnum subjectSymbol, List<String> l) {
         Subject subject = getSubject(subjectSymbol);
-        return getOperationClass(symbol)
-                .getDeclaredConstructor(Subject.class, List.class)
-                .newInstance(subject, l);
+        AbstractTerminalExpression expression = getOperationClass(symbol);
+
+        if (expression == null) throw new RuntimeException("Expression is null");
+        expression.setSubjectAndValues(subject, l);
+        System.out.println("Built expression: " + expression);
+
+        return expression;
     }
 }

@@ -27,8 +27,9 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subj
 
 public class MatchListTerminalExpression extends AbstractTerminalExpression {
 
-    public MatchListTerminalExpression(Subject subject, List<String> values) {
-        super(subject, values);
+    @Override
+    public void setSubjectAndValues(Subject subject, List<String> values) {
+        super.setSubjectAndValues(subject, values);
 
         if (values.size() < 1)
             throw new IncompleteArgumentException( // todo

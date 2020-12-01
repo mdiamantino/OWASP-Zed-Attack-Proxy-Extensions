@@ -20,7 +20,6 @@
 package org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal;
 
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.nonterminal.AbstractCompoundNonTerminalExpression;
 
 public class AndExpression extends AbstractCompoundNonTerminalExpression {
 

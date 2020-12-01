@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Lexer {
     private StreamTokenizer input;
@@ -32,6 +35,20 @@ public class Lexer {
     public Lexer(String inputString) {
         Reader reader = new StringReader(inputString);
         input = new StreamTokenizer(reader);
+
+        input.wordChars('_', '_'); // todo
+
+        if (logger == null) {
+            logger = Logger.getLogger("MyLog");
+            try {
+                // This block configure the logger with handler and formatter
+                FileHandler fh = new FileHandler("C:\\Users\\mamalaki\\zap-ext.log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public String getString() {
@@ -40,10 +57,16 @@ public class Lexer {
         return string;
     }
 
+    public static Logger logger = null;
+
     public OperatorEnum nextSymbol() {
         string = null;
         try {
-            switch (input.nextToken()) {
+            int token = input.nextToken();
+            System.out.println("token: " + token);
+            logger.info("token: " + token);
+
+            switch (token) {
                 case '(':
                     symbol = OperatorEnum.LEFT;
                     break;

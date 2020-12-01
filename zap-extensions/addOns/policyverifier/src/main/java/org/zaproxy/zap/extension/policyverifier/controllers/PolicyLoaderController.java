@@ -56,10 +56,12 @@ public class PolicyLoaderController {
             loadedPolicy = generatorDispatcher.generatePolicy();
             reps.addPolicy(loadedPolicy);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             Objects.requireNonNull(View.getSingleton())
                     .showWarningDialog(
-                            Constant.messages.getString(PREFIX + ".loader.instantiationerror"));
+                            Constant.messages.getString(PREFIX + ".loader.instantiationerror")
+                                    + " :"
+                                    + e);
         }
     }
 }

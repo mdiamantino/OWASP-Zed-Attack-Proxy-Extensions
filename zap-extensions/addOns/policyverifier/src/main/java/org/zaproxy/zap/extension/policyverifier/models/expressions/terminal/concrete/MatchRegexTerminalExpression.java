@@ -28,11 +28,11 @@ import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Abst
 import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
 
 public class MatchRegexTerminalExpression extends AbstractTerminalExpression {
+    @Override
+    public void setSubjectAndValues(Subject subject, List<String> values) {
+        super.setSubjectAndValues(subject, values);
 
-    public MatchRegexTerminalExpression(Subject subject, List<String> values) {
-        super(subject, values);
-
-        if (values.size() != 1)
+        if (getValues().size() != 1)
             throw new IncompleteArgumentException("Expected exactly one argument: the regexp");
     }
 
