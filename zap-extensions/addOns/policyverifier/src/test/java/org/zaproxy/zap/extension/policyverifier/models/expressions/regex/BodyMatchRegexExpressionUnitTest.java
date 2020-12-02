@@ -59,6 +59,18 @@ public class BodyMatchRegexExpressionUnitTest {
         assertFalse(matchRegexTerminalExpression.test(msg));
     }
 
+
+    @Test
+    public void testContent_Regex_NoReqBody() {
+        Subject subject = Subject.REQUEST_BODY;
+        String pattern = "(?:.)*(user)(?:.)*";
+        List<String> values = new ArrayList<>(Arrays.asList(pattern));
+        matchRegexTerminalExpression.setSubjectAndValues(subject, values);
+
+        HttpMessage msg = getMockMessageRequest("");
+        assertTrue(matchRegexTerminalExpression.test(msg));
+    }
+
     @Test
     public void testContent_Regex_ResContainsRegex() {
         Subject subject = Subject.RESPONSE_BODY;
@@ -68,6 +80,17 @@ public class BodyMatchRegexExpressionUnitTest {
 
         String bodyValue = "\"user\":\"user1\"";
         HttpMessage msg = getMockMessageResponse(bodyValue);
+        assertTrue(matchRegexTerminalExpression.test(msg));
+    }
+
+    @Test
+    public void testContent_Regex_NoResBody() {
+        Subject subject = Subject.RESPONSE_BODY;
+        String pattern = "(?:.)*(user)(?:.)*";
+        List<String> values = new ArrayList<>(Arrays.asList(pattern));
+        matchRegexTerminalExpression.setSubjectAndValues(subject, values);
+
+        HttpMessage msg = getMockMessageResponse("");
         assertTrue(matchRegexTerminalExpression.test(msg));
     }
 

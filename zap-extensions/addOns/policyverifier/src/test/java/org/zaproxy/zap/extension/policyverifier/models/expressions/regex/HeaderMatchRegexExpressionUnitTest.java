@@ -51,6 +51,18 @@ public class HeaderMatchRegexExpressionUnitTest {
     }
 
     @Test
+    public void testContent_Regex_NoExpectedReqHeader() {
+        Subject subject = Subject.REQUEST_HEADER;
+        String headerName = "accept";
+        String pattern = "(?:.)*(plain)(?:.)*";
+        List<String> values = new ArrayList<>(Arrays.asList(headerName, pattern));
+        matchRegexTerminalExpression.setSubjectAndValues(subject, values);
+
+        HttpMessage msg = getMockMessageRequest(headerName, "");
+        assertTrue(matchRegexTerminalExpression.test(msg));
+    }
+
+    @Test
     public void testContent_Regex_ReqNotContainsRegex() {
         Subject subject = Subject.REQUEST_HEADER;
         String headerName = "accept";
@@ -73,6 +85,18 @@ public class HeaderMatchRegexExpressionUnitTest {
 
         String headerValue = "plain/text";
         HttpMessage msg = getMockMessageResponse(headerName, headerValue);
+        assertTrue(matchRegexTerminalExpression.test(msg));
+    }
+
+    @Test
+    public void testContent_Regex_NoExpectedResHeader() {
+        Subject subject = Subject.RESPONSE_HEADER;
+        String headerName = "content-type";
+        String pattern = "(?:.)*(plain)(?:.)*";
+        List<String> values = new ArrayList<>(Arrays.asList(headerName, pattern));
+        matchRegexTerminalExpression.setSubjectAndValues(subject, values);
+
+        HttpMessage msg = getMockMessageResponse(headerName, "");
         assertTrue(matchRegexTerminalExpression.test(msg));
     }
 
