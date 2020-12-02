@@ -18,6 +18,41 @@ public class RecursiveExpressionBuilderTest {
         assertThrows(RuntimeException.class, reb::build);
     }
 
+
+    @Test
+    void build_NotOfExpression_TestsPass() {
+        String expression = "! matchList REQUEST_BODY['google']\r\n";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        Predicate<HttpMessage> pred = reb.build();
+        HttpMessage msg = new HttpMessage();
+        msg.setRequestBody("google");
+        assertFalse(pred.test(msg));
+    }
+
+    @Test
+    void build_DoubleNotOfExpression_TestsPass() {
+        String expression = "! ! matchList REQUEST_BODY['google']\r\n";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        Predicate<HttpMessage> pred = reb.build();
+        HttpMessage msg = new HttpMessage();
+        msg.setRequestBody("google");
+        assertTrue(pred.test(msg));
+    }
+
+    @Test
+    void build_TerminalExpressionWithNoSubject_ThrowsRunTimeException() {
+        String expression = "matchList ['google']\r\n";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        assertThrows(RuntimeException.class, reb::build);
+    }
+
+    @Test
+    void build_TerminalExpressionWithNoArguments_ThrowsRunTimeException() {
+        String expression = "matchList REQUEST_BODY[]\r\n";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        assertThrows(RuntimeException.class, reb::build);
+    }
+
     @Test
     void build_OrOfExpressions_TestsPass() {
         String expression = "matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter']";
@@ -80,44 +115,6 @@ public class RecursiveExpressionBuilderTest {
         assertFalse(pred.test(msg));
     }
 
-    @Test
-    void build_ComplexNestedExpression1_TestsPass() {
-        //   ((A | C) & ((A & D) | (A & ! D))) | (A & C) | C ->  A | C
-        String A = "matchList REQUEST_BODY['google']";
-        String C = "matchList REQUEST_BODY['facebook']";
-        String D = "matchList REQUEST_BODY['instagram']";
-        String expression = "((" + A + " | " + C + ") & ((" + A + " & " + D + ") | (" + A + " & ! " + D + "))) | (" + A + " & " + C + ") | " + C;
-        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
-        Predicate<HttpMessage> pred = reb.build();
-        HttpMessage msg = new HttpMessage();
-        msg.setRequestBody("google, facebook");
-        assertTrue(pred.test(msg));
-        msg.setRequestBody("google");
-        assertTrue(pred.test(msg));
-        msg.setRequestBody("facebook");
-        assertTrue(pred.test(msg));
-        msg.setRequestBody("instagram");
-        assertFalse(pred.test(msg));
-    }
-
-    @Test
-    void build_ComplexNestedExpression2_TestsPass() {
-        //   (!A & (A | B)) |  ((B | (A & A)) & (A | !B)) ->  A | C
-        String A = "matchList REQUEST_BODY['google']";
-        String B = "matchList REQUEST_BODY['facebook']";
-        String expression = "(!"+A+" & ("+A+" | "+B+")) |  (("+B+" | ("+A+" & "+A+")) & ("+A+" | !"+B+"))";
-        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
-        Predicate<HttpMessage> pred = reb.build();
-        HttpMessage msg = new HttpMessage();
-        msg.setRequestBody("google, facebook");
-        assertTrue(pred.test(msg));
-        msg.setRequestBody("google");
-        assertTrue(pred.test(msg));
-        msg.setRequestBody("facebook");
-        assertTrue(pred.test(msg));
-        msg.setRequestBody("instagram");
-        assertFalse(pred.test(msg));
-    }
 
     @Test
     void build_NotOfComplexExpressions_TestsPass() {
@@ -186,39 +183,43 @@ public class RecursiveExpressionBuilderTest {
         assertTrue(pred.test(msg));
     }
 
-
     @Test
-    void build_NotOfExpression_TestsPass() {
-        String expression = "! matchList REQUEST_BODY['google']\r\n";
+    void build_ComplexNestedExpression1_TestsPass() {
+        //   ((A | C) & ((A & D) | (A & ! D))) | (A & C) | C ->  A | C
+        String A = "matchList REQUEST_BODY['google']";
+        String C = "matchList REQUEST_BODY['facebook']";
+        String D = "matchList REQUEST_BODY['instagram']";
+        String expression = "((" + A + " | " + C + ") & ((" + A + " & " + D + ") | (" + A + " & ! " + D + "))) | (" + A + " & " + C + ") | " + C;
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
+        msg.setRequestBody("google, facebook");
+        assertTrue(pred.test(msg));
         msg.setRequestBody("google");
+        assertTrue(pred.test(msg));
+        msg.setRequestBody("facebook");
+        assertTrue(pred.test(msg));
+        msg.setRequestBody("instagram");
         assertFalse(pred.test(msg));
     }
 
     @Test
-    void build_DoubleNotOfExpression_TestsPass() {
-        String expression = "! ! matchList REQUEST_BODY['google']\r\n";
+    void build_ComplexNestedExpression2_TestsPass() {
+        //   (!A & (A | B)) |  ((B | (A & A)) & (A | !B)) ->  A | C
+        String A = "matchList REQUEST_BODY['google']";
+        String B = "matchList REQUEST_BODY['facebook']";
+        String expression = "(!" + A + " & (" + A + " | " + B + ")) |  ((" + B + " | (" + A + " & " + A + ")) & (" + A + " | !" + B + "))";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
+        msg.setRequestBody("google, facebook");
+        assertTrue(pred.test(msg));
         msg.setRequestBody("google");
         assertTrue(pred.test(msg));
-    }
-
-    @Test
-    void build_TerminalExpressionWithNoSubject_ThrowsRunTimeException() {
-        String expression = "matchList ['google']\r\n";
-        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
-        assertThrows(RuntimeException.class, reb::build);
-    }
-
-    @Test
-    void build_TerminalExpressionWithNoArguments_ThrowsRunTimeException() {
-        String expression = "matchList REQUEST_BODY[]\r\n";
-        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
-        assertThrows(RuntimeException.class, reb::build);
+        msg.setRequestBody("facebook");
+        assertTrue(pred.test(msg));
+        msg.setRequestBody("instagram");
+        assertFalse(pred.test(msg));
     }
 
 
