@@ -36,7 +36,7 @@ public class JarPolicyGeneratorUnitTest {
     private JarPolicyGenerator jarPolicyGenerator;
     private String TEST_RESOURCES_PATH =
             System.getProperty("user.dir")
-                    + "/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/resources";
+                    + "/src/test/resources/org/zaproxy/zap/extension/policyverifier";
 
     @BeforeEach
     public void setUp() {
