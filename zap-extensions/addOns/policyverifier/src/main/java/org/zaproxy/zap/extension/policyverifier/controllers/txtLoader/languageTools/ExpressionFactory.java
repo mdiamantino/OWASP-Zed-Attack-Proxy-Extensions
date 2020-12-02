@@ -39,8 +39,6 @@ public class ExpressionFactory {
             case MATCH_REGEX:
                 return new MatchRegexTerminalExpression();
             default:
-                Lexer.logger.info("token: " + symbol);
-                System.out.println("Unknown operation symbol" + symbol);
                 return null;
         }
     }

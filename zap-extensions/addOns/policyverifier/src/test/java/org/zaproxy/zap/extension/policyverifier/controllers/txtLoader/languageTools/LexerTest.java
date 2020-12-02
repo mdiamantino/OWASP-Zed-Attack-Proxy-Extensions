@@ -19,9 +19,16 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class LexerTest {
     String randomString;
-    /*
+
     @BeforeEach
     public void setup() {
         randomString = RandomStringUtils.randomAlphabetic(5);
@@ -100,14 +107,13 @@ class LexerTest {
 
     @Test
     void nextSymbol_OperationMappedCorrectly_MapsCorrectly() {
-        String testString = "MRQHL MRQHR MRSHL MRSHR MRQBR MRSBR";
+        String testString = "REQUEST_BODY REQUEST_HEADER RESPONSE_BODY RESPONSE_HEADER matchList matchRegex";
         Lexer lexer = new Lexer(testString);
-        assertEquals(OperatorEnum.MRQHL, lexer.nextSymbol());
-        assertEquals(OperatorEnum.MRQHR, lexer.nextSymbol());
-        assertEquals(OperatorEnum.MRSHL, lexer.nextSymbol());
-        assertEquals(OperatorEnum.MRSHR, lexer.nextSymbol());
-        assertEquals(OperatorEnum.MRQBR, lexer.nextSymbol());
-        assertEquals(OperatorEnum.MRSBR, lexer.nextSymbol());
+        assertEquals(OperatorEnum.REQUEST_BODY, lexer.nextSymbol());
+        assertEquals(OperatorEnum.REQUEST_HEADER, lexer.nextSymbol());
+        assertEquals(OperatorEnum.RESPONSE_BODY, lexer.nextSymbol());
+        assertEquals(OperatorEnum.RESPONSE_HEADER, lexer.nextSymbol());
+        assertEquals(OperatorEnum.MATCH_LIST, lexer.nextSymbol());
+        assertEquals(OperatorEnum.MATCH_REGEX, lexer.nextSymbol());
     }
-    */
 }
