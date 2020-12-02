@@ -1,0 +1,3 @@
+ruleName=MustContainGoogle1, body=matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'];
+ruleName=MustContainGoogle2, body=matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'];
+ruleName=MustContainGoogle2, body=matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'];

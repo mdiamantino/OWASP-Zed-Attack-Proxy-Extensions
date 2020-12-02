@@ -22,11 +22,9 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageT
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import org.apache.log4j.Logger;
 import org.parosproxy.paros.network.HttpMessage;
 
 public class RecursiveExpressionBuilder {
-    private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
     // Structural components
     private OperatorEnum symbol;
     private Predicate<HttpMessage> pred;
@@ -48,7 +46,6 @@ public class RecursiveExpressionBuilder {
         while (symbol == OperatorEnum.OR) {
             Predicate<HttpMessage> predCur = pred;
             parseAndExpressionAndInside();
-            System.out.println("cur = " + predCur + "new= " + pred);
             pred = predCur.or(pred);
         }
     }
@@ -81,7 +78,9 @@ public class RecursiveExpressionBuilder {
             pred = pred.negate();
         } else if (symbol == OperatorEnum.LEFT) {
             parseOrExpressionAndInside();
-            expect(OperatorEnum.RIGHT);
+            if (symbol != OperatorEnum.RIGHT) {
+                throw new RuntimeException("Expected Right");
+            }
             symbol = lexer.nextSymbol();
         } else {
             throw new RuntimeException("Incorrect Expression: " + symbol);

@@ -44,7 +44,11 @@ public class TxtPolicyGenerator implements PolicyGenerator {
     }
 
     public void setFile(File file) {
-        this.file = file;
+        if (file.length() == 0) {
+            throw new IllegalArgumentException();
+        } else {
+            this.file = file;
+        }
     }
 
     public Policy generatePolicy() throws Exception {
@@ -76,4 +80,5 @@ public class TxtPolicyGenerator implements PolicyGenerator {
         Predicate<HttpMessage> ruleExpr = expr.build();
         return new PredicateRule(ruleExpr, ruleName);
     }
+
 }

@@ -43,8 +43,6 @@ public class Lexer {
         return string;
     }
 
-    public static Logger logger = null;
-
     public OperatorEnum nextSymbol() {
         string = null;
         try {
