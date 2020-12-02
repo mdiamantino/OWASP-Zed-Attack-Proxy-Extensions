@@ -30,7 +30,7 @@ public class PolicyGenerationDelegatorTest {
 
     @Test
     void generatePolicy_CorrectTxtFile_GenerationSuccess() throws Exception {
-        File txtFile = new File(TEST_RESOURCES_PATH + "/GoodExpression.txt");
+        File txtFile = new File(TEST_RESOURCES_PATH + "/txtFiles/GoodExpression.txt");
         Policy policy = delegator.generatePolicy(txtFile);
         assertEquals(FilenameUtils.removeExtension(txtFile.getName()), policy.getName());
     }

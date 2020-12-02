@@ -68,6 +68,34 @@ public class RecursiveExpressionBuilderTest {
     }
 
     @Test
+    void build_CommaInExpressions_TestsPass() {
+        String expression = "matchList REQUEST_BODY['google', 'twitter']";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        Predicate<HttpMessage> pred = reb.build();
+        HttpMessage msg = new HttpMessage();
+        msg.setRequestBody("google");
+        assertFalse(pred.test(msg));
+        msg.setRequestBody("twitter");
+        assertFalse(pred.test(msg));
+        msg.setRequestBody("google, twitter");
+        assertTrue(pred.test(msg));
+    }
+
+    @Test
+    void build_CommaMissingInExpressions_TestsPass() {
+        String expression = "matchList REQUEST_BODY['google' 'twitter']";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        assertThrows(RuntimeException.class, reb::build);
+    }
+
+    @Test
+    void build_RightParenthesisMissing_Throws() {
+        String expression = "( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] & matchList REQUEST_BODY['facebook']";
+        RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
+        assertThrows(RuntimeException.class, reb::build);
+    }
+
+    @Test
     void build_AndOfExpressions_TestsPass() {
         String expression = "matchList REQUEST_BODY['google'] & matchList REQUEST_BODY['twitter']";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
