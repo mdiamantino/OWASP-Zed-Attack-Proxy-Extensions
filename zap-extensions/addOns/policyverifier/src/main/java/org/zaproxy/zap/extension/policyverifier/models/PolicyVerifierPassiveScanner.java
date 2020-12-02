@@ -22,8 +22,10 @@ package org.zaproxy.zap.extension.policyverifier.models;
 import java.util.ArrayList;
 import java.util.List;
 import net.htmlparser.jericho.Source;
+import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.control.Control;
 import org.parosproxy.paros.core.scanner.Alert;
+import org.parosproxy.paros.model.Model;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.pscan.ExtensionPassiveScan;
 import org.zaproxy.zap.extension.pscan.PassiveScanThread;
@@ -35,10 +37,11 @@ import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
  * displayed
  */
 public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
-    private final String NAME = "PolicyVerifier";
+    private static final String MESSAGE_PREFIX = "policyverifier";
     private List<Alert> calledAlerts = new ArrayList<>();
     private static int PLUGIN_ID = 5000019;
     private PoliciesReporter policiesReporter;
+    private Model model = null;
 
     public static PolicyVerifierPassiveScanner getSingleton() {
         return (PolicyVerifierPassiveScanner)
@@ -92,6 +95,20 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
 
     @Override
     public String getName() {
-        return NAME;
+        return Constant.messages.getString(MESSAGE_PREFIX + "pluginpassivescannername");
+    }
+
+    private Model getModel() {
+        if (this.model == null) {
+            this.model = Model.getSingleton();
+        }
+        return this.model;
+    }
+
+    /*
+     * Just for use in the unit tests
+     */
+    protected void setModel(Model model) {
+        this.model = model;
     }
 }

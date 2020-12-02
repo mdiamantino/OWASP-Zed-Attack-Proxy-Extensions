@@ -51,7 +51,7 @@ import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
  */
 public abstract class PassiveScannerTestUtils<T extends PassiveScanner> extends TestUtils {
 
-    protected T rule;
+    protected T scanner;
     protected PassiveScanThread parent;
     protected PassiveScanData passiveScanData = mock(PassiveScanData.class);
     protected List<Alert> alertsRaised;
@@ -73,13 +73,13 @@ public abstract class PassiveScannerTestUtils<T extends PassiveScanner> extends 
                         alertsRaised.add(alert);
                     }
                 };
-        rule = createScanner();
-        rule.setParent(parent);
+        scanner = createScanner();
+        scanner.setParent(parent);
     }
 
     protected void defaultAssertions(Alert alert) {
-        if (rule instanceof PluginPassiveScanner) {
-            PluginPassiveScanner pps = (PluginPassiveScanner) rule;
+        if (scanner instanceof PluginPassiveScanner) {
+            PluginPassiveScanner pps = (PluginPassiveScanner) scanner;
             assertThat(
                     "PluginPassiveScanner rules should set its ID to the alert.",
                     alert.getPluginId(),
@@ -95,17 +95,17 @@ public abstract class PassiveScannerTestUtils<T extends PassiveScanner> extends 
 
     protected void scanHttpRequestSend(HttpMessage msg) {
         initRule(msg);
-        rule.scanHttpRequestSend(msg, -1);
+        scanner.scanHttpRequestSend(msg, -1);
     }
 
     protected void scanHttpResponseReceive(HttpMessage msg) {
         initRule(msg);
-        rule.scanHttpResponseReceive(msg, -1, createSource(msg));
+        scanner.scanHttpResponseReceive(msg, -1, createSource(msg));
     }
 
     private void initRule(HttpMessage msg) {
-        if (rule instanceof PluginPassiveScanner) {
-            PassiveScanTestHelper.init((PluginPassiveScanner) rule, parent, msg, passiveScanData);
+        if (scanner instanceof PluginPassiveScanner) {
+            PassiveScanTestHelper.init((PluginPassiveScanner) scanner, parent, msg, passiveScanData);
         }
     }
 
@@ -116,7 +116,7 @@ public abstract class PassiveScannerTestUtils<T extends PassiveScanner> extends 
     @TestFactory
     Collection<DynamicTest> commonScanRuleTests() {
         List<DynamicTest> commonTests = new ArrayList<>();
-        if (rule instanceof PluginPassiveScanner) {
+        if (scanner instanceof PluginPassiveScanner) {
             commonTests.add(testScanRuleHasName());
         }
         return commonTests;
@@ -133,13 +133,8 @@ public abstract class PassiveScannerTestUtils<T extends PassiveScanner> extends 
 
     private void shouldHaveI18nNonEmptyName() {
         // Given / When
-        String name = rule.getName();
+        String name = scanner.getName();
         // Then
         assertThat(name, not(isEmptyOrNullString()));
-        assertThat(
-                "Name does not seem to be i18n'ed, not found in the resource bundle: " + name,
-                extensionResourceBundle.keySet().stream()
-                        .map(extensionResourceBundle::getString)
-                        .anyMatch(str -> str.equals(name)));
     }
 }
