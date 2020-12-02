@@ -43,11 +43,16 @@ class ExpressionFactoryTest {
     }
 
     @Test
+    void isTokenAnOperationWithNullToken() {
+        assertThrows(RuntimeException.class, () -> ExpressionFactory.isTokenAnOperation(null));
+    }
+
+    @Test
     void isTokenASubjectWithCorrectToken() {
         assertTrue(ExpressionFactory.isTokenASubject(OperatorEnum.REQUEST_BODY));
         assertTrue(ExpressionFactory.isTokenASubject(OperatorEnum.REQUEST_HEADER));
         assertTrue(ExpressionFactory.isTokenASubject(OperatorEnum.RESPONSE_BODY));
-        assertTrue(ExpressionFactory.isTokenASubject(OperatorEnum.REQUEST_HEADER));
+        assertTrue(ExpressionFactory.isTokenASubject(OperatorEnum.RESPONSE_HEADER));
     }
 
     @Test
@@ -56,17 +61,8 @@ class ExpressionFactoryTest {
     }
 
     @Test
-    void extractOperationFromSymbolThrowsOnWrongOperation() {
-        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.AND, OperatorEnum.REQUEST_BODY, new LinkedList<>()
-        ));
-    }
-
-    @Test
-    void extractOperationFromSymbolThrowsOnEmptyList() {
-        assertThrows(IncompleteArgumentException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, new LinkedList<>()
-        ));
+    void isTokenASubjectWithNullToken() {
+        assertFalse(ExpressionFactory.isTokenASubject(null));
     }
 
     @Test
@@ -76,9 +72,50 @@ class ExpressionFactoryTest {
         ) instanceof AbstractTerminalExpression);
     }
 
+    @Test
+    void extractOperationFromSymbolWithWrongOperation() {
+        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
+                OperatorEnum.AND, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(1)
+        ));
+    }
 
     @Test
-    void extractOperationFromSymbolThrowsWithMoreThanOneElements() {
+    void extractOperationFromSymbolWithNullOperation() {
+        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
+                null, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(1)
+        ));
+    }
+
+    @Test
+    void extractOperationFromSymbolWithWrongSubject() {
+        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
+                OperatorEnum.MATCH_REGEX, OperatorEnum.AND, generateListOfRandomArgs(1)
+        ));
+    }
+
+    @Test
+    void extractOperationFromSymbolWithNullSubject() {
+        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
+                OperatorEnum.MATCH_REGEX, null, generateListOfRandomArgs(1)
+        ));
+    }
+
+    @Test
+    void extractOperationFromSymbolWithNullList() {
+        assertThrows(NullPointerException.class, () -> ExpressionFactory.extractOperationFromSymbol(
+                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, null
+        ));
+    }
+
+    @Test
+    void extractOperationFromSymbolWithEmptyList() {
+        assertThrows(IncompleteArgumentException.class, () -> ExpressionFactory.extractOperationFromSymbol(
+                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, new LinkedList<>()
+        ));
+    }
+
+    @Test
+    void extractOperationFromSymbolWithMoreThanOneElement() {
         assertThrows(IncompleteArgumentException.class, () -> ExpressionFactory.extractOperationFromSymbol(
                 OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(2)
         ));
