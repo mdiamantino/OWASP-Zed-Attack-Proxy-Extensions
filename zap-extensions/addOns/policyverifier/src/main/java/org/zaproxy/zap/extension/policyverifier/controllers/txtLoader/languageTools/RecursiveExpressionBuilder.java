@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.parosproxy.paros.network.HttpMessage;
 
 public class RecursiveExpressionBuilder {
-    private static final Logger logger = Logger.getLogger(RecursiveExpressionBuilder.class);
     // Structural components
     private OperatorEnum symbol;
     private Predicate<HttpMessage> pred;

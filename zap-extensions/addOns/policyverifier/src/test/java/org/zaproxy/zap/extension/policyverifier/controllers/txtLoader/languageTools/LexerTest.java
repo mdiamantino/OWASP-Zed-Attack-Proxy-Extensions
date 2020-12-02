@@ -35,7 +35,7 @@ class LexerTest {
     }
 
     @Test
-    void getString_nonStringOperator_thorws() {
+    void getString_nonStringOperator_throws() {
         Lexer lexer = new Lexer(randomString);
         assertThrows(RuntimeException.class, lexer::getString);
     }
@@ -66,7 +66,7 @@ class LexerTest {
     }
 
     @Test
-    void nextSymbol_Brakets_MapsCorrectly() {
+    void nextSymbol_Brackets_MapsCorrectly() {
         String testString = "[]";
         Lexer lexer = new Lexer(testString);
         assertEquals(OperatorEnum.LEFT_BR, lexer.nextSymbol());
@@ -106,7 +106,7 @@ class LexerTest {
     }
 
     @Test
-    void nextSymbol_OperationMappedCorrectly_MapsCorrectly() {
+    void nextSymbol_StandardOperations_MapsCorrectly() {
         String testString = "REQUEST_BODY REQUEST_HEADER RESPONSE_BODY RESPONSE_HEADER matchList matchRegex";
         Lexer lexer = new Lexer(testString);
         assertEquals(OperatorEnum.REQUEST_BODY, lexer.nextSymbol());

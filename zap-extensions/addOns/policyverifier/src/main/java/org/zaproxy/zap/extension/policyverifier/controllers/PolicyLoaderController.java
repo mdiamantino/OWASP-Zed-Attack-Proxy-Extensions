@@ -33,8 +33,8 @@ import org.zaproxy.zap.extension.policyverifier.models.Policy;
  * because only one instance is used, by one entity only.
  */
 public class PolicyLoaderController {
-    private PoliciesReporter policiesReporter;
-    private String PREFIX = "policyverifier";
+    private final PoliciesReporter policiesReporter;
+    private final String PREFIX = "policyverifier";
     private PolicyGenerationDelegator generatorDispatcher;
 
     public PolicyLoaderController() {
@@ -52,8 +52,6 @@ public class PolicyLoaderController {
     public void loadPolicy(File file) {
         Policy loadedPolicy;
         try {
-            //            loadedPolicy = generatorDispatcher.generatePolicyFromFile(file);
-            // Adding to model
             loadedPolicy = generatorDispatcher.generatePolicy(file);
             policiesReporter.addPolicy(loadedPolicy);
         } catch (Exception e) {
