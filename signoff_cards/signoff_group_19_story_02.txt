@@ -4,15 +4,15 @@ Group:                                     19
 User Story:                                02 ("Policy language ***")
 Level of completeness:                     Completed.
 Date completed:                            03/12/2020
-Number of unit tests:                      107
+Number of unit tests:                      100
 Number of scenario tests:                  X
 Total test coverage:                       74% of lines of code
 GIT commit identifier at start of story:   41f24af4aa698167e4295d2627b99a58e1568b1e
 GIT commit identifier at end of story:     -- TBD --
 Time spent on user story:                  Alaa El Hariri: 27h
-                                           Evangelos Mamalakis: 18h
+                                           Evangelos Mamalakis: 25h
                                            Mark Diamantino Caribé: 35h
-                                           Udit Sareen: 10h
+                                           Udit Sareen: 15h
                                            Sairam Ganapathy:10h
 Optional remarks:
 
