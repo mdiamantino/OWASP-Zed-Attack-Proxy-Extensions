@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="" />
+    <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,13 +53,15 @@
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -76,7 +80,9 @@
         </option>
         <option name="vmOptions" value="" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
   </component>
@@ -95,6 +101,7 @@
       <workItem from="1606982027598" duration="436000" />
       <workItem from="1606982488370" duration="45000" />
       <workItem from="1606997792914" duration="704000" />
+      <workItem from="1607009138228" duration="329000" />
     </task>
     <task id="LOCAL-00001" summary="deletion of extra rules">
       <created>1605021778447</created>
@@ -124,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607005561251</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="master injected">
+      <created>1607009403154</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1607009403154</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,7 +161,8 @@
     <MESSAGE value="final commit" />
     <MESSAGE value="fixing signoff story 1" />
     <MESSAGE value="codemr analysis" />
-    <option name="LAST_COMMIT_MESSAGE" value="codemr analysis" />
+    <MESSAGE value="master injected" />
+    <option name="LAST_COMMIT_MESSAGE" value="master injected" />
   </component>
   <component name="WindowStateProjectService">
     <state x="320" y="148" key="Vcs.Push.Dialog.v2" timestamp="1607005563135">
