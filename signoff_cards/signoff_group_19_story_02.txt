@@ -11,7 +11,7 @@ GIT commit identifier at start of story:   41f24af4aa698167e4295d2627b99a58e1568
 GIT commit identifier at end of story:     -- TBD --
 Time spent on user story:                  Alaa El Hariri: 27h
                                            Evangelos Mamalakis: 18h
-                                           Mark Diamantino Caribé: 32h
+                                           Mark Diamantino Caribé: 35h
                                            Udit Sareen: 10h
                                            Sairam Ganapathy:10h
 Optional remarks:
