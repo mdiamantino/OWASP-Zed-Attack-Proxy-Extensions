@@ -88,7 +88,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         return menuHelp;
     }
 
-    private void setUpPluginMenu() {
+    protected void setUpPluginMenu() {
         if (menuPolicyPlugin != null) {
             menuPolicyPlugin.add(getMenuOptionLoadPolicyFromJar()); // Adding loading
             // button
@@ -97,7 +97,7 @@ public class ExtensionPolicyVerifier extends ExtensionAdaptor {
         }
     }
 
-    private javax.swing.JMenu getMenuPolicyPlugin() {
+    protected javax.swing.JMenu getMenuPolicyPlugin() {
         if (menuPolicyPlugin == null) {
             menuPolicyPlugin = new javax.swing.JMenu();
             menuPolicyPlugin.setText(Constant.messages.getString(PREFIX + ".menu.title"));

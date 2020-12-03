@@ -30,14 +30,19 @@ public class DocDialog extends AbstractDialog {
 
     public DocDialog() {
         super(Objects.requireNonNull(View.getSingleton()).getMainFrame(), true);
-        JPanel mainPanel = new JPanel();
-        setUpHelpTextBox(mainPanel);
-        setUpOkButton(mainPanel);
+        JPanel mainPanel = getMainPanel();
         this.setContentPane(mainPanel);
         this.pack();
     }
 
-    private GridBagConstraints generatePanelForHelpTextBox() {
+    protected JPanel getMainPanel() {
+        JPanel mainPanel = new JPanel();
+        setUpHelpTextBox(mainPanel);
+        setUpOkButton(mainPanel);
+        return mainPanel;
+    }
+
+    protected GridBagConstraints generatePanelForHelpTextBox() {
         GridBagConstraints gbcPanel = new GridBagConstraints();
         gbcPanel.gridx = 0;
         gbcPanel.gridy = 0;
@@ -51,16 +56,21 @@ public class DocDialog extends AbstractDialog {
         return gbcPanel;
     }
 
-    private void setUpHelpTextBox(JPanel mainPanel) {
+    protected void setUpHelpTextBox(JPanel mainPanel) {
+        JPanel panel = generateHelpPanel();
+        mainPanel.add(panel, generatePanelForHelpTextBox());
+    }
+
+    protected JPanel generateHelpPanel() {
         JLabel label = new JLabel();
         label.setText(
                 "<html><style>body {background-color: #FFFFFF;}pre { font-family: monospace; }<body><p>To load a new policy, you need to create a .jar file containing the rules.</p><p>ZAP and the extension are needed dependencies. Therefore, make sure to build them, and include their JARs as dependencies your policy project.</p><p>Each rule must be defined in a separate java classes, implementing the interface Rule</p><p>The rule class should implement the method <pre>boolean isValid(HttpMessage msg)</pre>, returning false when the rule is violated.</p><p>You will find a step-by-step tutorial in : <b>Group19/solutions/user_story_01/Tutorial.pdf</b></p></body></html>");
         JPanel panel = new JPanel();
         panel.add(label);
-        mainPanel.add(panel, generatePanelForHelpTextBox());
+        return panel;
     }
 
-    private GridBagConstraints generateLayoutForOkButton() {
+    protected GridBagConstraints generateLayoutForOkButton() {
         GridBagConstraints gbcButtons = new GridBagConstraints();
         gbcButtons.gridx = 1;
         gbcButtons.gridy = 1;
@@ -69,10 +79,15 @@ public class DocDialog extends AbstractDialog {
         return gbcButtons;
     }
 
-    private void setUpOkButton(JPanel mainPanel) {
+    protected void setUpOkButton(JPanel mainPanel) {
+        JButton btnOk = getjButton();
+        mainPanel.add(btnOk, generateLayoutForOkButton());
+    }
+
+    protected JButton getjButton() {
         JButton btnOk = new JButton();
         btnOk.setText("Ok");
         btnOk.addActionListener(e -> dispose());
-        mainPanel.add(btnOk, generateLayoutForOkButton());
+        return btnOk;
     }
 }

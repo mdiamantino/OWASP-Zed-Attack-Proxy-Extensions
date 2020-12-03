@@ -21,14 +21,15 @@ package org.zaproxy.zap.extension.policyverifier.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.jarRules.TestUtils;
 
 class PolicyUnitTest {
-    private String POLICY_NAME_FOR_TEST = "PolicyExample";
     private Policy policy;
 
     @AfterEach
@@ -38,12 +39,16 @@ class PolicyUnitTest {
 
     @Test
     void getViolatedRulesNames() {
-        Set<Rule> rules = TestUtils.instantiateRules();
+        Set<Rule> rules = new HashSet<>();
+        for (int i = 0; i < 10; i++) {
+            rules.add(Mockito.mock(Rule.class));
+        }
 
         HttpMessage msg = new HttpMessage();
         Set<String> expectedInvalidRulesNames =
                 TestUtils.buildRandomBehaviourAndGetExpectedResults(rules, msg);
 
+        String POLICY_NAME_FOR_TEST = "PolicyExample";
         policy = new Policy(rules, POLICY_NAME_FOR_TEST);
         Set<String> invalidRules = policy.getViolatedRulesNames(msg);
         assertEquals(expectedInvalidRulesNames, invalidRules);

@@ -42,7 +42,27 @@ public class TestUtils {
                 responseLength);
     }
 
+    /**
+     * Instantiate a set of mock Rules
+     *
+     * @return Set of mock rules
+     */
+    public static Set<Rule> instantiateRules() {
+        // Creating mock Rules
+        NoCrossDomainScriptInclusion cdsiRule = mock(NoCrossDomainScriptInclusion.class);
+        NoMissingContentTypeHeader mcthRule = mock(NoMissingContentTypeHeader.class);
+        NoBannedKeywords bkRule = mock(NoBannedKeywords.class);
+        HttpsOnly hoRule = mock(HttpsOnly.class);
+        SecureCookie scRule = mock(SecureCookie.class);
 
+        Set<Rule> rules = new HashSet<>();
+        rules.add(cdsiRule);
+        rules.add(mcthRule);
+        rules.add(bkRule);
+        rules.add(hoRule);
+        rules.add(scRule);
+        return rules;
+    }
 
     /**
      * Select at random the rules which will be invalid
