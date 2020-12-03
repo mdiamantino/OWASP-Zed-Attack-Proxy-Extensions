@@ -41,7 +41,6 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
     private List<Alert> calledAlerts = new ArrayList<>();
     private static int PLUGIN_ID = 5000019;
     private PoliciesReporter policiesReporter;
-    private Model model = null;
 
     public static PolicyVerifierPassiveScanner getSingleton() {
         return (PolicyVerifierPassiveScanner)
@@ -96,19 +95,5 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
     @Override
     public String getName() {
         return Constant.messages.getString(MESSAGE_PREFIX + "pluginpassivescannername");
-    }
-
-    private Model getModel() {
-        if (this.model == null) {
-            this.model = Model.getSingleton();
-        }
-        return this.model;
-    }
-
-    /*
-     * Just for use in the unit tests
-     */
-    protected void setModel(Model model) {
-        this.model = model;
     }
 }
