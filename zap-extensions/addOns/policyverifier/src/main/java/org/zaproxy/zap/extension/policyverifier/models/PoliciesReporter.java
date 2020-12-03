@@ -30,6 +30,7 @@ public class PoliciesReporter {
     private static final Logger logger = Logger.getLogger(PoliciesReporter.class);
     private List<Policy> policies = new ArrayList<>();
     private boolean isInitializedWithPluginPassiveScanner = false;
+    private boolean isTest = false;
 
     public PoliciesReporter() {}
 
@@ -46,7 +47,9 @@ public class PoliciesReporter {
      * @param policy Policy to add
      */
     public void addPolicy(Policy policy) {
-        initialize();
+        if (!isTest) {
+            initialize();
+        }
         for (Policy previouslyAddedPolicy : policies) {
             if (policy.getName().equals(previouslyAddedPolicy.getName())) {
                 policies.remove(previouslyAddedPolicy);
@@ -62,7 +65,9 @@ public class PoliciesReporter {
                 String.format(
                         "Policy %s added. Size of policy list=%d",
                         policy.getName(), policies.size()));
-        PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
+        if (!isTest) {
+            PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
+        }
     }
 
     /**
@@ -104,5 +109,9 @@ public class PoliciesReporter {
                     String.format("Policy%s.Rule%s violated; \n", policyName, violatedRule));
         }
         return strBuilder.toString();
+    }
+
+    public void setTestMode() {
+        this.isTest = true;
     }
 }
