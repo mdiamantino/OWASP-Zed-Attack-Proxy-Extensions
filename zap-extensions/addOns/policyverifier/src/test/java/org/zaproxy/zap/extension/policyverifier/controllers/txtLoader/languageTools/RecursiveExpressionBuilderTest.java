@@ -1,14 +1,32 @@
+/*
+ * Zed Attack Proxy (ZAP) and its related class files.
+ *
+ * ZAP is an HTTP/HTTPS proxy for assessing web application security.
+ *
+ * Copyright 2020 The ZAP Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-import org.apache.commons.lang.RandomStringUtils;
-import org.junit.jupiter.api.Test;
-import org.parosproxy.paros.network.HttpMessage;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+import org.parosproxy.paros.network.HttpMessage;
 
 public class RecursiveExpressionBuilderTest {
     @Test
@@ -17,7 +35,6 @@ public class RecursiveExpressionBuilderTest {
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(testString);
         assertThrows(RuntimeException.class, reb::build);
     }
-
 
     @Test
     void build_NotOfExpression_TestsPass() {
@@ -90,7 +107,8 @@ public class RecursiveExpressionBuilderTest {
 
     @Test
     void build_RightParenthesisMissing_Throws() {
-        String expression = "( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] & matchList REQUEST_BODY['facebook']";
+        String expression =
+                "( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] & matchList REQUEST_BODY['facebook']";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         assertThrows(RuntimeException.class, reb::build);
     }
@@ -111,7 +129,8 @@ public class RecursiveExpressionBuilderTest {
 
     @Test
     void build_NestedAndOrOfExpressions_TestsPass() {
-        String expression = "( matchList REQUEST_BODY['google'] & matchList REQUEST_BODY['twitter'] ) | matchList REQUEST_BODY['facebook']";
+        String expression =
+                "( matchList REQUEST_BODY['google'] & matchList REQUEST_BODY['twitter'] ) | matchList REQUEST_BODY['facebook']";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
@@ -127,7 +146,8 @@ public class RecursiveExpressionBuilderTest {
 
     @Test
     void build_NestedOrAndOfExpressions_TestsPass() {
-        String expression = "( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] ) & matchList REQUEST_BODY['facebook']";
+        String expression =
+                "( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] ) & matchList REQUEST_BODY['facebook']";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
@@ -143,10 +163,10 @@ public class RecursiveExpressionBuilderTest {
         assertFalse(pred.test(msg));
     }
 
-
     @Test
     void build_NotOfComplexExpressions_TestsPass() {
-        String expression = "! ( ( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] ) & matchList REQUEST_BODY['facebook'] )";
+        String expression =
+                "! ( ( matchList REQUEST_BODY['google'] | matchList REQUEST_BODY['twitter'] ) & matchList REQUEST_BODY['facebook'] )";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
@@ -217,7 +237,9 @@ public class RecursiveExpressionBuilderTest {
         String A = "matchList REQUEST_BODY['google']";
         String C = "matchList REQUEST_BODY['facebook']";
         String D = "matchList REQUEST_BODY['instagram']";
-        String expression = "((" + A + " | " + C + ") & ((" + A + " & " + D + ") | (" + A + " & ! " + D + "))) | (" + A + " & " + C + ") | " + C;
+        String expression =
+                "((" + A + " | " + C + ") & ((" + A + " & " + D + ") | (" + A + " & ! " + D
+                        + "))) | (" + A + " & " + C + ") | " + C;
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
@@ -236,7 +258,24 @@ public class RecursiveExpressionBuilderTest {
         //   (!A & (A | B)) |  ((B | (A & A)) & (A | !B)) ->  A | C
         String A = "matchList REQUEST_BODY['google']";
         String B = "matchList REQUEST_BODY['facebook']";
-        String expression = "(!" + A + " & (" + A + " | " + B + ")) |  ((" + B + " | (" + A + " & " + A + ")) & (" + A + " | !" + B + "))";
+        String expression =
+                "(!"
+                        + A
+                        + " & ("
+                        + A
+                        + " | "
+                        + B
+                        + ")) |  (("
+                        + B
+                        + " | ("
+                        + A
+                        + " & "
+                        + A
+                        + ")) & ("
+                        + A
+                        + " | !"
+                        + B
+                        + "))";
         RecursiveExpressionBuilder reb = new RecursiveExpressionBuilder(expression);
         Predicate<HttpMessage> pred = reb.build();
         HttpMessage msg = new HttpMessage();
@@ -249,6 +288,4 @@ public class RecursiveExpressionBuilderTest {
         msg.setRequestBody("instagram");
         assertFalse(pred.test(msg));
     }
-
-
 }

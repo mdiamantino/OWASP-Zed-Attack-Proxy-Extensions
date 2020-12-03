@@ -80,5 +80,4 @@ public class TxtPolicyGenerator implements PolicyGenerator {
         Predicate<HttpMessage> ruleExpr = expr.build();
         return new PredicateRule(ruleExpr, ruleName);
     }
-
 }

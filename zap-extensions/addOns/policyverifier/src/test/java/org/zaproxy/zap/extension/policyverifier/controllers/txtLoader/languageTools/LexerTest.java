@@ -19,12 +19,12 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LexerTest {
     String randomString;
@@ -107,7 +107,8 @@ class LexerTest {
 
     @Test
     void nextSymbol_StandardOperations_MapsCorrectly() {
-        String testString = "REQUEST_BODY REQUEST_HEADER RESPONSE_BODY RESPONSE_HEADER matchList matchRegex";
+        String testString =
+                "REQUEST_BODY REQUEST_HEADER RESPONSE_BODY RESPONSE_HEADER matchList matchRegex";
         Lexer lexer = new Lexer(testString);
         assertEquals(OperatorEnum.REQUEST_BODY, lexer.nextSymbol());
         assertEquals(OperatorEnum.REQUEST_HEADER, lexer.nextSymbol());

@@ -19,16 +19,15 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageTools;
 
-import org.apache.commons.lang.IncompleteArgumentException;
-import org.apache.commons.lang.RandomStringUtils;
-import org.junit.jupiter.api.Test;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.AbstractTerminalExpression;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.commons.lang.IncompleteArgumentException;
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.AbstractTerminalExpression;
 
 class ExpressionFactoryTest {
     @Test
@@ -67,58 +66,83 @@ class ExpressionFactoryTest {
 
     @Test
     void extractOperationFromSymbolWithCorrectArguments() {
-        assertTrue(ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(1)
-        ) instanceof AbstractTerminalExpression);
+        assertTrue(
+                ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.MATCH_REGEX,
+                                OperatorEnum.REQUEST_BODY,
+                                generateListOfRandomArgs(1))
+                        instanceof AbstractTerminalExpression);
     }
 
     @Test
     void extractOperationFromSymbolWithWrongOperation() {
-        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.AND, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(1)
-        ));
+        assertThrows(
+                RuntimeException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.AND,
+                                OperatorEnum.REQUEST_BODY,
+                                generateListOfRandomArgs(1)));
     }
 
     @Test
     void extractOperationFromSymbolWithNullOperation() {
-        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                null, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(1)
-        ));
+        assertThrows(
+                RuntimeException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                null, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(1)));
     }
 
     @Test
     void extractOperationFromSymbolWithWrongSubject() {
-        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, OperatorEnum.AND, generateListOfRandomArgs(1)
-        ));
+        assertThrows(
+                RuntimeException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.MATCH_REGEX,
+                                OperatorEnum.AND,
+                                generateListOfRandomArgs(1)));
     }
 
     @Test
     void extractOperationFromSymbolWithNullSubject() {
-        assertThrows(RuntimeException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, null, generateListOfRandomArgs(1)
-        ));
+        assertThrows(
+                RuntimeException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.MATCH_REGEX, null, generateListOfRandomArgs(1)));
     }
 
     @Test
     void extractOperationFromSymbolWithNullList() {
-        assertThrows(NullPointerException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, null
-        ));
+        assertThrows(
+                NullPointerException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, null));
     }
 
     @Test
     void extractOperationFromSymbolWithEmptyList() {
-        assertThrows(IncompleteArgumentException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, new LinkedList<>()
-        ));
+        assertThrows(
+                IncompleteArgumentException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.MATCH_REGEX,
+                                OperatorEnum.REQUEST_BODY,
+                                new LinkedList<>()));
     }
 
     @Test
     void extractOperationFromSymbolWithMoreThanOneElement() {
-        assertThrows(IncompleteArgumentException.class, () -> ExpressionFactory.extractOperationFromSymbol(
-                OperatorEnum.MATCH_REGEX, OperatorEnum.REQUEST_BODY, generateListOfRandomArgs(2)
-        ));
+        assertThrows(
+                IncompleteArgumentException.class,
+                () ->
+                        ExpressionFactory.extractOperationFromSymbol(
+                                OperatorEnum.MATCH_REGEX,
+                                OperatorEnum.REQUEST_BODY,
+                                generateListOfRandomArgs(2)));
     }
 
     private List<String> generateListOfRandomArgs(int nArgs) {

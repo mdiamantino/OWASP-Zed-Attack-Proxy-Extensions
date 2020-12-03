@@ -19,16 +19,14 @@
  */
 package org.zaproxy.zap.extension.policyverifier.controllers;
 
+import java.io.File;
+import java.util.Objects;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.policyverifier.models.PoliciesReporter;
 import org.zaproxy.zap.extension.policyverifier.models.Policy;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.util.Objects;
-
 
 /**
  * This class manages manages communication between the view and the model It is a singleton,
@@ -66,7 +64,6 @@ public class PolicyLoaderController {
         }
     }
 
-
     /**
      * View method used to retrieve the loaded file from the view through a graphical file chooser.
      * Only JAR files are accepted. When a valid file is picked, it is passed to the controller
@@ -101,14 +98,12 @@ public class PolicyLoaderController {
         View.getSingleton().showWarningDialog(message);
     }
 
-
     // FOR TEST USAGE
     protected int extractRc(String description, String extensions, JFileChooser fileChooser) {
         fileChooser.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter jarFilter = new FileNameExtensionFilter(description, extensions);
         fileChooser.setFileFilter(jarFilter);
-        return fileChooser.showOpenDialog(Objects.requireNonNull(View.getSingleton()).getMainFrame());
+        return fileChooser.showOpenDialog(
+                Objects.requireNonNull(View.getSingleton()).getMainFrame());
     }
-
-
 }

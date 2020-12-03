@@ -19,7 +19,6 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.jarRules;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
@@ -41,8 +40,6 @@ public class TestUtils {
                         + "Content-Length: %d\n",
                 responseLength);
     }
-
-
 
     /**
      * Select at random the rules which will be invalid

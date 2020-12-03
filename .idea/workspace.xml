@@ -20,7 +20,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PolicyVerifierPassiveScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PolicyVerifierPassiveScanner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyGenerationDelegatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyGenerationDelegatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGeneratorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGeneratorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/LexerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/LexerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/RecursiveExpressionBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/RecursiveExpressionBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporterUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporterUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/BodyMatchRegexExpressionUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/BodyMatchRegexExpressionUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/ExpressionsParamsUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/ExpressionsParamsUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchListExpressionUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchListExpressionUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchRegexExpressionUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchRegexExpressionUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/jarRules/TestUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/jarRules/TestUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/views/DocDialogTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/views/DocDialogTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +119,7 @@
       <workItem from="1606982027598" duration="436000" />
       <workItem from="1606982488370" duration="45000" />
       <workItem from="1606997792914" duration="704000" />
-      <workItem from="1607009138228" duration="329000" />
+      <workItem from="1607009138228" duration="556000" />
     </task>
     <task id="LOCAL-00001" summary="deletion of extra rules">
       <created>1605021778447</created>
@@ -138,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607009403154</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="master injected">
+      <created>1607009628022</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1607009628022</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,12 +188,6 @@
     <MESSAGE value="codemr analysis" />
     <MESSAGE value="master injected" />
     <option name="LAST_COMMIT_MESSAGE" value="master injected" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="320" y="148" key="Vcs.Push.Dialog.v2" timestamp="1607005563135">
-      <screen x="0" y="25" width="1440" height="799" />
-    </state>
-    <state x="320" y="148" key="Vcs.Push.Dialog.v2/0.25.1440.799@0.25.1440.799" timestamp="1607005563135" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

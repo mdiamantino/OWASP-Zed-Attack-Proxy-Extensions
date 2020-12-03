@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import org.parosproxy.paros.network.HttpMessage;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.AbstractTerminalExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Subject;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.MatchListTerminalExpression;
 import org.zaproxy.zap.extension.policyverifier.models.expressions.MatchRegexTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.Subject;
 
 public class ExpressionFactory {
     public static boolean isTokenAnOperation(OperatorEnum op) {

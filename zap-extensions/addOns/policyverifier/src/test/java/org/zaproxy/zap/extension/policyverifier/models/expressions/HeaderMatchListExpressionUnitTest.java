@@ -19,20 +19,16 @@
  */
 package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
-
-import org.apache.commons.lang.IncompleteArgumentException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.Subject;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.MatchListTerminalExpression;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.apache.commons.lang.IncompleteArgumentException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.parosproxy.paros.network.HttpMessage;
 
 public class HeaderMatchListExpressionUnitTest {
     HttpMessage msg;
@@ -111,7 +107,8 @@ public class HeaderMatchListExpressionUnitTest {
         String headerName = "accept";
         String expectedValue1 = "json";
         String expectedValue2 = "html";
-        List<String> values = new ArrayList<>(Arrays.asList(headerName, expectedValue1, expectedValue1));
+        List<String> values =
+                new ArrayList<>(Arrays.asList(headerName, expectedValue1, expectedValue1));
 
         matchListTerminalExpression.setSubjectAndValues(subject, values);
 
@@ -179,7 +176,8 @@ public class HeaderMatchListExpressionUnitTest {
         String headerName = "accept";
         String expectedValue1 = "json";
         String expectedValue2 = "html";
-        List<String> values = new ArrayList<>(Arrays.asList(headerName, expectedValue1, expectedValue1));
+        List<String> values =
+                new ArrayList<>(Arrays.asList(headerName, expectedValue1, expectedValue1));
 
         matchListTerminalExpression.setSubjectAndValues(subject, values);
 
