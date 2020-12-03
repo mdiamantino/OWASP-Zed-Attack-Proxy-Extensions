@@ -17,33 +17,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete;
+package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractTerminalExpression;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
 
-public class MatchListTerminalExpression extends AbstractTerminalExpression {
-
+public class MatchRegexTerminalExpression extends AbstractTerminalExpression {
     @Override
     public void setSubjectAndValues(Subject subject, List<String> values) {
         super.setSubjectAndValues(subject, values);
 
-        if (values.size() < 1)
-            throw new IncompleteArgumentException( // todo
-                    "Not enough arguments were provided to match against the header. (Must contain at least 1 argument)");
+        if (getValues().size() != 1)
+            throw new IncompleteArgumentException("Expected exactly one argument: the regexp");
     }
 
     @Override
     public boolean test(HttpMessage msg) {
-        List<String> values = getValues();
+        String pattern = getValues().get(0);
+        Pattern compiledPattern = Pattern.compile(pattern);
+
         String relevantValue = getRelevantValue(msg);
+
         if (relevantValue == null || relevantValue.isEmpty()) return true;
-        for (String value : values) {
-            if (!relevantValue.contains(value)) return false;
-        }
-        return true;
+
+        Matcher matcher = compiledPattern.matcher(relevantValue);
+        return matcher.find();
     }
 }

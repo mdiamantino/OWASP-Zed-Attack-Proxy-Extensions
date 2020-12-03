@@ -1,11 +1,10 @@
-package org.zaproxy.zap.extension.policyverifier.models.expressions.regex;
+package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
-import org.apache.commons.lang.IncompleteArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.MatchRegexTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.Subject;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.MatchRegexTerminalExpression;
 
 import java.util.ArrayList;
 import java.util.Arrays;

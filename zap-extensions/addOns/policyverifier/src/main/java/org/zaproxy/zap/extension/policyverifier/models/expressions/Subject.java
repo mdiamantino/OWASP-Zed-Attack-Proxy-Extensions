@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.terminal;
+package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
 public enum Subject {
     REQUEST_BODY,

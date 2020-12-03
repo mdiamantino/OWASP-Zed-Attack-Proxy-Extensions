@@ -22,7 +22,7 @@ package org.zaproxy.zap.extension.policyverifier.controllers.txtLoader.languageT
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.Test;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.AbstractTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.AbstractTerminalExpression;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

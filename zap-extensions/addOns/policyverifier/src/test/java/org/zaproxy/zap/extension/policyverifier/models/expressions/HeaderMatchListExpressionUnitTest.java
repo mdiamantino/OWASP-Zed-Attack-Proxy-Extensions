@@ -17,15 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.zap.extension.policyverifier.models.expressions.matchlist;
+package org.zaproxy.zap.extension.policyverifier.models.expressions;
 
 
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.parosproxy.paros.network.HttpMessage;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.Subject;
-import org.zaproxy.zap.extension.policyverifier.models.expressions.terminal.concrete.MatchListTerminalExpression;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.Subject;
+import org.zaproxy.zap.extension.policyverifier.models.expressions.MatchListTerminalExpression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
