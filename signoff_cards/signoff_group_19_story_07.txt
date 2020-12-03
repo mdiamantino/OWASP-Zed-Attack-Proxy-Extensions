@@ -1,0 +1,18 @@
+SIGNOFF CARD
+
+Group:                                     19
+User Story:                                07 ("File Tester ***")
+Level of completeness:                     Completed.
+Date completed:                            25/11/2020
+Number of unit tests:                      20
+Number of scenario tests:                  5
+Total test coverage:                       55% of lines of code
+GIT commit identifier at start of story:   92c374e69e31e10d9e43e998d854d26ab824d880
+GIT commit identifier at end of story:     8c1c36b2a8ceb229568a05f87630eedd0272da06
+Time spent on user story:                  Alaa El Hariri: 10h
+                                           Evangelos Mamalakis: 10h
+                                           Mark Diamantino Caribé: 15h
+                                           Udit Sareen: 24h
+                                           Sairam Ganapathy: 24h
+Optional remarks:
+
