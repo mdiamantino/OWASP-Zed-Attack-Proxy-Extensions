@@ -1,4 +1,4 @@
-rootProject.name = "zap-extensions"
+	rootProject.name = "zap-extensions"
 
 val addOnsProjectName = "addOns"
 include(addOnsProjectName)
@@ -25,3 +25,4 @@ fun setUpProject(parentDir: File, project: ProjectDescriptor) {
     }
     project.children.forEach { project -> setUpProject(project.parent!!.projectDir, project) }
 }
+include("filetester")
