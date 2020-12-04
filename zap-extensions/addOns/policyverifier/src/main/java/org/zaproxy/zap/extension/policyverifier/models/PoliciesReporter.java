@@ -70,7 +70,6 @@ public class PoliciesReporter {
         }
     }
 
-
     /**
      * Checks for the validity of each policy and delegates the creation of alerts when a Rule is
      * violated
