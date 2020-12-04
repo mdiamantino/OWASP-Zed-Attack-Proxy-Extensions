@@ -79,7 +79,6 @@ class DocDialogTest {
         when(dialog.generateHelpPanel()).thenCallRealMethod();
         JPanel panel = dialog.getMainPanel();
         String fullPanelContent = Arrays.toString(Arrays.stream(panel.getComponents()).toArray());
-        System.out.println(fullPanelContent);
         assertTrue(fullPanelContent.contains("JPanel"));
         assertTrue(fullPanelContent.contains("Ok"));
     }

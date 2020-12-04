@@ -59,7 +59,7 @@ public class PolicyVerifierPanel extends AbstractPanel {
         this.setShowByDefault(true);
     }
 
-    private JPanel getMainPanel() {
+    protected JPanel getMainPanel() {
         if (mainPanel == null) {
             mainPanel = new JPanel(new BorderLayout());
             mainPanel.add(getJScrollPane(), BorderLayout.CENTER);
@@ -72,7 +72,7 @@ public class PolicyVerifierPanel extends AbstractPanel {
      *
      * @return javax.swing.JScrollPane
      */
-    private JScrollPane getJScrollPane() {
+    protected JScrollPane getJScrollPane() {
         if (jScrollPane == null) {
             jScrollPane = new JScrollPane();
             jScrollPane.setName("jScrollPane");
@@ -93,7 +93,7 @@ public class PolicyVerifierPanel extends AbstractPanel {
         jScrollPane.setViewportView(pane);
     }
 
-    private StringBuilder getStringBuilderForPolicies(List<Policy> policies) { // todo redesign
+    protected StringBuilder getStringBuilderForPolicies(List<Policy> policies) {
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<header>")

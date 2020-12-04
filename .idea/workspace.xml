@@ -19,27 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/Lexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PolicyVerifierPassiveScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/main/java/org/zaproxy/zap/extension/policyverifier/models/PolicyVerifierPassiveScanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyGenerationDelegatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyGenerationDelegatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/PolicyLoaderControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGeneratorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/TxtPolicyGeneratorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/ExpressionFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/LexerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/LexerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/RecursiveExpressionBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/controllers/txtLoader/languageTools/RecursiveExpressionBuilderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporterUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/PoliciesReporterUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/BodyMatchRegexExpressionUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/BodyMatchRegexExpressionUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/ExpressionsParamsUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/ExpressionsParamsUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchListExpressionUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchListExpressionUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchRegexExpressionUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/expressions/HeaderMatchRegexExpressionUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/jarRules/TestUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/models/jarRules/TestUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/views/DocDialogTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/zap-extensions/addOns/policyverifier/src/test/java/org/zaproxy/zap/extension/policyverifier/views/DocDialogTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="8916ad0d-b840-414d-be14-dfe9a91922c1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,17 +51,6 @@
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
