@@ -22,7 +22,7 @@ package org.zaproxy.zap.extension.policyverifier.models;
 import java.util.ArrayList;
 import java.util.List;
 import net.htmlparser.jericho.Source;
-import org.parosproxy.paros.Constant;
+import org.apache.log4j.Logger;
 import org.parosproxy.paros.control.Control;
 import org.parosproxy.paros.core.scanner.Alert;
 import org.parosproxy.paros.network.HttpMessage;
@@ -36,7 +36,8 @@ import org.zaproxy.zap.extension.pscan.PluginPassiveScanner;
  * displayed
  */
 public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
-    private static final String MESSAGE_PREFIX = "policyverifier";
+    private static final Logger logger = Logger.getLogger(PoliciesReporter.class);
+    private static final String NAME = "PluginPassiveScanner";
     private List<Alert> calledAlerts = new ArrayList<>();
     private static int PLUGIN_ID = 5000019;
     private PoliciesReporter policiesReporter;
@@ -60,11 +61,14 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
 
     /** Generates a graphical report (in the form of a ZAP alert), that a rule was violated */
     protected void generateViolatedRuleReport(HttpMessage msg) {
+        if (policiesReporter == null)
+            return; // No rules has ever been loaded yet, so we do not test
         String policiesDescription = policiesReporter.generateReportOnAllPolicies(msg);
-        if (policiesDescription.isEmpty()) return;
-        AlertBuilder alertBuilder = newAlert().setDescription(policiesDescription);
-        calledAlerts.add(alertBuilder.build());
-        alertBuilder.raise();
+        if (!policiesDescription.isEmpty()) {
+            AlertBuilder alertBuilder = newAlert().setDescription(policiesDescription);
+            calledAlerts.add(alertBuilder.build());
+            alertBuilder.raise();
+        }
     }
 
     /**
@@ -93,6 +97,6 @@ public class PolicyVerifierPassiveScanner extends PluginPassiveScanner {
 
     @Override
     public String getName() {
-        return Constant.messages.getString(MESSAGE_PREFIX + "pluginpassivescannername");
+        return NAME;
     }
 }

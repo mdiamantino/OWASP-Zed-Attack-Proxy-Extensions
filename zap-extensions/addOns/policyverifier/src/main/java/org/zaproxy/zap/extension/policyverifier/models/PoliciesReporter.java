@@ -28,7 +28,7 @@ import org.zaproxy.zap.extension.policyverifier.views.PolicyVerifierPanel;
 
 public class PoliciesReporter {
     private static final Logger logger = Logger.getLogger(PoliciesReporter.class);
-    private List<Policy> policies = new ArrayList<>();
+    private final List<Policy> policies = new ArrayList<>();
     private boolean isInitializedWithPluginPassiveScanner = false;
     private boolean isTest = false;
 
@@ -50,6 +50,19 @@ public class PoliciesReporter {
         if (!isTest) {
             initialize();
         }
+        checkAndRemoveDuplicate(policy);
+        policies.add(policy);
+        logger.info(
+                String.format(
+                        "Policy %s added. Size of policy list=%d",
+                        policy.getName(), policies.size()));
+        if (!isTest) {
+            PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
+        }
+    }
+
+    private void checkAndRemoveDuplicate(
+            org.zaproxy.zap.extension.policyverifier.models.Policy policy) {
         for (Policy previouslyAddedPolicy : policies) {
             if (policy.getName().equals(previouslyAddedPolicy.getName())) {
                 policies.remove(previouslyAddedPolicy);
@@ -59,14 +72,6 @@ public class PoliciesReporter {
                                 policy.getName()));
                 break;
             }
-        }
-        policies.add(policy);
-        logger.info(
-                String.format(
-                        "Policy %s added. Size of policy list=%d",
-                        policy.getName(), policies.size()));
-        if (!isTest) {
-            PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
         }
     }
 
