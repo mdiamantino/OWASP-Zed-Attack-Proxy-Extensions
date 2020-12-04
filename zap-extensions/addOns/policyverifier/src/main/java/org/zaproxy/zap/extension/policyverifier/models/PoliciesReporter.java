@@ -50,19 +50,6 @@ public class PoliciesReporter {
         if (!isTest) {
             initialize();
         }
-        checkAndRemoveDuplicate(policy);
-        policies.add(policy);
-        logger.info(
-                String.format(
-                        "Policy %s added. Size of policy list=%d",
-                        policy.getName(), policies.size()));
-        if (!isTest) {
-            PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
-        }
-    }
-
-    private void checkAndRemoveDuplicate(
-            org.zaproxy.zap.extension.policyverifier.models.Policy policy) {
         for (Policy previouslyAddedPolicy : policies) {
             if (policy.getName().equals(previouslyAddedPolicy.getName())) {
                 policies.remove(previouslyAddedPolicy);
@@ -73,7 +60,16 @@ public class PoliciesReporter {
                 break;
             }
         }
+        policies.add(policy);
+        logger.info(
+                String.format(
+                        "Policy %s added. Size of policy list=%d",
+                        policy.getName(), policies.size()));
+        if (!isTest) {
+            PolicyVerifierPanel.getSingleton().updateAndDisplayLoadedPolicies(policies);
+        }
     }
+
 
     /**
      * Checks for the validity of each policy and delegates the creation of alerts when a Rule is
